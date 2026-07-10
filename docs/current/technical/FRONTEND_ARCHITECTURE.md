@@ -19,37 +19,51 @@ Nie wolno uzależniać dokumentacji ani architektury od Reacta, Vue, Svelte, Ang
 
 Projekt ma jedną aplikację, jeden katalog treści i wiele profili firm. Aplikacja ładuje publiczne dane bazowe oraz profil wskazany przez adres URL. Profil wpływa na wybór, kolejność i ekspozycję treści, ale nie zastępuje głównej bazy treści.
 
-## Minimalna struktura
+## Rzeczywista struktura pierwszego pionowego przekroju
 
 ```text
+index.html
+vite.config.js
 src/
   main.js
-  state/
-  rendering/
-  routing/
+  app/
+    bootstrap.js
+    content-loader.js
+    profile-resolver.js
+    view-model.js
+  components/
+    accordion.js
+    hero-card.js
+  sections/
+    about-section.js
+    projects-section.js
   styles/
+    tokens.css
+    base.css
+    layout.css
+    components.css
+    accordion.css
+    themes.css
+  utils/
+    assets.js
+    dom.js
 content/
-  pl/
+  public/
   profiles/
-public/
-editor/
 scripts/
 docs/
-tests/
 ```
 
-Nazwy katalogów mogą zostać doprecyzowane podczas implementacji, ale podział odpowiedzialności pozostaje obowiązujący.
+Pierwszy przekrój ładuje kanoniczne dane z `content/public/*.json` przez importy modułów JSON i profile z `content/profiles/*.json` przez `import.meta.glob`. Dane nie są kopiowane do `src/`.
 
 ## Routing i stan
 
 * `?p=<profileId>` wybiera publiczny profil firmy.
-* `#t=<token>` może przenosić długi token dostępu do danych pobieranych później z backendu.
-* Zapasowy kod 6–8 znaków służy jako wygodna alternatywa wpisywana ręcznie.
 * Otwarty panel UI jest częścią stanu aplikacji; jednocześnie otwarty może być tylko jeden panel.
 
 ## Motyw
 
-Wersja startowa używa `prefers-color-scheme`. Później aplikacja może zapisać ręczny wybór motywu użytkownika. Ręczny wybór, jeśli istnieje, ma mieć pierwszeństwo przed ustawieniem systemowym.
+Wersja startowa używa wyłącznie `prefers-color-scheme` i zmiennych CSS. Nie ma ręcznego przełącznika motywu.
 
 ## Zależności
 
