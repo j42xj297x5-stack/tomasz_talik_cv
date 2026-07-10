@@ -59,11 +59,11 @@ Pierwszy przekrój ładuje kanoniczne dane z `content/public/*.json` przez impor
 ## Routing i stan
 
 * `?p=<profileId>` wybiera publiczny profil firmy.
-* Otwarty panel UI jest częścią stanu aplikacji; jednocześnie otwarty może być tylko jeden panel.
+* Otwarty panel UI jest częścią stanu aplikacji; jednocześnie otwarty może być tylko jeden panel, można też zamknąć wszystkie panele.
 
 ## Motyw
 
-Wersja startowa używa wyłącznie `prefers-color-scheme` i zmiennych CSS. Nie ma ręcznego przełącznika motywu.
+Wersja startowa używa wyłącznie `prefers-color-scheme` i zmiennych CSS. Nie ma ręcznego przełącznika motywu. Animacje respektują `prefers-reduced-motion`.
 
 ## Zależności
 

@@ -1,8 +1,18 @@
 .app-shell {
-  width: min(100% - 2rem, var(--content-width));
+  width: min(calc(100% - 1.5rem), var(--content-width));
   margin: 0 auto;
-  padding: var(--space-6) 0;
+  padding: var(--space-4) 0;
+}
+.cv-card {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card-bg);
+  box-shadow: 0 1rem 3rem rgb(15 23 42 / 8%);
 }
 @media (min-width: 48rem) {
-  .app-shell { padding: var(--space-8) 0; }
+  .app-shell {
+    width: min(calc(100% - 3rem), var(--content-width));
+    padding: var(--space-8) 0;
+  }
 }

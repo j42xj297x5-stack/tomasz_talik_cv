@@ -13,7 +13,7 @@ Ten dokument jest mapą aktualnej dokumentacji i zależności. Źródłem nadrz�
 | `docs/current/technical/FRONTEND_ARCHITECTURE.md` | Stos Vite, Vanilla JS, CSS, JSON i stan aplikacji | model treści, personalizacja, UI, bezpieczeństwo |
 | `docs/current/content/CONTENT_MODEL.md` | Jedna baza treści, stabilne identyfikatory, gotowość na języki | personalizacja, edytor, PDF |
 | `docs/current/product/PERSONALIZATION_SYSTEM.md` | Profile firm, `?p=<profileId>`, `#t=<token>`, kod 6–8 znaków | model treści, bezpieczeństwo, UI |
-| `docs/current/ui/SINGLE_PAGE_FLOW.md` | Karta główna i panele rozwijane | frontend, model treści, personalizacja |
+| `docs/current/ui/SINGLE_PAGE_FLOW.md` | Jedna wspólna karta CV, opcjonalny portret i zwarte panele rozwijane | frontend, model treści, personalizacja |
 | `docs/current/security/ACCESS_AND_PRIVACY.md` | Rozdział danych publicznych i prywatnych | model treści, personalizacja, deployment |
 | `docs/current/technical/PDF_PIPELINE.md` | PDF z tego samego HTML przez `print.css` i Playwright | frontend, model treści, personalizacja |
 | `docs/current/technical/LOCAL_EDITOR.md` | Lokalny edytor Streamlit | model treści, personalizacja, bezpieczeństwo |
@@ -27,9 +27,9 @@ Ten dokument jest mapą aktualnej dokumentacji i zależności. Źródłem nadrz�
 | `src/main.js` | Import stylów i uruchomienie bootstrapu aplikacji | frontend |
 | `src/app/content-loader.js` | Import publicznych JSON i eager glob profili | model treści, personalizacja |
 | `src/app/profile-resolver.js` | Wybór profilu przez `?p=` i fallback do profilu `default` | personalizacja |
-| `src/app/view-model.js` | Niemutujące łączenie danych bazowych z dozwolonym wpływem profilu | model treści, UI |
+| `src/app/view-model.js` | Niemutujące łączenie danych, filtrowanie `published` i ukrywanie pustych sekcji | model treści, UI |
 | `src/app/bootstrap.js` | Składanie widoku, obsługa błędu startu i komunikatu fallbacku | frontend, UI |
-| `src/components/hero-card.js` | Stała karta główna z istniejących danych | UI |
+| `src/components/hero-card.js` | Górna część wspólnej karty CV z opcjonalnym portretem i akcjami | UI |
 | `src/components/accordion.js` | Dostępne panele z jednym otwartym panelem naraz | UI |
 | `src/sections/*.js` | Renderowanie treści paneli „O mnie” i „Projekty” | UI, model treści |
 | `src/styles/*.css` | Tokeny, układ mobile first, motywy systemowe i animacje paneli | frontend, UI |
@@ -39,9 +39,9 @@ Ten dokument jest mapą aktualnej dokumentacji i zależności. Źródłem nadrz�
 
 * Jedna aplikacja, jeden katalog treści, wiele profili firm.
 * Profile firm wskazują treść przez stabilne identyfikatory i nie duplikują danych CV.
-* Dane publiczne i prywatne są rozdzielone; publiczny frontend nie przechowuje prywatnych danych.
+* Dane publiczne i prywatne są rozdzielone; publiczny frontend nie przechowuje prywatnych danych i renderuje tylko treści `published`.
 * Publiczne profile są wybierane przez `?p=<profileId>`.
-* UI pozostaje jedną stroną z kartą główną i jednym otwartym panelem naraz.
+* UI pozostaje jedną stroną z jedną wspólną kartą CV o szerokości około 940 px, zwartym accordionem i jednym otwartym panelem naraz.
 * Startowy język to polski, a model danych jest gotowy na kolejne języki.
 * Streamlit, backend, frontend i PDF nie są implementowane w tej fazie.
 

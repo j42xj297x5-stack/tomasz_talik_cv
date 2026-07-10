@@ -6,6 +6,18 @@ function localizedText(value) {
   return Object.values(value).find((item) => typeof item === 'string') || '';
 }
 
+function isPublished(item) {
+  return item?.status === 'published';
+}
+
+function isPlaceholderText(value) {
+  return /do uzupełnienia|wymaga uzupełnienia/i.test(value);
+}
+
+function hasSameText(a, b) {
+  return a.trim().localeCompare(b.trim(), 'pl', { sensitivity: 'base' }) === 0;
+}
+
 function byProfileOrder(items = [], order = []) {
   const byId = new Map(items.map((item) => [item.id, item]));
   const ordered = order.map((id) => byId.get(id)).filter(Boolean);
@@ -14,8 +26,9 @@ function byProfileOrder(items = [], order = []) {
 }
 
 export function createViewModel(publicContent, profile) {
-  const skillItems = publicContent.skills?.items || [];
-  const projectItems = publicContent.projects?.items || [];
+  const skillItems = (publicContent.skills?.items || []).filter(isPublished);
+  const projectItems = (publicContent.projects?.items || []).filter(isPublished);
+  const linkItems = (publicContent.links?.items || []).filter(isPublished);
   const featuredSkillIds = profile.featuredSkillIds || [];
 
   const skills = byProfileOrder(skillItems, profile.skillOrder)
@@ -32,16 +45,32 @@ export function createViewModel(publicContent, profile) {
     .filter((project) => project.title || project.summary);
 
   const aboutItems = (publicContent.about?.items || [])
+    .filter(isPublished)
     .map((item) => ({ id: item.id, text: localizedText(item.text) }))
     .filter((item) => item.text);
 
+  const name = publicContent.identity?.name || '';
+  const preferredHeadline = localizedText(profile.targetRole) || localizedText(profile.headline);
+  const headline = preferredHeadline && !hasSameText(preferredHeadline, name) && !isPlaceholderText(preferredHeadline)
+    ? preferredHeadline
+    : '';
+  const profileInfo = profile.profileId !== 'default'
+    ? localizedText(profile.companyMessage) || localizedText(profile.company)
+    : '';
+  const contact = linkItems[0]
+    ? { label: localizedText(linkItems[0].label), url: linkItems[0].url }
+    : null;
+
   return {
     hero: {
-      name: publicContent.identity?.name || '',
-      headline: localizedText(profile.headline) || localizedText(profile.targetRole),
+      name,
+      headline,
       description: aboutItems[0]?.text || '',
       skills,
-      profileInfo: localizedText(profile.company) || localizedText(profile.companyMessage),
+      profileInfo,
+      portrait: publicContent.identity?.portrait || null,
+      pdf: profile.pdf || '',
+      contact: contact?.label && contact?.url ? contact : null,
     },
     about: aboutItems,
     projects,

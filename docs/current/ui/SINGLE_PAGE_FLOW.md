@@ -6,23 +6,23 @@ Dokument jest źródłem prawdy dla układu i podstawowej interakcji UI. Zależy
 
 ## Układ
 
-Aplikacja jest pojedynczą stroną. Użytkownik widzi jedną kartę główną oraz zestaw rozwijanych paneli. Nie ma osobnych podstron ani routingu wymagającego frameworka frontendowego.
+Aplikacja jest pojedynczą stroną. Użytkownik widzi jedną wspólną kartę CV o docelowej maksymalnej szerokości około 940 px, w której górna część i rozwijane panele tworzą jeden kontener. Nie ma osobnych kart sekcji, podstron ani routingu wymagającego frameworka frontendowego.
 
 ## Karta główna
 
-Karta główna prezentuje najważniejsze publiczne informacje i może zawierać krótką wiadomość do firmy o długości 300–500 znaków, jeśli aktywny profil ją definiuje. Wiadomość nie może zawierać danych prywatnych, jeśli pochodzi z publicznego profilu.
+Karta główna prezentuje najważniejsze publiczne informacje: imię i nazwisko, niepowtórzony względem imienia headline albo targetRole, opublikowany krótki opis, opublikowane wyróżnione umiejętności oraz akcje dostępne tylko przy istniejących danych. Opcjonalny portret może być pokazany po prawej stronie na desktopie i nie zostawia pustego miejsca, gdy go nie ma. Wiadomość profilu jest widoczna tylko dla faktycznie spersonalizowanego profilu firmy.
 
 ## Panele rozwijane
 
-Sekcje szczegółowe są rozwijanymi panelami. Jednocześnie otwarty może być tylko jeden panel. Otwarcie nowego panelu zamyka poprzedni, aby strona pozostała czytelna na telefonach i desktopach.
+Sekcje szczegółowe są zwartymi wierszami accordionu rozdzielonymi subtelnymi liniami, z dekoracyjnym chevronem reagującym na stan panelu. Domyślnie wszystkie panele są zamknięte; jednocześnie otwarty może być tylko jeden panel i użytkownik może zamknąć wszystkie. Sekcje bez opublikowanej treści nie są renderowane.
 
 ## Motyw
 
-Startowo UI korzysta z motywu systemowego przez `prefers-color-scheme`. Później zostanie dodany ręczny wybór motywu, który ma nadpisywać ustawienie systemowe.
+UI korzysta z motywu systemowego przez `prefers-color-scheme`. Nie ma ręcznego przełącznika motywu.
 
 ## Responsywność
 
-Interfejs ma być projektowany mobile first i działać jako jedna responsywna strona. Interaktywność ma wspierać czytelność CV, a nie zastępować treści.
+Interfejs ma być projektowany mobile first i działać jako jedna responsywna strona bez poziomego przewijania od 320 px. Na telefonach karta zajmuje prawie całą szerokość z marginesem 12–16 px, a pasek fallbacku jest zwięzłym statusem nad kartą, nie pełną sekcją CV.
 
 ## Zależności
 

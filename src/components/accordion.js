@@ -4,19 +4,20 @@ export function createAccordion(items) {
   const root = createElement('div', { className: 'accordion' });
   let openId = null;
 
-  const entries = items.map((item, index) => {
+  const entries = items.map((item) => {
     const buttonId = `accordion-button-${item.id}`;
     const panelId = `accordion-panel-${item.id}`;
-    const button = createElement('button', {
+    const label = createElement('span', { text: item.title });
+    const chevron = createElement('span', { className: 'accordion__chevron', text: '⌄', attributes: { 'aria-hidden': 'true' } });
+    const button = appendChildren(createElement('button', {
       className: 'accordion__button',
-      text: item.title,
       attributes: {
         id: buttonId,
         type: 'button',
         'aria-expanded': 'false',
         'aria-controls': panelId,
       },
-    });
+    }), [label, chevron]);
     const panel = createElement('div', {
       className: 'accordion__panel',
       attributes: {
@@ -28,10 +29,9 @@ export function createAccordion(items) {
     });
 
     panel.appendChild(item.content);
-    const section = appendChildren(createElement('section', { className: 'accordion__item' }), [button, panel]);
-    root.appendChild(section);
+    root.appendChild(appendChildren(createElement('section', { className: 'accordion__item' }), [button, panel]));
 
-    return { id: item.id, button, panel, index };
+    return { id: item.id, button, panel };
   });
 
   function setOpen(nextId) {
@@ -40,7 +40,6 @@ export function createAccordion(items) {
       const isOpen = entry.id === openId;
       entry.button.setAttribute('aria-expanded', String(isOpen));
       entry.panel.hidden = !isOpen;
-      entry.panel.dataset.open = String(isOpen);
     });
   }
 
