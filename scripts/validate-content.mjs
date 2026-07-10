@@ -21,7 +21,7 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8
 const pointer = (parts) => '/' + parts.map(String).join('/');
 const addError = (file, field, message) => errors.push({ file, field: field || '/', message });
 
-const ajv = new Ajv({ allErrors: true, schemaId: 'auto', jsonPointers: true });
+const ajv = new Ajv({ allErrors: true, schemaId: 'auto' });
 addFormats(ajv);
 for (const schemaFile of fs.readdirSync(path.join(root, 'content/schemas')).filter((f) => f.endsWith('.json'))) {
   ajv.addSchema(readJson(`content/schemas/${schemaFile}`), schemaFile);
