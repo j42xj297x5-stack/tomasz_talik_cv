@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "skill-javascript",
+      "status": "draft",
+      "name": {
+        "pl": "JavaScript"
+      }
+    },
+    {
+      "id": "skill-three-js",
+      "status": "draft",
+      "name": {
+        "pl": "Three.js"
+      }
+    }
+  ]
+}

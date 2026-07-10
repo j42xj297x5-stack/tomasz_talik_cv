@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "project-haiku-cosmos",
+      "status": "draft",
+      "title": {
+        "pl": "Haiku Cosmos"
+      },
+      "summary": {
+        "pl": "Projekt wymieniony w dokumentacji jako element portfolio. Opis wymaga uzupełnienia potwierdzonymi szczegółami przed publikacją."
+      },
+      "skillIds": [
+        "skill-javascript",
+        "skill-three-js"
+      ]
+    }
+  ]
+}
