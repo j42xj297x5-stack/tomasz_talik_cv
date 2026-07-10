@@ -9,7 +9,7 @@ Dokument jest źródłem prawdy dla organizacji danych JSON. Zależy od decyzji 
 Kanoniczne dane publiczne są rozdzielone według obszarów:
 
 ```text
-content/public/identity.json     # podstawowa tożsamość publiczna
+content/public/identity.json     # podstawowa tożsamość publiczna i opcjonalny portret
 content/public/about.json        # publiczne teksty opisowe
 content/public/projects.json     # projekty i ich relacje do umiejętności
 content/public/experience.json   # publiczne doświadczenie, bez danych niepotwierdzonych
@@ -42,6 +42,8 @@ Każdy element wybierany przez profil musi mieć trwały identyfikator niezależ
 `profileId` akceptuje `default` albo identyfikator firmy w formacie `p_<losowy_ciag>`. Kolejność sekcji, projektów i umiejętności jest zapisywana jako tablica identyfikatorów.
 
 ## Status elementów
+
+Frontend renderuje wyłącznie elementy ze statusem `published`. Elementy `draft` i `archived` są całkowicie ukrywane; jeśli po filtrowaniu sekcja nie ma publicznej treści, nie renderuje się także jej nagłówek.
 
 Elementy treści mają status:
 
@@ -76,7 +78,9 @@ Profil nie może kopiować ani nadpisywać opisów projektów, doświadczenia lu
 
 `content/profiles/default.json` jest bezpiecznym profilem awaryjnym używanym przy braku parametru `?p=<profileId>`. Może nie mieć `companyMessage` i musi wskazywać wyłącznie istniejące identyfikatory projektów, umiejętności oraz sekcji.
 
-## Ścieżki zasobów
+## Portret i ścieżki zasobów
+
+`identity.json` może opcjonalnie zawierać `portrait.src` jako `assetPath` i `portrait.alt` jako `localizedText`. Brak pola nie tworzy pustej kolumny ani placeholdera, a dane nie powinny zawierać fikcyjnej ścieżki zdjęcia.
 
 Ścieżki zasobów są zapisywane względem katalogu `public/`, bez początkowego ukośnika, domeny i ścieżki GitHub Pages, np.:
 

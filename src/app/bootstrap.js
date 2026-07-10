@@ -7,7 +7,7 @@ import { createAboutSection } from '../sections/about-section.js';
 import { createProjectsSection } from '../sections/projects-section.js';
 import { appendChildren, createElement } from '../utils/dom.js';
 
-const FALLBACK_MESSAGE = 'Nie udało się otworzyć wskazanej wersji CV. Wyświetlam wersję podstawową.';
+const FALLBACK_MESSAGE = 'Nie znaleziono wskazanej wersji. Pokazuję CV podstawowe.';
 
 export function bootstrap(root) {
   try {
@@ -23,12 +23,17 @@ export function bootstrap(root) {
     const notice = usedFallback
       ? createElement('p', { className: 'notice', text: FALLBACK_MESSAGE, attributes: { role: 'status' } })
       : null;
-    const accordion = createAccordion([
-      { id: 'about', title: 'O mnie', content: createAboutSection(viewModel.about) },
-      { id: 'projects', title: 'Projekty', content: createProjectsSection(viewModel.projects) },
+    const accordionItems = [
+      viewModel.about.length ? { id: 'about', title: 'O mnie', content: createAboutSection(viewModel.about) } : null,
+      viewModel.projects.length ? { id: 'projects', title: 'Projekty', content: createProjectsSection(viewModel.projects) } : null,
+    ].filter(Boolean);
+    const accordion = accordionItems.length ? createAccordion(accordionItems) : null;
+    const cvCard = appendChildren(createElement('article', { className: 'cv-card' }), [
+      createHeroCard(viewModel.hero),
+      accordion,
     ]);
 
-    root.replaceChildren(appendChildren(main, [notice, createHeroCard(viewModel.hero), accordion]));
+    root.replaceChildren(appendChildren(main, [notice, cvCard]));
   } catch (error) {
     console.error(error);
     const message = createElement('main', { className: 'app-shell app-shell--error' });
