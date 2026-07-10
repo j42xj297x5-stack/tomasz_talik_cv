@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": "about-public-summary",
+      "status": "draft",
+      "text": {
+        "pl": "Publiczny opis profilu zawodowego wymaga uzupełnienia potwierdzonymi informacjami.",
+        "en": "The public professional summary requires confirmed information."
+      }
+    }
+  ]
+}

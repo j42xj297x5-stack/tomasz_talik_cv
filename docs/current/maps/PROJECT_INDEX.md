@@ -18,6 +18,10 @@ Ten dokument jest mapą aktualnej dokumentacji i zależności. Źródłem nadrz�
 | `docs/current/technical/PDF_PIPELINE.md` | PDF z tego samego HTML przez `print.css` i Playwright | frontend, model treści, personalizacja |
 | `docs/current/technical/LOCAL_EDITOR.md` | Lokalny edytor Streamlit | model treści, personalizacja, bezpieczeństwo |
 | `docs/current/technical/DEPLOYMENT.md` | Vite i GitHub Pages bez potoku publikacji | frontend, bezpieczeństwo, PDF |
+| `content/public/*.json` | Kanoniczne publiczne dane CV rozdzielone według obszarów | model treści, personalizacja |
+| `content/profiles/default.json` | Bezpieczny profil awaryjny wskazujący istniejące identyfikatory | model treści, personalizacja |
+| `content/schemas/*.schema.json` | JSON Schema dla danych publicznych, profili i typów wspólnych | model treści |
+| `scripts/validate-content.mjs` | Walidator schematów, relacji i reguł bezpieczeństwa danych | model treści |
 
 ## Decyzje przekrojowe
 
@@ -35,10 +39,10 @@ Ten dokument jest mapą aktualnej dokumentacji i zależności. Źródłem nadrz�
 
 ```text
 src/        # przyszła aplikacja Vite bez frameworka frontendowego
-content/    # przyszłe publiczne dane JSON i profile
+content/    # publiczne dane JSON, profile i schematy kontraktu danych
 public/     # przyszłe statyczne zasoby publiczne
 editor/     # przyszły lokalny edytor Streamlit
-scripts/    # przyszłe skrypty walidacji i PDF
+scripts/    # skrypty walidacji danych; PDF pozostaje przyszłym etapem
 docs/       # dokumentacja
 tests/      # przyszłe testy i kontrole spójności
 ```

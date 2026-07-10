@@ -1,0 +1,45 @@
+{
+  "profileId": "default",
+  "company": {
+    "pl": "Profil domyślny"
+  },
+  "targetRole": {
+    "pl": "Rola do uzupełnienia"
+  },
+  "headline": {
+    "pl": "Tomasz Talik"
+  },
+  "accent": "default",
+  "sectionOrder": [
+    "identity",
+    "about",
+    "projects",
+    "skills",
+    "experience",
+    "links"
+  ],
+  "visibleSections": [
+    "identity",
+    "about",
+    "projects",
+    "skills",
+    "experience",
+    "links"
+  ],
+  "projectOrder": [
+    "project-haiku-cosmos"
+  ],
+  "featuredProjectIds": [
+    "project-haiku-cosmos"
+  ],
+  "skillOrder": [
+    "skill-javascript",
+    "skill-three-js"
+  ],
+  "featuredSkillIds": [
+    "skill-javascript",
+    "skill-three-js"
+  ],
+  "pdf": "cv/default.pdf",
+  "protectedScopes": []
+}

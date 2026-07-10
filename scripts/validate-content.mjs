@@ -1,0 +1,87 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+
+const root = process.cwd();
+const errors = [];
+const suspicious = new Set(['phone', 'address', 'secret', 'token', 'privateData']);
+const sections = new Set(['identity', 'about', 'projects', 'experience', 'skills', 'links']);
+const profileFields = new Set(['profileId', 'company', 'targetRole', 'headline', 'companyMessage', 'accent', 'sectionOrder', 'visibleSections', 'projectOrder', 'featuredProjectIds', 'skillOrder', 'featuredSkillIds', 'pdf', 'protectedScopes']);
+const files = {
+  'content/public/identity.json': 'content/schemas/identity.schema.json',
+  'content/public/about.json': 'content/schemas/about.schema.json',
+  'content/public/projects.json': 'content/schemas/projects.schema.json',
+  'content/public/experience.json': 'content/schemas/experience.schema.json',
+  'content/public/skills.json': 'content/schemas/skills.schema.json',
+  'content/public/links.json': 'content/schemas/links.schema.json'
+};
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+const pointer = (parts) => '/' + parts.map(String).join('/');
+const addError = (file, field, message) => errors.push({ file, field: field || '/', message });
+
+const ajv = new Ajv({ allErrors: true, schemaId: 'auto', jsonPointers: true });
+addFormats(ajv);
+for (const schemaFile of fs.readdirSync(path.join(root, 'content/schemas')).filter((f) => f.endsWith('.json'))) {
+  ajv.addSchema(readJson(`content/schemas/${schemaFile}`), schemaFile);
+}
+
+function walk(value, file, parts = []) {
+  if (Array.isArray(value)) return value.forEach((item, i) => walk(item, file, [...parts, i]));
+  if (!value || typeof value !== 'object') return;
+  for (const [key, child] of Object.entries(value)) {
+    if (suspicious.has(key)) addError(file, pointer([...parts, key]), `Niedozwolony lub podejrzany klucz: ${key}`);
+    if (typeof child === 'string' && /^(?:[A-Za-z][A-Za-z0-9+.-]*:\/\/|\/)/.test(child)) {
+      addError(file, pointer([...parts, key]), 'Ścieżka zasobu nie może zawierać domeny ani zaczynać się od ukośnika.');
+    }
+    walk(child, file, [...parts, key]);
+  }
+}
+function collectIds(doc, file, seen) {
+  const items = Array.isArray(doc.items) ? doc.items : [doc];
+  for (const item of items) {
+    if (!item?.id) continue;
+    if (seen.has(item.id)) addError(file, '/id', `Duplikat identyfikatora: ${item.id}`);
+    seen.add(item.id);
+  }
+}
+function dupes(values = []) { return [...new Set(values.filter((v, i) => values.indexOf(v) !== i))]; }
+
+const data = {};
+for (const [file, schema] of Object.entries(files)) {
+  data[file] = readJson(file);
+  const valid = ajv.getSchema(schema.split('/').pop())(data[file]);
+  if (!valid) for (const err of ajv.getSchema(schema.split('/').pop()).errors) addError(file, err.instancePath, err.message);
+  walk(data[file], file);
+}
+const allIds = new Set();
+for (const file of Object.keys(files)) collectIds(data[file], file, allIds);
+const projectIds = new Set(data['content/public/projects.json'].items.map((i) => i.id));
+const skillIds = new Set(data['content/public/skills.json'].items.map((i) => i.id));
+
+const profileDir = path.join(root, 'content/profiles');
+for (const name of fs.readdirSync(profileDir).filter((f) => f.endsWith('.json'))) {
+  const file = `content/profiles/${name}`;
+  const profile = readJson(file);
+  const validate = ajv.getSchema('profile.schema.json');
+  if (!validate(profile)) for (const err of validate.errors) addError(file, err.instancePath, err.message);
+  walk(profile, file);
+  for (const key of Object.keys(profile)) if (!profileFields.has(key)) addError(file, `/${key}`, 'Niedozwolone nadpisanie lub pole profilu.');
+  for (const key of ['sectionOrder', 'visibleSections', 'projectOrder', 'featuredProjectIds', 'skillOrder', 'featuredSkillIds', 'protectedScopes']) {
+    for (const duplicate of dupes(profile[key])) addError(file, `/${key}`, `Duplikat w tablicy: ${duplicate}`);
+  }
+  for (const key of ['sectionOrder', 'visibleSections']) for (const id of profile[key] || []) if (!sections.has(id)) addError(file, `/${key}`, `Nieistniejąca sekcja: ${id}`);
+  for (const key of ['projectOrder', 'featuredProjectIds']) for (const id of profile[key] || []) if (!projectIds.has(id)) addError(file, `/${key}`, `Odwołanie do nieistniejącego projektu: ${id}`);
+  for (const key of ['skillOrder', 'featuredSkillIds']) for (const id of profile[key] || []) if (!skillIds.has(id)) addError(file, `/${key}`, `Odwołanie do nieistniejącej umiejętności: ${id}`);
+  if (profile.profileId !== 'default' && profile.companyMessage?.pl) {
+    const length = [...profile.companyMessage.pl].length;
+    if (length < 300 || length > 500) addError(file, '/companyMessage/pl', `Wiadomość firmowa ma ${length} znaków, wymagane 300–500.`);
+  }
+}
+
+if (errors.length) {
+  for (const err of errors) console.error(`${err.file} ${err.field}: ${err.message}`);
+  process.exit(1);
+}
+console.log('Content validation passed.');
