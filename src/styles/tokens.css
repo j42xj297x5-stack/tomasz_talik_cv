@@ -1,0 +1,18 @@
+:root {
+  --color-page-bg: #f5f7fb;
+  --color-card-bg: #ffffff;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-border: #d8dee9;
+  --color-accent: #2563eb;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --content-width: 46rem;
+  --radius-card: 1.25rem;
+  --radius-control: 0.85rem;
+  --motion-duration: 180ms;
+}

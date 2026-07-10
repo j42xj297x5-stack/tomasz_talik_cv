@@ -1,0 +1,39 @@
+.accordion {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+.accordion__button {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-4);
+  color: var(--color-text-primary);
+  background: var(--color-card-bg);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--motion-duration) ease, color var(--motion-duration) ease;
+}
+.accordion__button:hover,
+.accordion__button:focus-visible,
+.accordion__button[aria-expanded="true"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.accordion__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  margin-top: var(--space-2);
+  overflow: hidden;
+  transition: grid-template-rows var(--motion-duration) ease, opacity var(--motion-duration) ease;
+}
+.accordion__panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.accordion__panel > * { min-height: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .accordion__button,
+  .accordion__panel { transition-duration: 1ms; }
+}
