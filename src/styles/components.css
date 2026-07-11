@@ -29,12 +29,13 @@
   outline-offset: 0.2rem;
 }
 .hero-card__language-separator { color: var(--color-border); }
-.hero-card__portrait {
+.hero-card__avatar {
   flex: 0 0 auto;
-  width: clamp(8.75rem, 18vw, 11.25rem);
-  aspect-ratio: 1;
-  border-radius: 1rem;
-  object-fit: cover;
+  width: clamp(6.875rem, 16vw, 10.625rem);
+  max-width: 100%;
+  height: auto;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 58%, var(--color-border));
+  border-radius: 0.875rem;
 }
 .hero-card__name {
   margin: 0;
@@ -100,7 +101,7 @@
 .project-card p { margin: var(--space-2) 0 0; }
 @media (max-width: 39rem) {
   .hero-card { flex-direction: column-reverse; padding: var(--space-5); }
-  .hero-card__portrait { width: min(9rem, 55vw); }
+  .hero-card__avatar { width: clamp(6.875rem, 38vw, 9rem); }
   .section-content { padding: var(--space-4) var(--space-5) var(--space-5); }
 }
 .draft-badge {

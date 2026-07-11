@@ -1,5 +1,12 @@
 {
   "id": "identity-tomasz-talik",
   "status": "published",
-  "name": "Tomasz Talik"
+  "name": "Tomasz Talik",
+  "portrait": {
+    "src": "assets/identity/tomasz-talik-avatar.webp",
+    "alt": {
+      "pl": "Ilustrowany portret Tomasza Talika",
+      "en": "Illustrated portrait of Tomasz Talik"
+    }
+  }
 }

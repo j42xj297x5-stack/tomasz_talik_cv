@@ -139,7 +139,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       descriptionIsDraft: heroSummary?.isDraft || false,
       skills,
       profileInfo,
-      portrait: publicContent.identity?.portrait || null,
+      avatar: publicContent.identity?.portrait?.src ? publicContent.identity.portrait : null,
       pdf: profile.pdf || {},
       contact: contact?.label && contact?.url ? contact : null,
     },

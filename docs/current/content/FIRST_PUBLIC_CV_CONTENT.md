@@ -111,7 +111,7 @@ Avatar:
 - ma być opcjonalny w modelu danych;
 - brak pliku nie może tworzyć pustej kolumny.
 
-Proponowana przyszła ścieżka zasobu:
+Docelowa ścieżka zasobu wdrożona w głównej karcie:
 
 assets/identity/tomasz-talik-avatar.webp
 
@@ -123,7 +123,7 @@ Ilustrowany portret Tomasza Talika
 EN:
 Illustrated portrait of Tomasz Talik
 
-Projektant dostarczy finalny plik zasobu oddzielnie.
+Avatar jest opcjonalny w danych identity; brak wpisu lub pliku nie może tworzyć pustej kolumny ani psuć układu Hero.
 
 
 ## Sekcja „Wykształcenie”

@@ -65,11 +65,11 @@ docs/
 
 ## UI i stan interakcji
 
-Aplikacja renderuje jedną wspólną kartę CV o maksymalnej szerokości około 940 px. Układ jest mobile first, portret jest opcjonalny, a motyw wynika z `prefers-color-scheme`. Accordion przechowuje stan otwartego panelu lokalnie w komponencie: jednocześnie otwarty może być najwyżej jeden panel, a ponowne kliknięcie otwartego panelu zamyka wszystkie. Przyciski accordionu mają `aria-expanded` i `aria-controls`, a panele `role="region"` oraz `aria-labelledby`.
+Aplikacja renderuje jedną wspólną kartę CV o maksymalnej szerokości około 940 px. Układ jest mobile first, avatar/portret w Hero jest opcjonalny, a motyw wynika z `prefers-color-scheme`. Główna karta obsługuje zasób `assets/identity/tomasz-talik-avatar.webp`; gdy ścieżki brakuje w danych, frontend nie renderuje obrazu, pustej kolumny ani placeholdera. Accordion przechowuje stan otwartego panelu lokalnie w komponencie: jednocześnie otwarty może być najwyżej jeden panel, a ponowne kliknięcie otwartego panelu zamyka wszystkie. Przyciski accordionu mają `aria-expanded` i `aria-controls`, a panele `role="region"` oraz `aria-labelledby`.
 
 ## PDF i druk
 
-Przycisk „Zapisz jako PDF” w `hero-card.js` wywołuje `window.print()`. Wydruk używa aktualnie wyrenderowanego HTML, tego samego view modelu i `src/styles/print.css`. CSS druku pokazuje wszystkie opublikowane sekcje wybrane przez profil niezależnie od bieżącego stanu accordionu. Aplikacja nie pobiera statycznego pliku PDF i nie ma osobnego szablonu danych PDF.
+Przycisk „Zapisz jako PDF” w `hero-card.js` wywołuje `window.print()`. Wydruk używa aktualnie wyrenderowanego HTML, tego samego view modelu i `src/styles/print.css`; opcjonalny avatar Hero pozostaje widoczny w PDF bez osobnego wariantu pliku. CSS druku pokazuje wszystkie opublikowane sekcje wybrane przez profil niezależnie od bieżącego stanu accordionu. Aplikacja nie pobiera statycznego pliku PDF i nie ma osobnego szablonu danych PDF.
 
 ## Funkcje przyszłe
 
