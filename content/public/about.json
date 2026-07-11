@@ -4,8 +4,16 @@
       "id": "about-public-summary",
       "status": "draft",
       "text": {
-        "pl": "Publiczny opis profilu zawodowego wymaga uzupełnienia potwierdzonymi informacjami.",
-        "en": "The public professional summary requires confirmed information."
+        "pl": "Projektuję cyfrowe systemy, które łączą mechanikę, interakcję i warstwę twórczą — od pierwszej koncepcji po działający prototyp. Pracuję w modularnym procesie wspieranym przez AI: definiuję zasady, dzielę złożone problemy na mniejsze komponenty, nadzoruję implementację i weryfikuję rezultat w kodzie, testach oraz dokumentacji.",
+        "en": "I design digital systems that connect mechanics, interaction and creative expression—from the first concept to a working prototype. I work through a modular AI-assisted process: defining rules, breaking complex problems into smaller components, supervising implementation, and validating results across code, tests and documentation."
+      }
+    },
+    {
+      "id": "about-public-details",
+      "status": "draft",
+      "text": {
+        "pl": "Łączę wykształcenie inżynierskie z wieloletnim doświadczeniem w elektronice, dźwięku, obrazie, technice scenicznej, sprzedaży technicznej i niezależnej działalności twórczej. Naturalnie poruszam się pomiędzy urządzeniem, interfejsem, użytkownikiem i logiką systemu.\n\nMoją główną kompetencją jest samodzielne poznawanie złożonych narzędzi i przekładanie ich możliwości na działające rozwiązania. Obecnie koncentruję się na projektowaniu gier, narzędzi i doświadczeń interaktywnych. Definiuję architekturę oraz zasady systemów, przygotowuję dokumentację wykonawczą, kieruję implementacją wspomaganą przez AI i weryfikuję rezultat poprzez testy, diagnostykę oraz pracę z działającym produktem.",
+        "en": "I combine an engineering background with extensive experience in electronics, sound, visual work, stage technology, technical sales and independent creative practice. I naturally work across the boundaries between devices, interfaces, users and system logic.\n\nMy core strength is independently learning complex tools and turning their capabilities into working solutions. I currently focus on designing games, tools and interactive experiences. I define system architecture and rules, prepare implementation documentation, supervise AI-assisted development, and validate results through testing, diagnostics and hands-on work with the running product."
       }
     }
   ]

@@ -5,6 +5,30 @@
   padding: var(--space-6);
 }
 .hero-card__content { flex: 1 1 auto; min-width: 0; }
+.hero-card__language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.hero-card__language-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.hero-card__language-button[aria-pressed="true"] { color: var(--color-accent); }
+.hero-card__language-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0.2rem;
+}
+.hero-card__language-separator { color: var(--color-border); }
 .hero-card__portrait {
   flex: 0 0 auto;
   width: clamp(8.75rem, 18vw, 11.25rem);
