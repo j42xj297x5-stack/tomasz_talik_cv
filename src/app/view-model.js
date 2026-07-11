@@ -53,10 +53,10 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const featuredSkillIds = profile.featuredSkillIds || [];
   const visibleSections = new Set(profile.visibleSections || []);
 
-  const skills = byProfileOrder(skillItems, profile.skillOrder)
-    .filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id))
+  const orderedSkills = byProfileOrder(skillItems, profile.skillOrder)
     .map((skill) => ({ id: skill.id, name: resolveText(skill.name), isDraft: isDraft(skill) }))
     .filter((skill) => skill.name);
+  const skills = orderedSkills.filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id));
 
   const projects = byProfileOrder(projectItems, profile.projectOrder)
     .map((project) => ({
@@ -98,6 +98,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     visibleSections.has('about') && aboutItems.length ? { id: 'about', title: resolveText({ pl: 'O mnie', en: 'About me' }) } : null,
     visibleSections.has('projects') && projects.length ? { id: 'projects', title: resolveText({ pl: 'Projekty', en: 'Projects' }) } : null,
     visibleSections.has('experience') && experience.length ? { id: 'experience', title: resolveText({ pl: 'Doświadczenie', en: 'Experience' }) } : null,
+    visibleSections.has('skills') && orderedSkills.length ? { id: 'skills', title: resolveText({ pl: 'Umiejętności', en: 'Skills' }) } : null,
   ].filter(Boolean), profile.sectionOrder);
 
   return {
@@ -107,6 +108,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       about: resolveText({ pl: 'O mnie', en: 'About me' }),
       projects: resolveText({ pl: 'Projekty', en: 'Projects' }),
       experience: resolveText({ pl: 'Doświadczenie', en: 'Experience' }),
+      skills: resolveText({ pl: 'Umiejętności', en: 'Skills' }),
       print: resolveText({ pl: 'Zapisz jako PDF', en: 'Save as PDF' }),
       featuredSkills: resolveText({ pl: 'Wyróżnione umiejętności', en: 'Featured skills' }),
       draft: draftLabel,
@@ -126,5 +128,6 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     about: visibleSections.has('about') ? aboutItems : [],
     projects: visibleSections.has('projects') ? projects : [],
     experience: visibleSections.has('experience') ? experience : [],
+    skills: visibleSections.has('skills') ? orderedSkills : [],
   };
 }

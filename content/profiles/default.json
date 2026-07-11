@@ -36,12 +36,42 @@
     "project-dig-engine"
   ],
   "skillOrder": [
+    "skill-game-systems-design",
+    "skill-modular-systems-design",
+    "skill-technical-architecture",
+    "skill-interaction-prototyping",
+    "skill-debugging-validation",
+    "skill-technical-documentation",
+    "skill-ai-orchestration",
     "skill-javascript",
-    "skill-three-js"
+    "skill-three-js",
+    "skill-html",
+    "skill-css",
+    "skill-json",
+    "skill-vite",
+    "skill-node-js",
+    "skill-python",
+    "skill-pyside6",
+    "skill-mysql",
+    "skill-sql",
+    "skill-rest-api",
+    "skill-git-github",
+    "skill-blender",
+    "skill-inkscape",
+    "skill-figma",
+    "skill-ableton-live",
+    "skill-independent-learning",
+    "skill-code-reading",
+    "skill-technical-communication",
+    "skill-client-communication",
+    "skill-problem-decomposition"
   ],
   "featuredSkillIds": [
+    "skill-game-systems-design",
+    "skill-ai-orchestration",
     "skill-javascript",
-    "skill-three-js"
+    "skill-three-js",
+    "skill-python"
   ],
   "protectedScopes": []
 }

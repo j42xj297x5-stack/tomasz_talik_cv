@@ -6,6 +6,7 @@ import { createHeroCard } from '../components/hero-card.js';
 import { createAboutSection } from '../sections/about-section.js';
 import { createExperienceSection } from '../sections/experience-section.js';
 import { createProjectsSection } from '../sections/projects-section.js';
+import { createSkillsSection } from '../sections/skills-section.js';
 import { appendChildren, createElement } from '../utils/dom.js';
 
 const FALLBACK_MESSAGE = 'Nie znaleziono wskazanej wersji. Pokazuję CV podstawowe.';
@@ -19,6 +20,7 @@ function createSectionContent(section, viewModel) {
   if (section.id === 'about') return createAboutSection(viewModel.about, viewModel.labels);
   if (section.id === 'projects') return createProjectsSection(viewModel.projects, viewModel.labels);
   if (section.id === 'experience') return createExperienceSection(viewModel.experience, viewModel.labels);
+  if (section.id === 'skills') return createSkillsSection(viewModel.skills, viewModel.labels);
   return null;
 }
 
