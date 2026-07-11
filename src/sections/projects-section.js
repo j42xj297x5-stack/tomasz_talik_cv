@@ -6,7 +6,7 @@ function createDraftBadge(labels = {}) {
 
 export function createProjectsSection(projects, labels = {}) {
   const container = createElement('div', { className: 'section-content section-content--projects' });
-  const heading = createElement('h2', { className: 'section-content__title', text: labels.projects || 'Projekty' });
+  const heading = createElement('h2', { className: 'section-content__title section-content-title', text: labels.projects || 'Projekty' });
   const list = createElement('div', { className: 'project-list' });
 
   projects.forEach((project) => {

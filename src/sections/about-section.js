@@ -6,7 +6,7 @@ function createDraftBadge(labels = {}) {
 
 export function createAboutSection(items, labels = {}) {
   const container = createElement('div', { className: 'section-content section-content--about' });
-  const heading = createElement('h2', { className: 'section-content__title', text: labels.about || 'O mnie' });
+  const heading = createElement('h2', { className: 'section-content__title section-content-title', text: labels.about || 'O mnie' });
   const body = createElement('div', { className: 'section-content__body' });
 
   items.forEach((item) => {
