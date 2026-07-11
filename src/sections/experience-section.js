@@ -6,7 +6,7 @@ function createDraftBadge(labels = {}) {
 
 export function createExperienceSection(items, labels = {}) {
   const container = createElement('div', { className: 'section-content section-content--experience' });
-  const heading = createElement('h2', { className: 'section-content__title', text: labels.experience || 'Doświadczenie' });
+  const heading = createElement('h2', { className: 'section-content__title section-content-title', text: labels.experience || 'Doświadczenie' });
   const list = createElement('div', { className: 'experience-list' });
 
   items.forEach((item) => {

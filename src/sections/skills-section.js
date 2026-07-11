@@ -6,7 +6,7 @@ function createDraftBadge(labels = {}) {
 
 export function createSkillsSection(skills, labels = {}) {
   const container = createElement('div', { className: 'section-content section-content--skills' });
-  const heading = createElement('h2', { className: 'section-content__title', text: labels.skills || 'Umiejętności' });
+  const heading = createElement('h2', { className: 'section-content__title section-content-title', text: labels.skills || 'Umiejętności' });
   const list = createElement('ul', { className: 'skills-list' });
 
   skills.forEach((skill) => {

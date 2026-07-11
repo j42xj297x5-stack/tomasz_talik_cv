@@ -38,3 +38,6 @@
   .accordion__button,
   .accordion__chevron { transition-duration: 1ms; }
 }
+.section-content-title {
+  display: none;
+}

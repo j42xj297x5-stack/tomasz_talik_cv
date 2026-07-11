@@ -90,6 +90,10 @@
     padding: 1rem 0;
   }
 
+  .section-content-title {
+    display: block;
+  }
+
   .section-content__title {
     margin-bottom: 0.5rem;
   }
