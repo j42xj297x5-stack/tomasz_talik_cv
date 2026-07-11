@@ -78,6 +78,12 @@ Profil nie może kopiować ani nadpisywać opisów projektów, doświadczenia lu
 
 `content/profiles/default.json` jest bezpiecznym profilem awaryjnym używanym przy braku parametru `?p=<profileId>`. Może nie mieć `companyMessage` i musi wskazywać wyłącznie istniejące identyfikatory projektów, umiejętności oraz sekcji.
 
+## Konfiguracja PDF
+
+Pole `pdf` w profilu jest opcjonalną konfiguracją, a nie ścieżką do fizycznego pliku. Może zawierać `enabled` oraz opcjonalne `includeCompanyMessage`. Brak pola oznacza domyślnie włączony przycisk „Zapisz jako PDF”, a `enabled: false` ukrywa przycisk.
+
+PDF powstaje z aktualnego HTML i view modelu profilu. Profil nie przechowuje osobnych list projektów, umiejętności ani sekcji dla PDF i nie wskazuje statycznego pliku PDF profilu default.
+
 ## Portret i ścieżki zasobów
 
 `identity.json` może opcjonalnie zawierać `portrait.src` jako `assetPath` i `portrait.alt` jako `localizedText`. Brak pola nie tworzy pustej kolumny ani placeholdera, a dane nie powinny zawierać fikcyjnej ścieżki zdjęcia.
@@ -85,8 +91,7 @@ Profil nie może kopiować ani nadpisywać opisów projektów, doświadczenia lu
 Ścieżki zasobów są zapisywane względem katalogu `public/`, bez początkowego ukośnika, domeny i ścieżki GitHub Pages, np.:
 
 * `assets/projects/haiku-cosmos/cover.webp`;
-* `assets/companies/p_7m4k2x/logo.webp`;
-* `cv/default.pdf`.
+* `assets/companies/p_7m4k2x/logo.webp`.
 
 Dzięki temu dane pozostają niezależne od domeny i `BASE_URL`.
 
@@ -104,4 +109,4 @@ Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików z JSON Schema,
 
 * Personalizacja korzysta z tego modelu w `docs/current/product/PERSONALIZATION_SYSTEM.md`.
 * Edytor Streamlit ma walidować ten model zgodnie z `docs/current/technical/LOCAL_EDITOR.md`.
-* PDF renderuje te same dane zgodnie z `docs/current/technical/PDF_PIPELINE.md`.
+* PDF renderuje te same dane i ten sam HTML zgodnie z `docs/current/technical/PDF_PIPELINE.md`.

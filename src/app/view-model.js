@@ -30,6 +30,7 @@ export function createViewModel(publicContent, profile) {
   const projectItems = (publicContent.projects?.items || []).filter(isPublished);
   const linkItems = (publicContent.links?.items || []).filter(isPublished);
   const featuredSkillIds = profile.featuredSkillIds || [];
+  const visibleSections = new Set(profile.visibleSections || []);
 
   const skills = byProfileOrder(skillItems, profile.skillOrder)
     .filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id))
@@ -69,10 +70,10 @@ export function createViewModel(publicContent, profile) {
       skills,
       profileInfo,
       portrait: publicContent.identity?.portrait || null,
-      pdf: profile.pdf || '',
+      pdf: profile.pdf || {},
       contact: contact?.label && contact?.url ? contact : null,
     },
-    about: aboutItems,
-    projects,
+    about: visibleSections.has('about') ? aboutItems : [],
+    projects: visibleSections.has('projects') ? projects : [],
   };
 }

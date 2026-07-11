@@ -1,0 +1,98 @@
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html,
+  body {
+    color-scheme: light;
+    background: #fff !important;
+  }
+
+  body {
+    min-width: 0;
+    color: #111827;
+  }
+
+  .app-shell {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .notice,
+  .hero-card__actions,
+  .accordion__button,
+  .accordion__chevron,
+  button,
+  [role="button"] {
+    display: none !important;
+  }
+
+  .cv-card {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .hero-card {
+    gap: 1rem;
+    padding: 0 0 1rem;
+    break-inside: avoid;
+  }
+
+  .hero-card__name {
+    font-size: 2.5rem;
+  }
+
+  .hero-card__portrait {
+    width: 7rem;
+    border-radius: 0.75rem;
+  }
+
+  .hero-card__skills,
+  .hero-card__headline,
+  .hero-card__description,
+  .hero-card__profile {
+    margin-top: 0.5rem;
+  }
+
+  .accordion {
+    border-top: 1px solid #d8dee9;
+  }
+
+  .accordion__item {
+    break-inside: avoid;
+  }
+
+  .accordion__item + .accordion__item {
+    border-top: 1px solid #d8dee9;
+  }
+
+  .accordion__panel,
+  .accordion__panel[hidden] {
+    display: block !important;
+    border-top: 0;
+  }
+
+  .section-content {
+    padding: 1rem 0;
+  }
+
+  .section-content__title {
+    margin-bottom: 0.5rem;
+  }
+
+  .project-card {
+    break-inside: avoid;
+  }
+}

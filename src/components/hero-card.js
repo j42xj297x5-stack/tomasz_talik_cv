@@ -22,12 +22,15 @@ export function createHeroCard(hero) {
 
   const actions = createElement('div', { className: 'hero-card__actions' });
 
-  if (hero.pdf) {
-    actions.appendChild(createElement('a', {
+  if (hero.pdf?.enabled !== false) {
+    const printButton = createElement('button', {
       className: 'hero-card__action',
-      text: 'Pobierz PDF',
-      attributes: { href: getAssetUrl(hero.pdf), download: '' },
-    }));
+      text: 'Zapisz jako PDF',
+      attributes: { type: 'button' },
+    });
+
+    printButton.addEventListener('click', () => window.print());
+    actions.appendChild(printButton);
   }
 
   if (hero.contact) {
