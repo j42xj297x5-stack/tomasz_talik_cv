@@ -12,7 +12,12 @@ export function createExperienceSection(items, labels = {}) {
   items.forEach((item) => {
     const article = createElement('article', { className: 'experience-entry' });
     const title = item.title ? createElement('h3', { text: item.title }) : null;
-    const summary = item.summary ? createElement('p', { text: item.summary }) : null;
+    const summary = item.summary ? createElement('div', { className: 'experience-entry__summary' }) : null;
+    if (summary) {
+      item.summary.split(/\n{2,}/).forEach((paragraph) => {
+        summary.appendChild(createElement('p', { text: paragraph }));
+      });
+    }
     if (item.isDraft && title) title.appendChild(createDraftBadge(labels));
     list.appendChild(appendChildren(article, [title, summary]));
   });

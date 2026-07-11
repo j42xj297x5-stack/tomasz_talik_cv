@@ -5,15 +5,15 @@
       "status": "draft",
       "institution": {
         "pl": "Akademia Techniczno-Humanistyczna w Bielsku-Białej",
-        "en": "Akademia Techniczno-Humanistyczna w Bielsku-Białej"
+        "en": "University of Technology and Humanities in Bielsko-Biala"
       },
       "degree": {
-        "pl": "Magister inżynier — Inżynieria Ochrony Środowiska",
-        "en": "Master of Engineering — Environmental Engineering"
+        "pl": "Magister inżynier — Ochrona środowiska",
+        "en": "Master of Engineering — Environmental Protection"
       },
       "specialization": {
-        "pl": "Akustyka pomieszczeń",
-        "en": "Room Acoustics"
+        "pl": "Inżynieria środowiska",
+        "en": "Environmental Engineering"
       },
       "period": "10/2000–06/2005",
       "description": [
@@ -22,8 +22,12 @@
           "en": "A broad engineering programme covering physics, mathematics, chemistry, hydrology, microbiology, construction and noise physics. The multidisciplinary curriculum developed my ability to independently enter new fields, analyse complex problems and connect technical knowledge with practical investigation."
         },
         {
-          "pl": "Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Praca magisterska łączyła część teoretyczną z badaniem akustyki pomieszczeń, analizą czasu pogłosu w pasmach częstotliwości oraz komputerową symulacją rozchodzenia się dźwięku.",
-          "en": "The engineering thesis focused on active and passive vibration damping. The master’s thesis combined theoretical work with room-acoustics research, frequency-based reverberation-time analysis and computer simulation of sound propagation."
+          "pl": "Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Temat pracy magisterskiej: „Dobór efektywnych rozwiązań w kształtowaniu parametrów akustycznych pomieszczeń przy różnych zastosowaniach funkcjonalnych”.",
+          "en": "The engineering thesis focused on active and passive vibration damping. Master’s thesis: “Selection of effective solutions for shaping room-acoustic parameters across different functional uses”."
+        },
+        {
+          "pl": "W pracy magisterskiej porównałem dwie kontrastowe przestrzenie: uczelnianą salę wykładową oraz niską, betonową halę wykorzystywaną jako sala prób, przestrzeń koncertowa i miejsce wydarzeń. Na podstawie analizy czasu pogłosu w pasmach częstotliwości i symulacji komputerowych opracowałem teoretyczne zalecenia dotyczące funkcjonalnej, ekonomicznej i możliwej do demontażu adaptacji akustycznej. Praca koncentrowała się na kształtowaniu akustyki wnętrza, a nie na izolacji dźwięku od otoczenia.",
+          "en": "The master’s thesis compared two contrasting spaces: a university lecture room and a low concrete hall used for rehearsals, concerts and events. Based on frequency-band reverberation-time analysis and computer simulation, I developed theoretical recommendations for functional, economical and demountable acoustic treatment. The work focused on shaping internal room acoustics rather than sound isolation."
         }
       ]
     },

@@ -128,7 +128,7 @@ Projektant dostarczy finalny plik zasobu oddzielnie.
 
 ## Sekcja „Wykształcenie”
 
-Sekcja wykształcenia jest obsługiwana w danych, schemacie, view modelu i frontendzie. Pierwsze dwa wpisy — Akademia Techniczno-Humanistyczna w Bielsku-Białej oraz technikum elektroniczne — pozostają w statusie `draft`, więc są widoczne tylko w `?preview=draft`. Historyczna nazwa ATH nie jest tłumaczona w wariancie angielskim i nie jest przypisywana obecnemu Uniwersytetowi Bielsko-Bialskiemu.
+Sekcja wykształcenia jest obsługiwana w danych, schemacie, view modelu i frontendzie. Pierwsze dwa wpisy — Akademia Techniczno-Humanistyczna w Bielsku-Białej oraz technikum elektroniczne — pozostają w statusie `draft`, więc są widoczne tylko w `?preview=draft`. Historyczna nazwa ATH w wariancie angielskim brzmi University of Technology and Humanities in Bielsko-Biala i nie jest przypisywana obecnemu Uniwersytetowi Bielsko-Bialskiemu.
 
 ## 6. Projekty
 
@@ -490,11 +490,15 @@ Wieloletnia praktyka obejmująca produkcję muzyczną, pracę DJ-ską, realizacj
 
 Tworzyłem i rozwijałem projekty od koncepcji po publikację: przygotowywałem muzykę, identyfikację wizualną, materiały promocyjne, wydarzenia, kanały komunikacji oraz zaplecze techniczne. Doświadczenie to stanowi fundament mojego obecnego podejścia do łączenia technologii, narracji, obrazu, dźwięku i interakcji.
 
+Projektowałem i współtworzyłem również niskobudżetowe, demontowalne adaptacje akustyczne sal prób, dobierając rozwiązania do funkcji pomieszczenia, dostępnych materiałów i rzeczywistych warunków użytkowania.
+
 Opis EN:
 
 Long-term independent practice covering music production, DJ work, sound engineering, event organisation, internet radio, graphic and cover design, and running the Ninjah Lab netlabel.
 
 Developed projects from concept to publication, including music, visual identity, promotional materials, events, communication channels and technical infrastructure. This experience forms the foundation of my current approach to connecting technology, narrative, image, sound and interaction.
+
+I also designed and helped build low-cost, demountable acoustic treatments for rehearsal rooms, adapting solutions to each space, the available materials and real-world use constraints.
 
 Okres pozostaje aktywny do chwili obecnej. Zmieniły się narzędzia i obszary twórczości, ale praktyka tworzenia trwa nadal.
 
@@ -671,43 +675,47 @@ Treść do zachowania na przyszły etap:
 
 ### 10.1 Akademia Techniczno-Humanistyczna w Bielsku-Białej
 
+Nazwa uczelni EN:
+
+University of Technology and Humanities in Bielsko-Biala
+
 Okres:
 
 10/2000–06/2005
 
 Stopień PL:
 
-Magister inżynier — Inżynieria Ochrony Środowiska
+Magister inżynier — Ochrona środowiska
 
 Specjalizacja PL:
 
-Akustyka pomieszczeń
+Inżynieria środowiska
 
 Stopień EN:
 
-Master of Engineering — Environmental Engineering
+Master of Engineering — Environmental Protection
 
 Specjalizacja EN:
 
-Room Acoustics
+Environmental Engineering
 
 Opis PL:
 
-Studia o szerokim profilu inżynierskim, obejmującym między innymi fizykę, matematykę, chemię, hydrologię, mikrobiologię, budownictwo i fizykę hałasu.
+Studia o szerokim profilu inżynierskim, obejmującym między innymi fizykę, matematykę, chemię, hydrologię, mikrobiologię, budownictwo i fizykę hałasu. Rozległy program rozwinął zdolność samodzielnego poznawania nowych dziedzin, analizowania złożonych zagadnień oraz łączenia wiedzy technicznej z praktycznym badaniem problemu.
 
-Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Praca magisterska łączyła część teoretyczną z badaniem akustyki pomieszczeń, analizą czasu pogłosu oraz komputerową symulacją rozchodzenia się dźwięku.
+Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Temat pracy magisterskiej: „Dobór efektywnych rozwiązań w kształtowaniu parametrów akustycznych pomieszczeń przy różnych zastosowaniach funkcjonalnych”.
 
-Szeroki profil studiów rozwinął zdolność samodzielnego poznawania nowych dziedzin, analizowania złożonych zagadnień oraz łączenia wiedzy technicznej z praktycznym badaniem problemu.
+W pracy magisterskiej porównałem dwie kontrastowe przestrzenie: uczelnianą salę wykładową oraz niską, betonową halę wykorzystywaną jako sala prób, przestrzeń koncertowa i miejsce wydarzeń. Na podstawie analizy czasu pogłosu w pasmach częstotliwości i symulacji komputerowych opracowałem teoretyczne zalecenia dotyczące funkcjonalnej, ekonomicznej i możliwej do demontażu adaptacji akustycznej. Praca koncentrowała się na kształtowaniu akustyki wnętrza, a nie na izolacji dźwięku od otoczenia.
 
 Opis EN:
 
-A broad engineering programme covering physics, mathematics, chemistry, hydrology, microbiology, construction and noise physics.
+A broad engineering programme covering physics, mathematics, chemistry, hydrology, microbiology, construction and noise physics. The multidisciplinary curriculum developed my ability to independently enter new fields, analyse complex problems and connect technical knowledge with practical investigation.
 
-The engineering thesis focused on active and passive vibration damping. The master’s thesis combined theoretical work with room-acoustics research, reverberation-time analysis and computer simulation of sound propagation.
+The engineering thesis focused on active and passive vibration damping. Master’s thesis: “Selection of effective solutions for shaping room-acoustic parameters across different functional uses”.
 
-The broad engineering curriculum developed the ability to independently enter new fields, analyse complex problems and connect technical knowledge with practical investigation.
+The master’s thesis compared two contrasting spaces: a university lecture room and a low concrete hall used for rehearsals, concerts and events. Based on frequency-band reverberation-time analysis and computer simulation, I developed theoretical recommendations for functional, economical and demountable acoustic treatment. The work focused on shaping internal room acoustics rather than sound isolation.
 
-W wersji angielskiej należy zachować historyczną nazwę uczelni z okresu studiów. Nie przypisywać dyplomu obecnemu Uniwersytetowi Bielsko-Bialskiemu.
+W wersji angielskiej należy zachować historyczną nazwę uczelni z okresu studiów: University of Technology and Humanities in Bielsko-Biala. Nie przypisywać dyplomu obecnemu Uniwersytetowi Bielsko-Bialskiemu.
 
 ### 10.2 Zespół Szkół Elektronicznych, Elektrycznych i Mechanicznych im. Jędrzeja Śniadeckiego w Bielsku-Białej
 
