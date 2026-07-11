@@ -99,7 +99,8 @@
   }
 
   .project-card,
-  .experience-entry {
+  .experience-entry,
+  .education-entry {
     break-inside: avoid;
   }
 }

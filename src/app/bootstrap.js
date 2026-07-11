@@ -5,6 +5,7 @@ import { createAccordion } from '../components/accordion.js';
 import { createHeroCard } from '../components/hero-card.js';
 import { createAboutSection } from '../sections/about-section.js';
 import { createExperienceSection } from '../sections/experience-section.js';
+import { createEducationSection } from '../sections/education-section.js';
 import { createProjectsSection } from '../sections/projects-section.js';
 import { createSkillsSection } from '../sections/skills-section.js';
 import { appendChildren, createElement } from '../utils/dom.js';
@@ -20,6 +21,7 @@ function createSectionContent(section, viewModel) {
   if (section.id === 'about') return createAboutSection(viewModel.about, viewModel.labels);
   if (section.id === 'projects') return createProjectsSection(viewModel.projects, viewModel.labels);
   if (section.id === 'experience') return createExperienceSection(viewModel.experience, viewModel.labels);
+  if (section.id === 'education') return createEducationSection(viewModel.education, viewModel.labels);
   if (section.id === 'skills') return createSkillsSection(viewModel.skills, viewModel.labels);
   return null;
 }

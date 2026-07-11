@@ -33,6 +33,7 @@ src/
   sections/
     about-section.js
     projects-section.js
+    education-section.js
   styles/
     tokens.css
     base.css
@@ -89,3 +90,7 @@ Wdrożono pierwszą sekcję doświadczenia renderowaną w istniejącym accordion
 Wdrożono pierwszą sekcję umiejętności renderowaną w istniejącym accordionie. `skills-section.js` korzysta ze wspólnych narzędzi DOM oraz `textContent`, bez `innerHTML` dla danych JSON. View model filtruje wpisy tak jak pozostałe sekcje: `published` w trybie publicznym, `published` i `draft` w `?preview=draft`, a `archived` pozostają ukryte w obu trybach. Widoczne szkice używają istniejącego lokalizowanego znacznika `Szkic` / `Draft`, ukrywanego w stylach druku.
 
 Dane pierwszej sekcji umiejętności pozostają w statusie `draft`. Obecny `skills.schema.json` nie obsługuje kategorii, grupowania ani opisów, dlatego kolejność profilu zachowuje płaską listę umiejętności zamiast dopisywania nowych pól poza schematem. To ogranicza prezentację zakresu kompetencji AI do nazwy umiejętności do czasu rozszerzenia modelu danych. `?preview=draft` nadal nie jest mechanizmem prywatności, ponieważ publiczne pliki JSON są częścią paczki aplikacji.
+
+## Sekcja wykształcenia
+
+Wdrożono sekcję `education` renderowaną w istniejącym accordionie. `education-section.js` używa wspólnych narzędzi DOM i `textContent`, bez `innerHTML` dla danych JSON. Wpisy pozostają `draft`: są ukryte bez `?preview=draft`, widoczne w podglądzie ze znacznikiem `Szkic` / `Draft`, a znaczniki są ukrywane w wydruku. Historyczna nazwa Akademia Techniczno-Humanistyczna w Bielsku-Białej pozostaje nieprzetłumaczona również w wariancie EN. `?preview=draft` nadal nie jest mechanizmem prywatności.

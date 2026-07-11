@@ -51,6 +51,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const skillItems = (publicContent.skills?.items || []).filter(contentFilter);
   const projectItems = (publicContent.projects?.items || []).filter(contentFilter);
   const experienceItems = (publicContent.experience?.items || []).filter(contentFilter);
+  const educationItems = (publicContent.education?.items || []).filter(contentFilter);
   const linkItems = (publicContent.links?.items || []).filter(contentFilter);
   const featuredSkillIds = profile.featuredSkillIds || [];
   const visibleSections = new Set(profile.visibleSections || []);
@@ -78,6 +79,18 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     }))
     .filter((item) => item.title || item.summary);
 
+  const education = educationItems
+    .map((item) => ({
+      id: item.stableId,
+      institution: resolveText(item.institution),
+      degree: resolveText(item.degree),
+      specialization: resolveText(item.specialization),
+      period: item.period || '',
+      description: (item.description || []).map(resolveText).filter(Boolean),
+      isDraft: isDraft(item),
+    }))
+    .filter((item) => item.institution || item.degree || item.description.length);
+
   const renderedAboutItems = (publicContent.about?.items || [])
     .filter(contentFilter)
     .map((item) => ({ id: item.id, text: resolveText(item.text), isDraft: isDraft(item) }))
@@ -102,6 +115,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     visibleSections.has('about') && aboutItems.length ? { id: 'about', title: resolveText({ pl: 'O mnie', en: 'About me' }) } : null,
     visibleSections.has('projects') && projects.length ? { id: 'projects', title: resolveText({ pl: 'Projekty', en: 'Projects' }) } : null,
     visibleSections.has('experience') && experience.length ? { id: 'experience', title: resolveText({ pl: 'Doświadczenie', en: 'Experience' }) } : null,
+    visibleSections.has('education') && education.length ? { id: 'education', title: resolveText({ pl: 'Wykształcenie', en: 'Education' }) } : null,
     visibleSections.has('skills') && orderedSkills.length ? { id: 'skills', title: resolveText({ pl: 'Umiejętności', en: 'Skills' }) } : null,
   ].filter(Boolean), profile.sectionOrder);
 
@@ -112,6 +126,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       about: resolveText({ pl: 'O mnie', en: 'About me' }),
       projects: resolveText({ pl: 'Projekty', en: 'Projects' }),
       experience: resolveText({ pl: 'Doświadczenie', en: 'Experience' }),
+      education: resolveText({ pl: 'Wykształcenie', en: 'Education' }),
       skills: resolveText({ pl: 'Umiejętności', en: 'Skills' }),
       print: resolveText({ pl: 'Zapisz jako PDF', en: 'Save as PDF' }),
       featuredSkills: resolveText({ pl: 'Wyróżnione umiejętności', en: 'Featured skills' }),
@@ -132,6 +147,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     about: visibleSections.has('about') ? aboutItems : [],
     projects: visibleSections.has('projects') ? projects : [],
     experience: visibleSections.has('experience') ? experience : [],
+    education: visibleSections.has('education') ? education : [],
     skills: visibleSections.has('skills') ? orderedSkills : [],
   };
 }

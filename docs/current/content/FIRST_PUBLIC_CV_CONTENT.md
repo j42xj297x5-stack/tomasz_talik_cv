@@ -1,6 +1,6 @@
 # Pierwsza publiczna paczka treści CV
 
-Status: ROBOCZY / TREŚĆ DO IMPLEMENTACJI
+Status: ROBOCZY / TREŚĆ CZĘŚCIOWO WDROŻONA
 Obszar: content
 Cel: źródło treści dla pierwszej pełnej wersji danych JSON projektu „Tomasz Talik CV”
 Języki: polski i angielski
@@ -124,6 +124,11 @@ EN:
 Illustrated portrait of Tomasz Talik
 
 Projektant dostarczy finalny plik zasobu oddzielnie.
+
+
+## Sekcja „Wykształcenie”
+
+Sekcja wykształcenia jest obsługiwana w danych, schemacie, view modelu i frontendzie. Pierwsze dwa wpisy — Akademia Techniczno-Humanistyczna w Bielsku-Białej oraz technikum elektroniczne — pozostają w statusie `draft`, więc są widoczne tylko w `?preview=draft`. Historyczna nazwa ATH nie jest tłumaczona w wariancie angielskim i nie jest przypisywana obecnemu Uniwersytetowi Bielsko-Bialskiemu.
 
 ## 6. Projekty
 

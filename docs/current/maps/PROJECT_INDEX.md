@@ -29,16 +29,17 @@ Ten dokument mapuje aktualne źródła prawdy po ukończeniu pierwszego działaj
 | --- | --- |
 | `package.json` | Skrypty `dev`, `build`, `validate:content` i zależności Vite/Ajv |
 | `vite.config.js` | Konfiguracja Vite z relatywną bazą |
-| `content/public/*.json` | Publiczne dane CV; obecnie większość rzeczywistej treści ma status `draft` |
+| `content/public/*.json` | Publiczne dane CV, w tym `education.json`; obecnie większość rzeczywistej treści ma status `draft` |
 | `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` | Robocza paczka źródłowa dla pierwszych treści, przeniesiona z katalogu głównego dokumentacji roboczej |
 | `content/profiles/default.json` | Bezpieczny profil awaryjny `default` |
-| `content/schemas/*.schema.json` | Kontrakt danych JSON |
+| `content/schemas/*.schema.json` | Kontrakt danych JSON, w tym `education.schema.json` |
 | `src/app/content-loader.js` | Import publicznych JSON i profili przez eager glob |
 | `src/app/profile-resolver.js` | Wybór profilu przez `?p=` i fallback do `default` |
-| `src/app/view-model.js` | Łączenie danych, filtrowanie `published`, ukrywanie pustych sekcji |
+| `src/app/view-model.js` | Łączenie danych, filtrowanie `published` lub `published` + `draft` w `?preview=draft`, ukrywanie pustych sekcji |
 | `src/app/bootstrap.js` | Składanie strony, komunikat fallbacku i jedna karta CV |
 | `src/components/hero-card.js` | Górna część karty, opcjonalny portret, akcje i `window.print()` |
 | `src/components/accordion.js` | Dostępny accordion z maksymalnie jednym otwartym panelem |
+| `src/sections/education-section.js` | Renderer sekcji wykształcenia używający wspólnego accordionu i bezpiecznych narzędzi DOM |
 | `src/styles/print.css` | Widok drukowany pokazujący opublikowane sekcje niezależnie od accordionu |
 
 ## Decyzje przekrojowe
@@ -47,7 +48,7 @@ Ten dokument mapuje aktualne źródła prawdy po ukończeniu pierwszego działaj
 * Publiczne profile wybiera `?p=<profileId>`; nieistniejący profil wraca do `profile default` i pokazuje zwarty pasek fallbacku.
 * UI jest jedną wspólną kartą CV o maksymalnej szerokości około 940 px, z podejściem mobile first i motywem przez `prefers-color-scheme`.
 * Accordion używa dostępnych przycisków i aria; jednocześnie otwarty może być najwyżej jeden panel, a wszystkie panele można zamknąć.
-* Elementy `draft` i `archived` oraz puste sekcje są ukrywane.
+* Elementy `draft` są widoczne tylko przez `?preview=draft`; `archived` oraz puste sekcje są ukrywane zawsze.
 * Publiczny widok może obecnie pokazać tylko imię i nazwisko, ponieważ większość treści pozostaje `draft`.
 * PDF jest wydrukiem aktualnego HTML i view modelu przez `window.print()` oraz `print.css`; nie jest statycznym plikiem.
 * Streamlit i Playwright pozostają przyszłe i mają używać tego samego HTML, view modelu i stylów wydruku.

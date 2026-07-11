@@ -2,6 +2,7 @@ import identity from '../../content/public/identity.json';
 import about from '../../content/public/about.json';
 import projects from '../../content/public/projects.json';
 import experience from '../../content/public/experience.json';
+import education from '../../content/public/education.json';
 import skills from '../../content/public/skills.json';
 import links from '../../content/public/links.json';
 
@@ -26,6 +27,7 @@ export function loadContent() {
       about,
       projects,
       experience,
+      education,
       skills,
       links,
     },

@@ -13,6 +13,7 @@ content/public/identity.json     # podstawowa tożsamość publiczna i opcjonaln
 content/public/about.json        # publiczne teksty opisowe
 content/public/projects.json     # projekty i ich relacje do umiejętności
 content/public/experience.json   # publiczne doświadczenie, bez danych niepotwierdzonych
+content/public/education.json    # wykształcenie; obecne wpisy pozostają draft
 content/public/skills.json       # umiejętności
 content/public/links.json        # publiczne linki
 content/profiles/default.json    # bezpieczny profil awaryjny
@@ -43,7 +44,7 @@ Każdy element wybierany przez profil musi mieć trwały identyfikator niezależ
 
 ## Status elementów
 
-Frontend renderuje wyłącznie elementy ze statusem `published`. Elementy `draft` i `archived` są całkowicie ukrywane; jeśli po filtrowaniu sekcja nie ma publicznej treści, nie renderuje się także jej nagłówek.
+Frontend renderuje wyłącznie elementy ze statusem `published`, a w trybie `?preview=draft` elementy `published` i `draft`. Poza podglądem elementy `draft` są ukrywane, a `archived` są ukrywane zawsze; jeśli po filtrowaniu sekcja nie ma publicznej treści, nie renderuje się także jej nagłówek.
 
 Elementy treści mają status:
 
@@ -95,6 +96,10 @@ PDF powstaje z aktualnie wyrenderowanego HTML i view modelu profilu przez `windo
 
 Dzięki temu dane pozostają niezależne od domeny i `BASE_URL`.
 
+## Wykształcenie
+
+Sekcja `education` korzysta z `content/public/education.json` i `content/schemas/education.schema.json`. Minimalny wpis zawiera `stableId`, `status`, `institution`, `degree`, opcjonalną `specialization`, `period` oraz tablicę lokalizowanych akapitów `description`. Prace dyplomowe są opisane w akapitach, bez osobnej rozbudowanej struktury. Oba pierwsze wpisy pozostają `draft`, więc publicznie są ukryte bez `?preview=draft`. `?preview=draft` nie jest mechanizmem prywatności, bo dane JSON są częścią publicznej paczki aplikacji.
+
 ## Walidacja
 
 Walidację uruchamia się poleceniem:
@@ -103,7 +108,7 @@ Walidację uruchamia się poleceniem:
 npm run validate:content
 ```
 
-Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików z JSON Schema, duplikaty identyfikatorów, relacje profili do projektów i umiejętności, duplikaty w tablicach kolejności, nieistniejące sekcje, niedozwolone pola profilu, ścieżki zasobów, podejrzane klucze (`phone`, `address`, `secret`, `token`, `privateData`) oraz długość `companyMessage` dla profili firmowych. Przy błędzie kończy działanie kodem `1`, a przy sukcesie kodem `0`.
+Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików z JSON Schema, duplikaty identyfikatorów `id` i `stableId`, relacje profili do projektów i umiejętności, duplikaty w tablicach kolejności, nieistniejące sekcje, niedozwolone pola profilu, ścieżki zasobów, podejrzane klucze (`phone`, `address`, `secret`, `token`, `privateData`) oraz długość `companyMessage` dla profili firmowych. Przy błędzie kończy działanie kodem `1`, a przy sukcesie kodem `0`.
 
 ## Zależności
 

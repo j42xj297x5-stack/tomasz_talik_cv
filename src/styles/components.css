@@ -115,9 +115,13 @@
   line-height: 1.4;
   vertical-align: middle;
 }
-.experience-entry + .experience-entry { margin-top: var(--space-4); }
-.experience-entry h3 { margin: 0; }
-.experience-entry p { margin: var(--space-2) 0 0; color: var(--color-text-secondary); }
+.experience-entry + .experience-entry,
+.education-entry + .education-entry { margin-top: var(--space-4); }
+.experience-entry h3,
+.education-entry h3 { margin: 0; }
+.experience-entry p,
+.education-entry p { margin: var(--space-2) 0 0; color: var(--color-text-secondary); }
+.education-entry__meta { font-weight: 700; }
 .skills-list {
   display: flex;
   flex-wrap: wrap;
