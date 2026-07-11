@@ -27,10 +27,13 @@
     "links"
   ],
   "projectOrder": [
-    "project-haiku-cosmos"
+    "project-haiku-cosmos",
+    "project-dig-engine",
+    "project-interactive-ai-portfolio"
   ],
   "featuredProjectIds": [
-    "project-haiku-cosmos"
+    "project-haiku-cosmos",
+    "project-dig-engine"
   ],
   "skillOrder": [
     "skill-javascript",
