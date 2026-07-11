@@ -7,13 +7,14 @@ import addFormats from 'ajv-formats';
 const root = process.cwd();
 const errors = [];
 const suspicious = new Set(['phone', 'address', 'secret', 'token', 'privateData']);
-const sections = new Set(['identity', 'about', 'projects', 'experience', 'skills', 'links']);
+const sections = new Set(['about', 'projects', 'experience', 'education', 'skills', 'contact']);
 const profileFields = new Set(['profileId', 'company', 'targetRole', 'headline', 'companyMessage', 'accent', 'sectionOrder', 'visibleSections', 'projectOrder', 'featuredProjectIds', 'skillOrder', 'featuredSkillIds', 'pdf', 'protectedScopes']);
 const files = {
   'content/public/identity.json': 'content/schemas/identity.schema.json',
   'content/public/about.json': 'content/schemas/about.schema.json',
   'content/public/projects.json': 'content/schemas/projects.schema.json',
   'content/public/experience.json': 'content/schemas/experience.schema.json',
+  'content/public/education.json': 'content/schemas/education.schema.json',
   'content/public/skills.json': 'content/schemas/skills.schema.json',
   'content/public/links.json': 'content/schemas/links.schema.json'
 };
@@ -41,9 +42,10 @@ function walk(value, file, parts = []) {
 function collectIds(doc, file, seen) {
   const items = Array.isArray(doc.items) ? doc.items : [doc];
   for (const item of items) {
-    if (!item?.id) continue;
-    if (seen.has(item.id)) addError(file, '/id', `Duplikat identyfikatora: ${item.id}`);
-    seen.add(item.id);
+    const id = item?.id || item?.stableId;
+    if (!id) continue;
+    if (seen.has(id)) addError(file, item?.id ? '/id' : '/stableId', `Duplikat identyfikatora: ${id}`);
+    seen.add(id);
   }
 }
 function dupes(values = []) { return [...new Set(values.filter((v, i) => values.indexOf(v) !== i))]; }

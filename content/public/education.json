@@ -1,0 +1,50 @@
+{
+  "items": [
+    {
+      "stableId": "education-ath-environmental-engineering",
+      "status": "draft",
+      "institution": {
+        "pl": "Akademia Techniczno-Humanistyczna w Bielsku-Białej",
+        "en": "Akademia Techniczno-Humanistyczna w Bielsku-Białej"
+      },
+      "degree": {
+        "pl": "Magister inżynier — Inżynieria Ochrony Środowiska",
+        "en": "Master of Engineering — Environmental Engineering"
+      },
+      "specialization": {
+        "pl": "Akustyka pomieszczeń",
+        "en": "Room Acoustics"
+      },
+      "period": "10/2000–06/2005",
+      "description": [
+        {
+          "pl": "Studia o szerokim profilu inżynierskim, obejmującym między innymi fizykę, matematykę, chemię, hydrologię, mikrobiologię, budownictwo i fizykę hałasu. Rozległy program rozwinął zdolność samodzielnego poznawania nowych dziedzin, analizowania złożonych zagadnień oraz łączenia wiedzy technicznej z praktycznym badaniem problemu.",
+          "en": "A broad engineering programme covering physics, mathematics, chemistry, hydrology, microbiology, construction and noise physics. The multidisciplinary curriculum developed my ability to independently enter new fields, analyse complex problems and connect technical knowledge with practical investigation."
+        },
+        {
+          "pl": "Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Praca magisterska łączyła część teoretyczną z badaniem akustyki pomieszczeń, analizą czasu pogłosu w pasmach częstotliwości oraz komputerową symulacją rozchodzenia się dźwięku.",
+          "en": "The engineering thesis focused on active and passive vibration damping. The master’s thesis combined theoretical work with room-acoustics research, frequency-based reverberation-time analysis and computer simulation of sound propagation."
+        }
+      ]
+    },
+    {
+      "stableId": "education-electronics-technician",
+      "status": "draft",
+      "institution": {
+        "pl": "Zespół Szkół Elektronicznych, Elektrycznych i Mechanicznych im. Jędrzeja Śniadeckiego w Bielsku-Białej",
+        "en": "Zespół Szkół Elektronicznych, Elektrycznych i Mechanicznych im. Jędrzeja Śniadeckiego w Bielsku-Białej"
+      },
+      "degree": {
+        "pl": "Technik elektronik",
+        "en": "Electronics Technician"
+      },
+      "period": "09/1995–06/2000",
+      "description": [
+        {
+          "pl": "Wykształcenie techniczne połączone z praktyką zawodową w serwisie elektronicznym. Projekt końcowy dotyczył przełączania tranzystorów. Doświadczenie to zbudowało fundament rozumienia zależności pomiędzy fizycznym urządzeniem, interfejsem, elektroniką i logiką działania.",
+          "en": "Technical education combined with professional practice in an electronics repair service. The final technical project focused on transistor switching. This experience created a foundation for understanding the relationship between physical devices, interfaces, electronics and system logic."
+        }
+      ]
+    }
+  ]
+}

@@ -11,20 +11,20 @@
   },
   "accent": "default",
   "sectionOrder": [
-    "identity",
     "about",
     "projects",
     "experience",
+    "education",
     "skills",
-    "links"
+    "contact"
   ],
   "visibleSections": [
-    "identity",
     "about",
     "projects",
-    "skills",
     "experience",
-    "links"
+    "education",
+    "skills",
+    "contact"
   ],
   "projectOrder": [
     "project-haiku-cosmos",

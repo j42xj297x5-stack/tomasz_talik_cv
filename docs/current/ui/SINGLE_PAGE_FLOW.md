@@ -16,7 +16,7 @@ Karta główna prezentuje dostępne publiczne informacje z view modelu: imię i 
 
 Sekcje szczegółowe są zwartymi wierszami accordionu rozdzielonymi subtelnymi liniami. Domyślnie wszystkie panele są zamknięte. Jednocześnie otwarty może być najwyżej jeden panel, a kliknięcie otwartego panelu zamyka wszystkie. Przyciski używają `aria-expanded` i `aria-controls`; panele używają `role="region"`, `aria-labelledby` i atrybutu `hidden`.
 
-Sekcje bez opublikowanej treści nie są renderowane. Elementy `draft` i `archived` pozostają ukryte.
+Sekcje bez opublikowanej treści nie są renderowane. Elementy `draft` są ukryte poza `?preview=draft`, a `archived` pozostają ukryte zawsze. Sekcja wykształcenia działa jak pozostałe panele accordionu, bez powtórzonego tytułu wewnątrz rozwiniętego widoku ekranowego; semantyczny nagłówek jest dostępny dla wydruku, który pokazuje nagłówek sekcji raz.
 
 ## Motyw
 
@@ -29,3 +29,7 @@ Interfejs jest projektowany mobile first i działa jako jedna responsywna strona
 ## Aktualny efekt danych
 
 Ponieważ większość rzeczywistej treści CV pozostaje `draft`, publiczny widok może obecnie zawierać tylko imię i nazwisko. Jest to poprawny skutek filtrowania `published`, nie błąd układu.
+
+## Podgląd i wydruk szkiców
+
+`?preview=draft` pokazuje wpisy `draft`, w tym wykształcenie, ale nie jest mechanizmem prywatności. W wydruku treści widoczne w podglądzie pozostają widoczne, natomiast znaczniki `Szkic` / `Draft` są ukryte.
