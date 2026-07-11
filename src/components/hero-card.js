@@ -41,10 +41,10 @@ export function createHeroCard(hero, options = {}) {
   const { language = 'pl', labels = {}, onLanguageChange = () => {} } = options;
   const card = createElement('header', { className: 'hero-card' });
   const content = createElement('div', { className: 'hero-card__content' });
-  const media = hero.portrait?.src
+  const media = hero.avatar?.src
     ? createElement('img', {
-        className: 'hero-card__portrait',
-        attributes: { src: getAssetUrl(hero.portrait.src), alt: hero.portrait.alt?.[language] || hero.portrait.alt?.pl || '' },
+        className: 'hero-card__avatar',
+        attributes: { src: getAssetUrl(hero.avatar.src), alt: hero.avatar.alt?.[language] || hero.avatar.alt?.pl || '' },
       })
     : null;
   const title = createElement('h1', { className: 'hero-card__name', text: hero.name });
