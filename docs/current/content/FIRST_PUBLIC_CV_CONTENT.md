@@ -288,7 +288,8 @@ Technologie:
 
 - Python;
 - PySide6;
-- MySQL;
+- SQLite;
+- FTS5;
 - SQL;
 - REST API;
 - CSV;
@@ -298,9 +299,15 @@ Technologie:
 
 Repozytorium:
 
-https://github.com/j42xj297x5-stack/spotify-digger-pierwsza-galaz
+Repozytorium DIG Engine pozostaje prywatne i nie jest publicznym odnośnikiem CV. Publiczne repozytorium może być rozważone jako przyszły etap po osobnym audycie sekretów i danych.
 
-Przed publikacją linku należy potwierdzić, że repozytorium zostało ustawione jako publiczne.
+Publiczna prezentacja:
+
+Publiczna prezentacja DIG Engine odbywa się przez studium przypadku w portfolio, galerię, animowaną demonstrację oraz pełny pokaz działania na życzenie.
+
+Studium przypadku:
+
+https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/
 
 Demonstracja:
 
@@ -741,15 +748,15 @@ Haiku Cosmos — repozytorium:
 
 https://github.com/j42xj297x5-stack/Haiku-Cosmos
 
-DIG Engine — repozytorium:
+DIG Engine — studium przypadku / portfolio:
 
-https://github.com/j42xj297x5-stack/spotify-digger-pierwsza-galaz
+https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/
 
 DIG Engine — demonstracja:
 
 https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/gif/DIG_engine.gif
 
-Przed publikacją DIG Engine należy sprawdzić publiczną dostępność repozytorium.
+Repozytorium DIG Engine pozostaje prywatne i nie należy do listy publicznych odnośników. Publiczna prezentacja odbywa się przez studium przypadku, galerię, demonstrację i pokaz na życzenie. Publiczne repozytorium to przyszły etap po osobnym audycie sekretów i danych.
 
 ## 12. Kolejność sekcji profilu default
 

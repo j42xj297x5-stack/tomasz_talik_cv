@@ -1,3 +1,58 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "link-github-profile",
+      "status": "draft",
+      "label": {
+        "pl": "Profil GitHub",
+        "en": "GitHub profile"
+      },
+      "url": "https://github.com/j42xj297x5-stack"
+    },
+    {
+      "id": "link-portfolio",
+      "status": "draft",
+      "label": {
+        "pl": "Portfolio",
+        "en": "Portfolio"
+      },
+      "url": "https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/"
+    },
+    {
+      "id": "link-portfolio-repository",
+      "status": "draft",
+      "label": {
+        "pl": "Repozytorium portfolio",
+        "en": "Portfolio repository"
+      },
+      "url": "https://github.com/j42xj297x5-stack/tomasz-talik-portfolio"
+    },
+    {
+      "id": "link-haiku-cosmos-demo",
+      "status": "draft",
+      "label": {
+        "pl": "Demo Haiku Cosmos",
+        "en": "Haiku Cosmos demo"
+      },
+      "url": "https://j42xj297x5-stack.github.io/Haiku-Cosmos/"
+    },
+    {
+      "id": "link-haiku-cosmos-repository",
+      "status": "draft",
+      "label": {
+        "pl": "Repozytorium Haiku Cosmos",
+        "en": "Haiku Cosmos repository"
+      },
+      "url": "https://github.com/j42xj297x5-stack/Haiku-Cosmos"
+    },
+    {
+      "id": "link-dig-engine-demo",
+      "status": "draft",
+      "label": {
+        "pl": "Demonstracja DIG Engine",
+        "en": "DIG Engine demonstration"
+      },
+      "url": "https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/gif/DIG_engine.gif"
+    }
+  ]
 }

@@ -4,10 +4,40 @@
       "id": "project-haiku-cosmos",
       "status": "draft",
       "title": {
-        "pl": "Haiku Cosmos"
+        "pl": "Haiku Cosmos",
+        "en": "Haiku Cosmos"
       },
       "summary": {
-        "pl": "Projekt wymieniony w dokumentacji jako element portfolio. Opis wymaga uzupełnienia potwierdzonymi szczegółami przed publikacją."
+        "pl": "Od 01/2026. Rola: Creator, Game Systems Designer & Technical Lead. Autorska kontemplacyjna gra-system, w której działania gracza wpływają na stan i ewolucję świata. Projekt łączy mechaniki gry, generatywny kosmos, system kart, warstwę poetycką i narzędzia diagnostyczne. Praktycznie używane technologie: JavaScript, Three.js, Canvas2D, Vite, Node.js, HTML, CSS, JSON, Git, GitHub, Blender, Inkscape, Figma i SVG. Publiczne demo i repozytorium są dostępne.",
+        "en": "Since 01/2026. Role: Creator, Game Systems Designer & Technical Lead. An original contemplative game-system in which player actions influence the state and evolution of the world. The project combines game mechanics, a generative cosmos, a card system, poetic content and diagnostic tooling. Technologies used in practice: JavaScript, Three.js, Canvas2D, Vite, Node.js, HTML, CSS, JSON, Git, GitHub, Blender, Inkscape, Figma and SVG. Public demo and repository are available."
+      },
+      "skillIds": [
+        "skill-javascript",
+        "skill-three-js"
+      ]
+    },
+    {
+      "id": "project-dig-engine",
+      "status": "draft",
+      "title": {
+        "pl": "DIG Engine",
+        "en": "DIG Engine"
+      },
+      "summary": {
+        "pl": "Od 03/2026. Rola: Creator & System Designer. Lokalny system eksploracji muzyki i pracy z rozbudowanymi bibliotekami danych. Łączy integracje Spotify, Last.fm i Discogs, lokalną bazę Discogs opartą o SQLite i FTS5, system DNA zapamiętujący decyzje użytkownika oraz Workflow Composer. Implementacja obejmuje Python i PySide6, interfejs terminalowy, fundament GUI, diagnostykę, manifesty uruchomień i dzienniki zdarzeń. Projekt rozwijany lokalnie. Studium przypadku i demonstracja są dostępne w portfolio; pełny pokaz działania na życzenie.",
+        "en": "Since 03/2026. Role: Creator & System Designer. A local system for music discovery and working with large music datasets. It combines Spotify, Last.fm and Discogs integrations, a local Discogs database based on SQLite and FTS5, a DNA system that records user decisions, and a Workflow Composer. The implementation includes Python and PySide6, a terminal interface, GUI foundations, diagnostics, run manifests and event logs. Developed as a local system. A case study and demonstration are available in the portfolio; a full working demo is available on request."
+      }
+    },
+    {
+      "id": "project-interactive-ai-portfolio",
+      "status": "draft",
+      "title": {
+        "pl": "Interactive AI Portfolio",
+        "en": "Interactive AI Portfolio"
+      },
+      "summary": {
+        "pl": "Od 2026. Rola: Creative Technologist. Interaktywna przestrzeń Three.js pełniąca funkcję środowiska prezentacyjnego dla projektów, w tym Haiku Cosmos i DIG Engine. Publiczne demo i repozytorium są dostępne.",
+        "en": "Since 2026. Role: Creative Technologist. An interactive Three.js space that serves as a presentation environment for projects, including Haiku Cosmos and DIG Engine. Public demo and repository are available."
       },
       "skillIds": [
         "skill-javascript",
