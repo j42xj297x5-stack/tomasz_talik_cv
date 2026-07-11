@@ -103,3 +103,18 @@
   .hero-card__portrait { width: min(9rem, 55vw); }
   .section-content { padding: var(--space-4) var(--space-5) var(--space-5); }
 }
+.draft-badge {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+.experience-entry + .experience-entry { margin-top: var(--space-4); }
+.experience-entry h3 { margin: 0; }
+.experience-entry p { margin: var(--space-2) 0 0; color: var(--color-text-secondary); }
