@@ -490,7 +490,7 @@ Wieloletnia praktyka obejmująca produkcję muzyczną, pracę DJ-ską, realizacj
 
 Tworzyłem i rozwijałem projekty od koncepcji po publikację: przygotowywałem muzykę, identyfikację wizualną, materiały promocyjne, wydarzenia, kanały komunikacji oraz zaplecze techniczne. Doświadczenie to stanowi fundament mojego obecnego podejścia do łączenia technologii, narracji, obrazu, dźwięku i interakcji.
 
-Projektowałem i współtworzyłem również niskobudżetowe, demontowalne adaptacje akustyczne sal prób, dobierając rozwiązania do funkcji pomieszczenia, dostępnych materiałów i rzeczywistych warunków użytkowania.
+Projektowałem i współtworzyłem niskobudżetowe adaptacje akustyczne sal prób. Jednym z takich działań było wydzielenie strefy prób w wielofunkcyjnej betonowej hali przy użyciu zawieszanych dywanów i podłogi z palet. Rozwiązanie musiało poprawiać warunki grania, a jednocześnie umożliwiać szybkie przywrócenie przestrzeni do funkcji koncertowej i eventowej.
 
 Opis EN:
 
@@ -498,7 +498,7 @@ Long-term independent practice covering music production, DJ work, sound enginee
 
 Developed projects from concept to publication, including music, visual identity, promotional materials, events, communication channels and technical infrastructure. This experience forms the foundation of my current approach to connecting technology, narrative, image, sound and interaction.
 
-I also designed and helped build low-cost, demountable acoustic treatments for rehearsal rooms, adapting solutions to each space, the available materials and real-world use constraints.
+I designed and helped build low-budget acoustic treatments for rehearsal rooms. One such project involved creating a rehearsal zone inside a multi-purpose concrete hall using hanging carpets and a pallet floor. The solution had to improve rehearsal conditions while allowing the space to be quickly restored for concerts and events.
 
 Okres pozostaje aktywny do chwili obecnej. Zmieniły się narzędzia i obszary twórczości, ale praktyka tworzenia trwa nadal.
 
@@ -701,19 +701,19 @@ Environmental Engineering
 
 Opis PL:
 
-Studia o szerokim profilu inżynierskim, obejmującym między innymi fizykę, matematykę, chemię, hydrologię, mikrobiologię, budownictwo i fizykę hałasu. Rozległy program rozwinął zdolność samodzielnego poznawania nowych dziedzin, analizowania złożonych zagadnień oraz łączenia wiedzy technicznej z praktycznym badaniem problemu.
+Program studiów obejmował szerokie podstawy naukowe i inżynierskie — od matematyki, fizyki, chemii, biologii środowiska, geologii i mechaniki płynów po technologię wody i ścieków, gospodarkę odpadami, ochronę powietrza, systemy HVAC, monitoring środowiska, instalacje przemysłowe oraz zagrożenia wibroakustyczne. Obejmował również ocenę oddziaływania inwestycji na środowisko, zarządzanie środowiskowe, prawo i ekonomię środowiska. Tak szeroki program rozwinął moją zdolność samodzielnego poznawania nowych dziedzin, analizowania złożonych zależności i łączenia wiedzy technicznej z wymaganiami użytkowymi oraz środowiskowymi.
 
 Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Temat pracy magisterskiej: „Dobór efektywnych rozwiązań w kształtowaniu parametrów akustycznych pomieszczeń przy różnych zastosowaniach funkcjonalnych”.
 
-W pracy magisterskiej porównałem dwie kontrastowe przestrzenie: uczelnianą salę wykładową oraz niską, betonową halę wykorzystywaną jako sala prób, przestrzeń koncertowa i miejsce wydarzeń. Na podstawie analizy czasu pogłosu w pasmach częstotliwości i symulacji komputerowych opracowałem teoretyczne zalecenia dotyczące funkcjonalnej, ekonomicznej i możliwej do demontażu adaptacji akustycznej. Praca koncentrowała się na kształtowaniu akustyki wnętrza, a nie na izolacji dźwięku od otoczenia.
+W pracy magisterskiej porównałem dwie kontrastowe przestrzenie: uczelnianą salę wykładową oraz niską, betonową halę wykorzystywaną jako sala prób, przestrzeń koncertowa i miejsce wydarzeń. Drugą z nich znałem wcześniej z praktyki — wspólnie z kolegami wydzieliliśmy w niej niskobudżetową strefę prób, wykorzystując zawieszane dywany i demontowalną podłogę z palet. Elementy musiały być usuwane przed wydarzeniami, dlatego rozwiązanie powstało z uwzględnieniem rzeczywistych ograniczeń przestrzeni, sposobu użytkowania i budżetu. Sala stała się dzięki temu naturalnym miejscem badań. Na podstawie analizy czasu pogłosu w pasmach częstotliwości i symulacji komputerowych opracowałem propozycje poprawy akustyki dopasowane do funkcji badanych pomieszczeń. Praca koncentrowała się na kształtowaniu akustyki wnętrza, a nie na izolacji dźwięku od otoczenia.
 
 Opis EN:
 
-A broad engineering programme covering physics, mathematics, chemistry, hydrology, microbiology, construction and noise physics. The multidisciplinary curriculum developed my ability to independently enter new fields, analyse complex problems and connect technical knowledge with practical investigation.
+The programme provided broad scientific and engineering foundations, ranging from mathematics, physics, chemistry, environmental biology, geology and fluid mechanics to water and wastewater technology, waste management, air protection, HVAC systems, environmental monitoring, industrial installations and vibroacoustic hazards. It also covered environmental impact assessment, environmental management, law and environmental economics. This broad curriculum developed my ability to independently enter new fields, analyse complex relationships and connect technical knowledge with practical, functional and environmental requirements.
 
 The engineering thesis focused on active and passive vibration damping. Master’s thesis: “Selection of effective solutions for shaping room-acoustic parameters across different functional uses”.
 
-The master’s thesis compared two contrasting spaces: a university lecture room and a low concrete hall used for rehearsals, concerts and events. Based on frequency-band reverberation-time analysis and computer simulation, I developed theoretical recommendations for functional, economical and demountable acoustic treatment. The work focused on shaping internal room acoustics rather than sound isolation.
+The master’s thesis compared two contrasting spaces: a university lecture room and a low concrete hall used for rehearsals, concerts and events. I already knew the second space from practice — together with friends, I had helped create a low-budget rehearsal zone using hanging carpets and a removable pallet floor. The elements had to be cleared before events, so the solution was shaped by the actual constraints of the space, its changing use and the available budget. This made the hall a natural test environment. Using frequency-band reverberation-time analysis and computer simulations, I developed recommendations for improving the acoustics of both spaces according to their intended functions. The work focused on shaping internal room acoustics rather than sound isolation.
 
 W wersji angielskiej należy zachować historyczną nazwę uczelni z okresu studiów: University of Technology and Humanities in Bielsko-Biala. Nie przypisywać dyplomu obecnemu Uniwersytetowi Bielsko-Bialskiemu.
 
