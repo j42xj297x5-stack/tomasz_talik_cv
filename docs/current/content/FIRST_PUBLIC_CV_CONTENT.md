@@ -901,3 +901,8 @@ content/profiles/default.json
 Nie zmieniać schematów JSON bez wcześniejszej analizy.
 
 Nie dodawać edukacji do niepasującego pola tylko po to, aby znalazła się w pierwszym wdrożeniu.
+## Aktualizacja implementacyjna: podgląd szkiców i doświadczenie
+
+Aplikacja obsługuje jawny tryb roboczego przeglądania treści przez parametr `?preview=draft`. Tryb pokazuje treści `published` oraz `draft`, pozostawiając `archived` całkowicie ukryte. Nie jest mechanizmem prywatności: wszystkie dane zapisane w publicznych plikach JSON należy traktować jako publiczne także wtedy, gdy mają status `draft`.
+
+Wdrożono pierwszą publiczną sekcję doświadczenia z czterema wpisami roboczymi: Usługi Informatyczne Szansa, Teatr Lalek Banialuka, Niezależna praktyka twórcza i produkcyjna oraz T&T s.c.

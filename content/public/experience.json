@@ -1,3 +1,52 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "experience-ui-szansa",
+      "status": "draft",
+      "title": {
+        "pl": "Usługi Informatyczne Szansa",
+        "en": "Usługi Informatyczne Szansa"
+      },
+      "summary": {
+        "pl": "Rola: Inżynier sprzedaży systemów CAD / Opiekun klienta. Okres: 07/2024–obecnie. Obszar: Technologie, dokumentacja i praca z klientem. Samodzielnie poznawałem rozbudowany parametryczny system CAD ZW3D i opracowywałem bazę wiedzy obejmującą setki funkcji, ich zastosowań, przepływów pracy i odpowiedników w innych środowiskach CAD. Wykorzystywałem AI do przyspieszania analizy funkcji, tłumaczenia dokumentacji oraz tworzenia uporządkowanych materiałów technicznych i marketingowych. Prowadziłem rozmowy z klientami przemysłowymi, wspierałem kampanie sprzedażowe oraz tworzyłem narzędzia usprawniające wyszukiwanie potencjalnych odbiorców.",
+        "en": "Role: CAD Systems Sales Engineer / Account Manager. Period: 07/2024–present. Area: Technology, documentation and client work. Independently explored the ZW3D parametric CAD system and developed a knowledge base covering hundreds of functions, their applications, workflows and equivalents in other CAD environments. Used AI to accelerate feature analysis, documentation translation and the creation of structured technical and marketing materials. Communicated with industrial clients, supported sales campaigns and developed tools improving prospect research."
+      }
+    },
+    {
+      "id": "experience-banialuka",
+      "status": "draft",
+      "title": {
+        "pl": "Teatr Lalek Banialuka",
+        "en": "Banialuka Puppet Theatre"
+      },
+      "summary": {
+        "pl": "Rola: Realizator światła i dźwięku / Elektroakustyk. Okres: 09/2022–12/2023. Obszar: Produkcja twórcza i systemy czasu rzeczywistego. Realizowałem dźwięk i światło podczas przedstawień, obsługiwałem technikę sceniczną oraz reagowałem na zdarzenia w czasie rzeczywistym. Współpracowałem z zespołem artystycznym i technicznym, uczestniczyłem w ustawianiu światła oraz rozwiązywałem drobne problemy elektryczne, akustyczne i sprzętowe. Praca w teatrze rozwinęła moje rozumienie dramaturgii światła, przestrzeni, rytmu, uwagi odbiorcy oraz działania systemów, które muszą pozostać stabilne podczas występu na żywo.",
+        "en": "Role: Lighting and Sound Technician / Electroacoustic Technician. Period: 09/2022–12/2023. Area: Creative production and real-time systems. Operated sound and lighting during performances, handled stage technology and responded to live events in real time. Collaborated with artistic and technical teams, participated in lighting setup and resolved minor electrical, acoustic and equipment issues. Theatre work developed my understanding of lighting dramaturgy, space, rhythm, audience attention and systems that must remain reliable during live performance."
+      }
+    },
+    {
+      "id": "experience-independent-creative-practice",
+      "status": "draft",
+      "title": {
+        "pl": "Niezależna praktyka twórcza i produkcyjna",
+        "en": "Independent Creative and Production Practice"
+      },
+      "summary": {
+        "pl": "Rodzaj: Działalność równoległa, niezależna i projektowa. Okres: 1998–obecnie. Obszar: Technologia, narracja, obraz, dźwięk i interakcja. Wieloletnia praktyka obejmująca produkcję muzyczną, pracę DJ-ską, realizację dźwięku, organizację wydarzeń, prowadzenie radia internetowego, projektowanie grafik i okładek oraz prowadzenie netlabelu Ninjah Lab. Tworzyłem i rozwijałem projekty od koncepcji po publikację: przygotowywałem muzykę, identyfikację wizualną, materiały promocyjne, wydarzenia, kanały komunikacji oraz zaplecze techniczne. Doświadczenie to stanowi fundament mojego obecnego podejścia do łączenia technologii, narracji, obrazu, dźwięku i interakcji.",
+        "en": "Type: Parallel, independent and project-based practice. Period: 1998–present. Area: Technology, narrative, image, sound and interaction. Long-term independent practice covering music production, DJ work, sound engineering, event organisation, internet radio, graphic and cover design, and running the Ninjah Lab netlabel. Developed projects from concept to publication, including music, visual identity, promotional materials, events, communication channels and technical infrastructure. This experience forms the foundation of my current approach to connecting technology, narrative, image, sound and interaction."
+      }
+    },
+    {
+      "id": "experience-tt-small-business",
+      "status": "draft",
+      "title": {
+        "pl": "T&T s.c.",
+        "en": "T&T s.c."
+      },
+      "summary": {
+        "pl": "Firma: T&T s.c., Bielsko-Biała. Rola: Technik IT / Sprzedawca / Współprowadzenie małej firmy. Okres: 2002–2015. Obszar: Handel cyfrowy i systemy małej firmy. Współtworzyłem cyfrowe i sprzedażowe zaplecze małej firmy zajmującej się częściami do samochodów ciężarowych. Przygotowałem stronę internetową, sklep, aukcje, opisy produktów, fotografie, działania SEO i obecność firmy w serwisach sprzedażowych. Łączyłem techniczne rozpoznawanie części z analizą potrzeb klienta, obsługą magazynu, sprzedażą i codziennym funkcjonowaniem firmy. Działania internetowe pełniły przede wszystkim funkcję marketingową i przez lata wspierały wysoką widoczność firmy w wyszukiwarkach.",
+        "en": "Company: T&T s.c., Bielsko-Biała. Role: IT Technician / Technical Sales / Small Business Operations. Period: 2002–2015. Area: Digital commerce and small-business systems. Co-developed the digital and sales infrastructure of a small truck parts business. Created the website, online shop, marketplace listings, product descriptions, photography, SEO activities and the company’s online sales presence. Combined technical part identification with customer needs analysis, warehouse operations, sales and everyday small-business responsibilities. Online activities primarily supported marketing and maintained strong search visibility over several years."
+      }
+    }
+  ]
 }

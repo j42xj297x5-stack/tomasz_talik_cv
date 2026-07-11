@@ -73,3 +73,13 @@ Przycisk „Zapisz jako PDF” w `hero-card.js` wywołuje `window.print()`. Wydr
 ## Funkcje przyszłe
 
 Streamlit, Playwright i backend nie są zaimplementowane. Gdy zostaną dodane, Streamlit i Playwright mają używać tego samego HTML, view modelu i stylów wydruku, bez osobnego szablonu PDF.
+
+## Podgląd szkiców
+
+Parametr `?preview=draft` uruchamia jawny tryb roboczego przeglądania treści. View model otrzymuje ten tryb jako ustawienie i przekazuje do renderowania elementy `published` oraz `draft`; elementy `archived` pozostają ukryte w każdym trybie. Parametr działa równolegle z profilem, np. `?p=default&preview=draft`, nie zapisuje się w `localStorage` i nie wymaga przeładowania po zmianie języka.
+
+Tryb podglądu nie jest mechanizmem prywatności. Publiczne pliki JSON są częścią paczki aplikacji, dlatego dane zapisane w nich jako `draft` należy traktować jako publiczne.
+
+## Sekcja doświadczenia
+
+Wdrożono pierwszą sekcję doświadczenia renderowaną w istniejącym accordionie. Renderer używa wspólnych narzędzi DOM i `textContent`, bez `innerHTML` dla danych JSON. W trybie podglądu widoczne szkice dostają lokalizowany znacznik `Szkic` / `Draft`; znaczniki są ukrywane w stylach druku, ale same treści draft pozostają w wydruku, jeśli zostały wyrenderowane przez `?preview=draft`.

@@ -28,6 +28,7 @@
   }
 
   .notice,
+  .draft-badge,
   .hero-card__language-switch,
   .hero-card__actions,
   .accordion__button,
@@ -93,7 +94,8 @@
     margin-bottom: 0.5rem;
   }
 
-  .project-card {
+  .project-card,
+  .experience-entry {
     break-inside: avoid;
   }
 }

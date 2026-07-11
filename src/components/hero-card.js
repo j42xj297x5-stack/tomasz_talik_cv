@@ -6,6 +6,10 @@ const LANGUAGES = [
   { code: 'en', label: 'EN' },
 ];
 
+function createDraftBadge(labels) {
+  return createElement('span', { className: 'draft-badge', text: labels.draft || 'Szkic' });
+}
+
 function createLanguageSwitch(currentLanguage, onLanguageChange) {
   const switcher = createElement('div', {
     className: 'hero-card__language-switch',
@@ -49,8 +53,14 @@ export function createHeroCard(hero, options = {}) {
   const profileInfo = hero.profileInfo ? createElement('p', { className: 'hero-card__profile', text: hero.profileInfo }) : null;
   const skills = createElement('ul', { className: 'hero-card__skills', attributes: { 'aria-label': labels.featuredSkills || 'Wyróżnione umiejętności' } });
 
+  if (description && hero.descriptionIsDraft) {
+    description.appendChild(createDraftBadge(labels));
+  }
+
   hero.skills.forEach((skill) => {
-    skills.appendChild(createElement('li', { text: skill.name }));
+    const item = createElement('li', { text: skill.name });
+    if (skill.isDraft) item.appendChild(createDraftBadge(labels));
+    skills.appendChild(item);
   });
 
   const actions = createElement('div', { className: 'hero-card__actions' });
