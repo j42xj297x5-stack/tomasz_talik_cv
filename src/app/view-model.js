@@ -2,6 +2,8 @@ export const DEFAULT_LANGUAGE = 'pl';
 export const SUPPORTED_LANGUAGES = ['pl', 'en'];
 export const PREVIEW_DRAFT = 'draft';
 
+const ABOUT_SUMMARY_ID = 'about-public-summary';
+
 export function localizedText(value, language = DEFAULT_LANGUAGE) {
   if (!value) return '';
   if (typeof value === 'string') return value;
@@ -76,10 +78,12 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     }))
     .filter((item) => item.title || item.summary);
 
-  const aboutItems = (publicContent.about?.items || [])
+  const renderedAboutItems = (publicContent.about?.items || [])
     .filter(contentFilter)
     .map((item) => ({ id: item.id, text: resolveText(item.text), isDraft: isDraft(item) }))
     .filter((item) => item.text);
+  const heroSummary = renderedAboutItems.find((item) => item.id === ABOUT_SUMMARY_ID);
+  const aboutItems = renderedAboutItems.filter((item) => item.id !== ABOUT_SUMMARY_ID);
 
   const name = publicContent.identity?.name || '';
   const preferredHeadline = resolveText(profile.targetRole) || resolveText(profile.headline);
@@ -116,8 +120,8 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     hero: {
       name,
       headline,
-      description: aboutItems[0]?.text || '',
-      descriptionIsDraft: aboutItems[0]?.isDraft || false,
+      description: heroSummary?.text || '',
+      descriptionIsDraft: heroSummary?.isDraft || false,
       skills,
       profileInfo,
       portrait: publicContent.identity?.portrait || null,
