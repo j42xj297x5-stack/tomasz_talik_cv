@@ -12,6 +12,7 @@ Ten dokument mapuje aktualne źródła prawdy po ukończeniu pierwszego działaj
 | `docs/current/README.md` | Kanoniczny opis aktualnego stanu | wszystkie dokumenty szczegółowe |
 | `docs/current/maps/PROJECT_INDEX.md` | Mapa dokumentów, kodu i danych | `docs/current/README.md` |
 | `docs/current/content/CONTENT_MODEL.md` | Publiczne JSON, statusy, profile i konfiguracja PDF | personalizacja, UI, PDF |
+| `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` | Robocze źródło pierwszej paczki treści CV; nie opisuje funkcji ani treści już opublikowanych | model treści, dane publiczne |
 | `docs/current/product/PERSONALIZATION_SYSTEM.md` | Profile przez `?p=<profileId>` i fallback do `default` | model treści, bezpieczeństwo, UI |
 | `docs/current/ui/SINGLE_PAGE_FLOW.md` | Jedna karta CV, mobile first, accordion i aria | frontend, model treści, personalizacja |
 | `docs/current/security/ACCESS_AND_PRIVACY.md` | Rozdział danych publicznych i prywatnych | model treści, personalizacja, deployment |
@@ -29,6 +30,7 @@ Ten dokument mapuje aktualne źródła prawdy po ukończeniu pierwszego działaj
 | `package.json` | Skrypty `dev`, `build`, `validate:content` i zależności Vite/Ajv |
 | `vite.config.js` | Konfiguracja Vite z relatywną bazą |
 | `content/public/*.json` | Publiczne dane CV; obecnie większość rzeczywistej treści ma status `draft` |
+| `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` | Robocza paczka źródłowa dla pierwszych treści, przeniesiona z katalogu głównego dokumentacji roboczej |
 | `content/profiles/default.json` | Bezpieczny profil awaryjny `default` |
 | `content/schemas/*.schema.json` | Kontrakt danych JSON |
 | `src/app/content-loader.js` | Import publicznych JSON i profili przez eager glob |

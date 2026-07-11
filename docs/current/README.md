@@ -16,8 +16,11 @@ Projekt ma ukończony pierwszy działający pionowy przekrój aplikacji: statycz
 * Accordion ma dostępne przyciski z `aria-expanded`, `aria-controls`, panelami `role="region"` i `aria-labelledby`; jednocześnie może być otwarty najwyżej jeden panel, a kliknięcie otwartego panelu zamyka wszystkie.
 * Elementy `draft` i `archived` są ukrywane, a puste sekcje nie są renderowane.
 * Portret jest opcjonalny i nie tworzy pustego miejsca, jeśli nie ma go w danych.
+* `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` jest roboczym źródłem pierwszej paczki treści; dokument nie oznacza jeszcze publikacji tych treści w widoku publicznym.
 
 ## Aktualny stan danych
+
+Ryzyko modelu: rola, lokalizacja i model pracy z roboczej paczki nie mają obecnie osobnych pól ze statusem `draft` w `content/public/identity.json`, dlatego na tym etapie nie zostały dodane do danych tożsamości zamiast rozszerzania schematów.
 
 Większość rzeczywistej treści CV nadal ma status `draft`. Publiczny widok może obecnie zawierać wyłącznie imię i nazwisko „Tomasz Talik”. To oczekiwany efekt filtrowania po statusie `published`, a nie błąd aplikacji.
 
@@ -31,6 +34,7 @@ Ostateczny zakres, kolejność i wygląd treści PDF nie są jeszcze kanonem. Zo
 
 * Architektura frontendu: `docs/current/technical/FRONTEND_ARCHITECTURE.md`.
 * Model treści: `docs/current/content/CONTENT_MODEL.md`.
+* Robocza pierwsza paczka treści: `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md`.
 * Personalizacja: `docs/current/product/PERSONALIZATION_SYSTEM.md`.
 * Przepływ jednej strony: `docs/current/ui/SINGLE_PAGE_FLOW.md`.
 * Dostęp i prywatność: `docs/current/security/ACCESS_AND_PRIVACY.md`.
