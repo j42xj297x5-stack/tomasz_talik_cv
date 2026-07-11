@@ -82,7 +82,7 @@ Profil nie może kopiować ani nadpisywać opisów projektów, doświadczenia lu
 
 Pole `pdf` w profilu jest opcjonalną konfiguracją, a nie ścieżką do fizycznego pliku. Może zawierać `enabled` oraz opcjonalne `includeCompanyMessage`. Brak pola oznacza domyślnie włączony przycisk „Zapisz jako PDF”, a `enabled: false` ukrywa przycisk.
 
-PDF powstaje z aktualnego HTML i view modelu profilu. Profil nie przechowuje osobnych list projektów, umiejętności ani sekcji dla PDF i nie wskazuje statycznego pliku PDF profilu default.
+PDF powstaje z aktualnie wyrenderowanego HTML i view modelu profilu przez `window.print()` oraz `src/styles/print.css`. Profil nie przechowuje osobnych list projektów, umiejętności ani sekcji dla PDF i nie wskazuje statycznego pliku PDF profilu default. Ostateczny zakres, kolejność i wygląd treści PDF nie są jeszcze kanonem; zostaną ustalone po dodaniu rzeczywistych danych CV.
 
 ## Portret i ścieżki zasobów
 
@@ -109,4 +109,4 @@ Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików z JSON Schema,
 
 * Personalizacja korzysta z tego modelu w `docs/current/product/PERSONALIZATION_SYSTEM.md`.
 * Edytor Streamlit ma walidować ten model zgodnie z `docs/current/technical/LOCAL_EDITOR.md`.
-* PDF renderuje te same dane i ten sam HTML zgodnie z `docs/current/technical/PDF_PIPELINE.md`.
+* PDF renderuje te same dane, ten sam HTML i ten sam view model zgodnie z `docs/current/technical/PDF_PIPELINE.md`. Przyszłe Streamlit i Playwright mają korzystać z tego samego HTML, view modelu i stylów wydruku.

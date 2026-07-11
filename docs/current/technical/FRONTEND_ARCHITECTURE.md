@@ -2,24 +2,20 @@
 
 ## Cel
 
-Dokument definiuje architekturę aplikacji webowej przed implementacją. Źródłami prawdy są `docs/current/README.md`, `docs/current/content/CONTENT_MODEL.md`, `docs/current/product/PERSONALIZATION_SYSTEM.md` i `docs/current/ui/SINGLE_PAGE_FLOW.md`.
+Dokument opisuje aktualnie zaimplementowany pierwszy pionowy przekrój aplikacji webowej. Źródłami prawdy są `docs/current/README.md`, `docs/current/content/CONTENT_MODEL.md`, `docs/current/product/PERSONALIZATION_SYSTEM.md`, `docs/current/ui/SINGLE_PAGE_FLOW.md` i kod w `src/`.
 
 ## Stos technologiczny
 
 Aplikacja jest pojedynczą stroną Vite z:
 
 * Vanilla JavaScript;
-* HTML generowanym lub składanym bez frameworka frontendowego;
-* CSS, w tym osobnym stylem druku `print.css`;
-* publicznymi danymi JSON.
+* HTML składanym w modułach JS bez frameworka frontendowego;
+* CSS, w tym osobnym stylem druku `src/styles/print.css`;
+* publicznymi danymi JSON z katalogu `content/`.
 
-Nie wolno uzależniać dokumentacji ani architektury od Reacta, Vue, Svelte, Angulara lub innego frameworka frontendowego.
+Nie ma Reacta, Vue, Svelte, Angulara ani innego frameworka frontendowego.
 
-## Model aplikacji
-
-Projekt ma jedną aplikację, jeden katalog treści i wiele profili firm. Aplikacja ładuje publiczne dane bazowe oraz profil wskazany przez adres URL. Profil wpływa na wybór, kolejność i ekspozycję treści, ale nie zastępuje głównej bazy treści.
-
-## Rzeczywista struktura pierwszego pionowego przekroju
+## Rzeczywista struktura przekroju
 
 ```text
 index.html
@@ -44,31 +40,36 @@ src/
     components.css
     accordion.css
     themes.css
+    print.css
   utils/
     assets.js
     dom.js
 content/
   public/
   profiles/
+  schemas/
 scripts/
 docs/
 ```
 
-Pierwszy przekrój ładuje kanoniczne dane z `content/public/*.json` przez importy modułów JSON i profile z `content/profiles/*.json` przez `import.meta.glob`. Dane nie są kopiowane do `src/`.
+`content-loader.js` ładuje publiczne dane z `content/public/*.json` przez importy modułów JSON i profile z `content/profiles/*.json` przez `import.meta.glob` z trybem eager. Dane nie są kopiowane do `src/`.
 
-## Routing i stan
+## Routing, profil i fallback
 
-* `?p=<profileId>` wybiera publiczny profil firmy.
-* Otwarty panel UI jest częścią stanu aplikacji; jednocześnie otwarty może być tylko jeden panel, można też zamknąć wszystkie panele.
+`profile-resolver.js` wybiera profil z parametru `?p=<profileId>`. Brak parametru oznacza `profile default`. Nieistniejący lub nieużywalny profil bezpiecznie wraca do `default`; `bootstrap.js` pokazuje wtedy zwarty komunikat fallbacku z `role="status"` nad kartą CV.
 
-## Motyw
+## View model i filtrowanie
 
-Wersja startowa używa wyłącznie `prefers-color-scheme` i zmiennych CSS. Nie ma ręcznego przełącznika motywu. Animacje respektują `prefers-reduced-motion`.
+`view-model.js` niemutująco łączy publiczne dane z profilem. Renderowane są tylko elementy `published`. Elementy `draft` i `archived` są ukrywane, a sekcje bez opublikowanej treści nie są przekazywane do renderowania. W obecnych danych większość rzeczywistej treści jest nadal `draft`, więc publiczny widok może zawierać tylko imię i nazwisko; to oczekiwany efekt filtrowania.
 
-## Zależności
+## UI i stan interakcji
 
-* Dane i identyfikatory opisuje `docs/current/content/CONTENT_MODEL.md`.
-* Profile i tokeny opisuje `docs/current/product/PERSONALIZATION_SYSTEM.md`.
-* Ograniczenia bezpieczeństwa opisuje `docs/current/security/ACCESS_AND_PRIVACY.md`.
-* Widok drukowany opisuje `docs/current/technical/PDF_PIPELINE.md`.
+Aplikacja renderuje jedną wspólną kartę CV o maksymalnej szerokości około 940 px. Układ jest mobile first, portret jest opcjonalny, a motyw wynika z `prefers-color-scheme`. Accordion przechowuje stan otwartego panelu lokalnie w komponencie: jednocześnie otwarty może być najwyżej jeden panel, a ponowne kliknięcie otwartego panelu zamyka wszystkie. Przyciski accordionu mają `aria-expanded` i `aria-controls`, a panele `role="region"` oraz `aria-labelledby`.
 
+## PDF i druk
+
+Przycisk „Zapisz jako PDF” w `hero-card.js` wywołuje `window.print()`. Wydruk używa aktualnie wyrenderowanego HTML, tego samego view modelu i `src/styles/print.css`. CSS druku pokazuje wszystkie opublikowane sekcje wybrane przez profil niezależnie od bieżącego stanu accordionu. Aplikacja nie pobiera statycznego pliku PDF i nie ma osobnego szablonu danych PDF.
+
+## Funkcje przyszłe
+
+Streamlit, Playwright i backend nie są zaimplementowane. Gdy zostaną dodane, Streamlit i Playwright mają używać tego samego HTML, view modelu i stylów wydruku, bez osobnego szablonu PDF.
