@@ -906,3 +906,9 @@ Nie dodawać edukacji do niepasującego pola tylko po to, aby znalazła się w p
 Aplikacja obsługuje jawny tryb roboczego przeglądania treści przez parametr `?preview=draft`. Tryb pokazuje treści `published` oraz `draft`, pozostawiając `archived` całkowicie ukryte. Nie jest mechanizmem prywatności: wszystkie dane zapisane w publicznych plikach JSON należy traktować jako publiczne także wtedy, gdy mają status `draft`.
 
 Wdrożono pierwszą publiczną sekcję doświadczenia z czterema wpisami roboczymi: Usługi Informatyczne Szansa, Teatr Lalek Banialuka, Niezależna praktyka twórcza i produkcyjna oraz T&T s.c.
+
+## Notatka wdrożeniowa — pierwsza sekcja Umiejętności
+
+Wdrożono pierwszą sekcję „Umiejętności” w publicznych danych JSON. Wszystkie dodane elementy pozostają w statusie `draft`, dlatego są widoczne wyłącznie w trybie `?preview=draft` i nie tworzą publicznej sekcji bez opublikowanych wpisów.
+
+Aktualny `skills.schema.json` obsługuje tylko `id`, `status` i lokalizowaną `name`. Z tego powodu kategorie, grupowanie oraz opis kompetencji AI nie zostały zapisane w danych JSON; pozostają ryzykiem informacyjnym do obsłużenia po rozszerzeniu modelu. Tryb `?preview=draft` nie zapewnia prywatności, ponieważ pliki JSON nadal są częścią publicznej paczki aplikacji.

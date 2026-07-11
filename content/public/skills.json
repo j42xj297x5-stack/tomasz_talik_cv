@@ -1,18 +1,33 @@
 {
   "items": [
-    {
-      "id": "skill-javascript",
-      "status": "draft",
-      "name": {
-        "pl": "JavaScript"
-      }
-    },
-    {
-      "id": "skill-three-js",
-      "status": "draft",
-      "name": {
-        "pl": "Three.js"
-      }
-    }
+    { "id": "skill-game-systems-design", "status": "draft", "name": { "pl": "Projektowanie systemów gry", "en": "Game systems design" } },
+    { "id": "skill-modular-systems-design", "status": "draft", "name": { "pl": "Projektowanie modularnych systemów", "en": "Modular systems design" } },
+    { "id": "skill-technical-architecture", "status": "draft", "name": { "pl": "Architektura techniczna", "en": "Technical architecture" } },
+    { "id": "skill-interaction-prototyping", "status": "draft", "name": { "pl": "Prototypowanie interakcji", "en": "Interaction prototyping" } },
+    { "id": "skill-debugging-validation", "status": "draft", "name": { "pl": "Diagnostyka i walidacja", "en": "Debugging and validation" } },
+    { "id": "skill-technical-documentation", "status": "draft", "name": { "pl": "Dokumentacja techniczna", "en": "Technical documentation" } },
+    { "id": "skill-ai-orchestration", "status": "draft", "name": { "pl": "Orkiestracja AI w pracy technicznej i kreatywnej", "en": "AI orchestration for technical and creative work" } },
+    { "id": "skill-javascript", "status": "draft", "name": { "pl": "JavaScript", "en": "JavaScript" } },
+    { "id": "skill-three-js", "status": "draft", "name": { "pl": "Three.js", "en": "Three.js" } },
+    { "id": "skill-html", "status": "draft", "name": { "pl": "HTML", "en": "HTML" } },
+    { "id": "skill-css", "status": "draft", "name": { "pl": "CSS", "en": "CSS" } },
+    { "id": "skill-json", "status": "draft", "name": { "pl": "JSON", "en": "JSON" } },
+    { "id": "skill-vite", "status": "draft", "name": { "pl": "Vite", "en": "Vite" } },
+    { "id": "skill-node-js", "status": "draft", "name": { "pl": "Node.js", "en": "Node.js" } },
+    { "id": "skill-python", "status": "draft", "name": { "pl": "Python", "en": "Python" } },
+    { "id": "skill-pyside6", "status": "draft", "name": { "pl": "PySide6", "en": "PySide6" } },
+    { "id": "skill-mysql", "status": "draft", "name": { "pl": "MySQL", "en": "MySQL" } },
+    { "id": "skill-sql", "status": "draft", "name": { "pl": "SQL", "en": "SQL" } },
+    { "id": "skill-rest-api", "status": "draft", "name": { "pl": "REST API", "en": "REST API" } },
+    { "id": "skill-git-github", "status": "draft", "name": { "pl": "Git i GitHub", "en": "Git and GitHub" } },
+    { "id": "skill-blender", "status": "draft", "name": { "pl": "Blender", "en": "Blender" } },
+    { "id": "skill-inkscape", "status": "draft", "name": { "pl": "Inkscape", "en": "Inkscape" } },
+    { "id": "skill-figma", "status": "draft", "name": { "pl": "Figma", "en": "Figma" } },
+    { "id": "skill-ableton-live", "status": "draft", "name": { "pl": "Ableton Live", "en": "Ableton Live" } },
+    { "id": "skill-independent-learning", "status": "draft", "name": { "pl": "Samodzielne uczenie się", "en": "Independent learning" } },
+    { "id": "skill-code-reading", "status": "draft", "name": { "pl": "Czytanie kodu", "en": "Code reading" } },
+    { "id": "skill-technical-communication", "status": "draft", "name": { "pl": "Komunikacja techniczna", "en": "Technical communication" } },
+    { "id": "skill-client-communication", "status": "draft", "name": { "pl": "Komunikacja z klientem", "en": "Client communication" } },
+    { "id": "skill-problem-decomposition", "status": "draft", "name": { "pl": "Dzielenie problemów", "en": "Problem decomposition" } }
   ]
 }
