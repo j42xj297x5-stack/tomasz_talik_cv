@@ -79,25 +79,25 @@ Remote-first. Available for hybrid work in Kraków, Katowice or Bielsko-Biała, 
 
 PL:
 
-Projektuję cyfrowe systemy, które łączą mechanikę, interakcję i warstwę twórczą — od pierwszej koncepcji po działający prototyp. Pracuję w modularnym procesie wspieranym przez AI: definiuję zasady, dzielę złożone problemy na mniejsze komponenty, nadzoruję implementację i weryfikuję rezultat w kodzie, testach oraz dokumentacji.
+Buduję interaktywne światy, gry i narzędzia cyfrowe, łącząc technologię, mechanikę, obraz i dźwięk. Złożone pomysły przekładam na modularne systemy, które można rozwijać, testować i prowadzić od koncepcji do działającego produktu.
 
 EN:
 
-I design digital systems that connect mechanics, interaction and creative expression—from the first concept to a working prototype. I work through a modular AI-assisted process: defining rules, breaking complex problems into smaller components, supervising implementation, and validating results across code, tests and documentation.
+I build interactive worlds, games and digital tools by combining technology, mechanics, visuals and sound. I turn complex ideas into modular systems that can be developed, tested and guided from concept to a working product.
 
 ## 4. Sekcja „O mnie”
 
 PL:
 
-Łączę wykształcenie inżynierskie z wieloletnim doświadczeniem w elektronice, dźwięku, obrazie, technice scenicznej, sprzedaży technicznej i niezależnej działalności twórczej. Naturalnie poruszam się pomiędzy urządzeniem, interfejsem, użytkownikiem i logiką systemu.
+Obecnie koncentruję się na projektowaniu gier i interaktywnych systemów. W autorskich projektach łączę wykształcenie inżynierskie, wieloletnią praktykę twórczą oraz doświadczenie zdobyte w elektronice, dźwięku, świetle, sprzedaży technicznej i pracy z użytkownikami. Interesuje mnie nie tylko efekt końcowy, ale również logika, mechanika, przepływ danych i relacje pomiędzy elementami systemu.
 
-Moją główną kompetencją jest samodzielne poznawanie złożonych narzędzi i przekładanie ich możliwości na działające rozwiązania. Obecnie koncentruję się na projektowaniu gier, narzędzi i doświadczeń interaktywnych. Definiuję architekturę oraz zasady systemów, przygotowuję dokumentację wykonawczą, kieruję implementacją wspomaganą przez AI i weryfikuję rezultat poprzez testy, diagnostykę oraz pracę z działającym produktem.
+Pracę zaczynam od zrozumienia problemu i ustalenia zasad. Dzielę złożone projekty na małe moduły, przygotowuję dokumentację, kieruję implementacją wspomaganą przez AI i sprawdzam rezultat w kodzie, testach, diagnostyce oraz działającym produkcie. Dzięki temu potrafię patrzeć na projekt jednocześnie jak twórca, technik i użytkownik.
 
 EN:
 
-I combine an engineering background with extensive experience in electronics, sound, visual work, stage technology, technical sales and independent creative practice. I naturally work across the boundaries between devices, interfaces, users and system logic.
+I currently focus on designing games and interactive systems. In my independent projects, I combine an engineering background, long-term creative practice, and experience gained across electronics, sound, lighting, technical sales and user-facing work. I am interested not only in the final result, but also in the logic, mechanics, data flow and relationships between system components.
 
-My core strength is independently learning complex tools and turning their capabilities into working solutions. I currently focus on designing games, tools and interactive experiences. I define system architecture and rules, prepare implementation documentation, supervise AI-assisted development, and validate results through testing, diagnostics and hands-on work with the running product.
+I begin by understanding the problem and defining its rules. I break complex projects into small modules, prepare documentation, supervise AI-assisted implementation, and validate results in code, tests, diagnostics and the running product. This allows me to approach a project simultaneously as a creator, technician and user.
 
 ## 5. Portret
 
