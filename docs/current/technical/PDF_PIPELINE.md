@@ -34,3 +34,7 @@ Opcjonalne pole `pdf.enabled` w profilu może ukryć przycisk PDF, jeśli ma war
 ## Stan automatyzacji
 
 Playwright i Streamlit nie są obecnie zaimplementowane. Przyszła automatyzacja, jeśli powstanie, powinna drukować tę samą stronę z tym samym HTML, view modelem i `print.css`.
+
+## Ochrona tokenu w wydruku
+
+Jeśli adres zawiera `#p=<p>&k=<k>`, kliknięcie przycisku PDF przed `window.print()` tymczasowo usuwa wyłącznie `k` z widocznego fragmentu przez `history.replaceState`, zachowując `p`. Po zdarzeniu `afterprint` pierwotny fragment jest przywracany bez przeładowania strony. Dane kontaktowe pobrane wcześniej pozostają w DOM i są widoczne w PDF, ale komunikat o niedostępności kontaktu jest ukryty w wydruku.

@@ -72,3 +72,7 @@ Profile firmowe korzystają z tej samej opublikowanej treści CV i dodają wył�
 ## Rekomendowany następny etap
 
 Następny etap powinien obejmować pełne lokalne `npm run validate:content` i `npm run build`, test mobile, kontrolę wydruku PL i EN, redakcyjny przegląd treści, utrzymanie `?preview=draft` dla przyszłych szkiców i przygotowanie deploymentu.
+
+## Aktualizacja: publiczny `p` i prywatny `k`
+
+Frontend obsługuje `#p=<publiczny-token>&k=<prywatny-token>`. `p` wybiera publiczny JSON firmy zawierający tylko `id` i `companyName`; `k` odblokowuje stałe dane kontaktowe z zewnętrznego Workera. Domyślny profil i adres bez `k` nie pokazują danych osobowych. Edytor Streamlit automatycznie aktywuje `k` przez chroniony endpoint administracyjny z `editorAdminKey` trzymanym lokalnie w `editor/config.local.json`. Frontend zna tylko publiczny adres Workera, nie wysyła nazwy firmy, a PDF usuwa `k` z widocznego adresu na czas drukowania.

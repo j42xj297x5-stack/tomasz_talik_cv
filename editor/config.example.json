@@ -1,3 +1,5 @@
 {
-  "deploymentBaseUrl": "https://example.com/tomasz-talik-cv/"
+  "deploymentBaseUrl": "https://example.com/tomasz-talik-cv/",
+  "workerApiBaseUrl": "https://example-worker.workers.dev",
+  "editorAdminKey": "example-admin-key-change-locally"
 }

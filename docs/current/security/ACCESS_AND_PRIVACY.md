@@ -31,3 +31,7 @@ Brak produkcyjnego deploymentu nie zmienia modelu prywatności: wszystko, co zna
 ## Tokeny firmowe
 
 Fragment `#p=<długi-token>` jest wyłącznie publicznym identyfikatorem pliku profilu firmowego w `public/profiles/`. Długi, nieodgadywalny token ogranicza przypadkowe zgadywanie linku, ale nie jest autoryzacją, zabezpieczeniem ani gwarancją prywatności. Profil firmowy jest statycznym publicznym JSON-em i zawiera tylko token oraz nazwę firmy. Dane rekrutera, stanowisko, adres ogłoszenia, mail i list motywacyjny pozostają lokalne w edytorze i nie trafiają do publicznego JSON-u.
+
+## Token `k` i zewnętrzny Worker
+
+Aktualny przepływ prywatnego kontaktu używa `#p=<p>&k=<k>`. `p` jest publicznym identyfikatorem profilu firmy; `k` jest prywatnym tokenem dostępu weryfikowanym przez zewnętrzny Worker. `k` nie jest przechowywany w repozytorium, publicznym JSON-ie, localStorage, sessionStorage ani cookies. Frontend zna tylko publiczny adres Workera, wysyła do niego sam token i nie wysyła nazwy firmy. Worker zwraca jeden stały zestaw danych osobowych dla wszystkich aktywnych tokenów, a nazwy firm nie trafiają do D1. Token może zostać przekazany dalej przez odbiorcę, więc nie stanowi pełnej autoryzacji użytkownika. Domyślny profil nie pobiera ani nie pokazuje danych osobowych.

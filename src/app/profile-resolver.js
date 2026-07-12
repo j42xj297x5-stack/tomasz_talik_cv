@@ -1,5 +1,6 @@
 const DEFAULT_PROFILE_ID = 'default';
 const COMPANY_TOKEN_PATTERN = /^[A-Za-z0-9_-]{32,128}$/;
+const PRIVATE_TOKEN_PATTERN = /^[A-Za-z0-9_-]{32,128}$/;
 
 function canUseProfile(profile) {
   return Boolean(profile && profile.profileId && Array.isArray(profile.visibleSections));
@@ -14,6 +15,13 @@ function getCompanyToken(hash = window.location.hash) {
   const params = new URLSearchParams(fragment);
   const token = params.get('p') || '';
   return COMPANY_TOKEN_PATTERN.test(token) ? token : null;
+}
+
+export function getPrivateAccessToken(hash = window.location.hash) {
+  const fragment = String(hash || '').replace(/^#/, '');
+  const params = new URLSearchParams(fragment);
+  const token = params.get('k') || '';
+  return PRIVATE_TOKEN_PATTERN.test(token) ? token : null;
 }
 
 function canUseCompanyProfile(value, token) {

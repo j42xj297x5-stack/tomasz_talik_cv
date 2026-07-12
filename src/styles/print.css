@@ -106,6 +106,28 @@
     border-top-color: #d8dee9;
   }
 
+  .private-contact {
+    margin: 0 0 0.75rem;
+    padding: 0.65rem 0;
+    border-width: 1px 0;
+    border-color: #d8dee9;
+    border-radius: 0;
+    background: #fff;
+    break-inside: avoid;
+  }
+
+  .private-contact__title {
+    margin-bottom: 0.35rem;
+  }
+
+  .private-contact__list {
+    gap: 0.25rem 0.75rem;
+  }
+
+  .private-contact-status {
+    display: none !important;
+  }
+
   .accordion {
     border-top: 1px solid #d8dee9;
   }

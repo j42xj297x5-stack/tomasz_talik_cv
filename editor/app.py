@@ -1,5 +1,8 @@
 import json
 import secrets
+import urllib.error
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 import streamlit as st
@@ -50,8 +53,53 @@ def ensure_token():
     return st.session_state.company_profile_token
 
 
+def ensure_private_token():
+    token = st.session_state.get("private_access_token")
+    if not isinstance(token, str) or not (TOKEN_MIN <= len(token) <= TOKEN_MAX):
+        st.session_state.private_access_token = secrets.token_urlsafe(32)
+    return st.session_state.private_access_token
+
+
 def normalize_base_url(value):
     return value.strip()
+
+
+def build_cv_link(base_url, profile_token, private_token):
+    fragment = urllib.parse.urlencode({"p": profile_token, "k": private_token})
+    return f"{base_url}#{fragment}" if base_url else f"#{fragment}"
+
+
+def activate_private_token(worker_api_base_url, editor_admin_key, private_token):
+    api_base = normalize_base_url(worker_api_base_url).rstrip("/")
+    if not api_base:
+        return False, "Brakuje adresu API Workera."
+    if not editor_admin_key:
+        return False, "Brakuje klucza administracyjnego edytora."
+
+    payload = json.dumps({"token": private_token, "expiresAt": None}).encode("utf-8")
+    request = urllib.request.Request(
+        f"{api_base}/admin/create",
+        data=payload,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {editor_admin_key}",
+            "Content-Type": "application/json",
+        },
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        return False, f"Worker odrzucił aktywację tokenu (HTTP {error.code})."
+    except urllib.error.URLError:
+        return False, "Nie udało się połączyć z API Workera."
+    except (TimeoutError, json.JSONDecodeError, UnicodeDecodeError):
+        return False, "Worker nie potwierdził aktywacji poprawną odpowiedzią JSON."
+
+    if isinstance(data, dict) and data.get("ok") is True:
+        return True, "Prywatny token został aktywowany w zewnętrznym API."
+    return False, "Worker nie potwierdził aktywacji tokenu."
 
 
 def selected_link_lines(selected_projects, selected_links):
@@ -89,12 +137,13 @@ def short_mail(language, recruiter_name, company_name, role, cv_link, motivation
     return "\n".join(body)
 
 
-def full_letter(language, recruiter_name, company_name, role, job_url, motivation, link_lines):
+def full_letter(language, recruiter_name, company_name, role, job_url, cv_link, motivation, link_lines):
     greeting = f"Dear {recruiter_name}," if language == "en" and recruiter_name else ("Dear Hiring Team," if language == "en" else (f"Szanowna Pani / Szanowny Panie {recruiter_name}," if recruiter_name else "Szanowni Państwo,"))
     if language == "en":
         parts = [greeting, "", f"I would like to apply for the {role or 'selected'} role at {company_name}."]
         if job_url:
             parts.append(f"I am referring to the posting available here: {job_url}.")
+        parts.append(f"CV: {cv_link}")
         parts.append(motivation or "I see this role as a strong match for my practical project experience and careful, product-oriented way of working.")
         if link_lines:
             parts.extend(["", "For context, I am including selected public links:", *link_lines])
@@ -103,6 +152,7 @@ def full_letter(language, recruiter_name, company_name, role, job_url, motivatio
     parts = [greeting, "", f"Chciałbym zgłosić swoją kandydaturę na stanowisko {role or 'wskazane w ogłoszeniu'} w firmie {company_name}."]
     if job_url:
         parts.append(f"Odnoszę się do ogłoszenia dostępnego pod adresem: {job_url}.")
+    parts.append(f"CV: {cv_link}")
     parts.append(motivation or "Widzę w tej roli dobre dopasowanie do mojego praktycznego doświadczenia projektowego oraz uważnego, produktowego sposobu pracy.")
     if link_lines:
         parts.extend(["", "Dla kontekstu załączam wybrane publiczne linki:", *link_lines])
@@ -117,8 +167,11 @@ st.caption("Edytor działa lokalnie. Eksportowany JSON zawiera wyłącznie token
 config = load_json(CONFIG_LOCAL, {})
 if st.button("Wygeneruj nowy token"):
     st.session_state.company_profile_token = secrets.token_urlsafe(32)
+    st.session_state.private_access_token = secrets.token_urlsafe(32)
+    st.session_state.private_token_activated = False
 
 token = ensure_token()
+private_token = ensure_private_token()
 
 language = st.radio("Język treści", ["PL", "EN"], horizontal=True).lower()
 projects = public_options(PROJECTS_PATH, language)
@@ -126,6 +179,12 @@ links = public_options(LINKS_PATH, language)
 
 with st.form("profile_form"):
     deployment_base_url = st.text_input("Adres wdrożonego CV", value=config.get("deploymentBaseUrl", ""))
+    worker_api_base_url = st.text_input("Adres API Workera", value=config.get("workerApiBaseUrl", ""))
+    editor_admin_key_input = st.text_input(
+        "Klucz administracyjny edytora (pozostaw puste, aby użyć config.local.json)",
+        value="",
+        type="password",
+    )
     company_name = st.text_input("Nazwa firmy", max_chars=120)
     role = st.text_input("Stanowisko")
     recruiter_name = st.text_input("Imię rekrutera")
@@ -140,18 +199,33 @@ selected_projects = [item for item in projects if item["label"] in selected_proj
 selected_links = [item for item in links if item["label"] in selected_link_labels]
 link_lines = selected_link_lines(selected_projects, selected_links)
 base_url = normalize_base_url(deployment_base_url)
-cv_link = f"{base_url}#p={token}" if base_url else f"#p={token}"
+editor_admin_key = editor_admin_key_input or config.get("editorAdminKey", "")
+if submitted:
+    ok, message = activate_private_token(worker_api_base_url, editor_admin_key, private_token)
+    st.session_state.private_token_activated = ok
+    st.session_state.private_token_activation_message = message
+
+private_token_activated = st.session_state.get("private_token_activated") is True
+cv_link = build_cv_link(base_url, token, private_token) if private_token_activated else ""
 profile_json = {"id": token, "companyName": company_name.strip()}
 json_text = json.dumps(profile_json, ensure_ascii=False, indent=2)
 subject = mail_subject(language, company_name.strip() or "<firma>", role.strip())
-mail_text = short_mail(language, recruiter_name.strip(), company_name.strip() or "<firma>", role.strip(), cv_link, motivation.strip(), link_lines)
-letter_text = full_letter(language, recruiter_name.strip(), company_name.strip() or "<firma>", role.strip(), job_url.strip(), motivation.strip(), link_lines)
+mail_text = short_mail(language, recruiter_name.strip(), company_name.strip() or "<firma>", role.strip(), cv_link or "<link aktywny po aktywacji tokenu>", motivation.strip(), link_lines)
+letter_text = full_letter(language, recruiter_name.strip(), company_name.strip() or "<firma>", role.strip(), job_url.strip(), cv_link or "<link aktywny po aktywacji tokenu>", motivation.strip(), link_lines)
 
 if submitted or company_name:
     st.subheader("Profil firmowy")
     st.write(f"Nazwa pliku: `{token}.json`")
     st.write(f"Ścieżka docelowa: `public/profiles/{token}.json`")
-    st.text_input("Link do CV", value=cv_link)
+    activation_message = st.session_state.get("private_token_activation_message")
+    if private_token_activated:
+        st.success(activation_message or "Prywatny token został aktywowany.")
+        st.info("Publiczny profil firmy zapisujesz w public/profiles/. Prywatny token został aktywowany w zewnętrznym API i nie trafia do pliku JSON.")
+        st.text_input("Link do CV", value=cv_link)
+    else:
+        if activation_message:
+            st.error(activation_message)
+        st.warning("Link z prywatnym tokenem pojawi się dopiero po poprawnej aktywacji w API Workera.")
     st.text_area("JSON profilu", value=json_text, height=130)
     st.download_button("Pobierz JSON", data=json_text, file_name=f"{token}.json", mime="application/json")
 
