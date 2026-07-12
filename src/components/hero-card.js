@@ -39,7 +39,7 @@ function createLanguageSwitch(currentLanguage, onLanguageChange) {
 
 export function createHeroCard(hero, options = {}) {
   const { language = 'pl', labels = {}, onLanguageChange = () => {} } = options;
-  const card = createElement('header', { className: 'hero-card' });
+  const card = createElement('header', { className: `hero-card${hero.avatar?.src ? '' : ' hero-card--no-avatar'}` });
   const content = createElement('div', { className: 'hero-card__content' });
   const avatarAlt = hero.avatar?.alt?.[language] || hero.avatar?.alt?.pl || '';
   const media = hero.avatar?.src
@@ -104,9 +104,13 @@ export function createHeroCard(hero, options = {}) {
     headline,
     description,
     skills.children.length ? skills : null,
-    actions.children.length ? actions : null,
-    company,
     profileInfo,
   ]);
-  return appendChildren(card, [content, media]);
+
+  return appendChildren(card, [
+    content,
+    actions.children.length ? actions : null,
+    media,
+    company,
+  ]);
 }

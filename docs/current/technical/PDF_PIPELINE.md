@@ -10,16 +10,17 @@ PDF powstaje z tego samego HTML, tego samego view modelu i tych samych danych pr
 
 ## Uruchomienie
 
-Przycisk „Zapisz jako PDF” w Hero wywołuje `window.print()`. Przeglądarka otwiera systemowy podgląd drukowania, a użytkownik zapisuje wynik jako PDF.
+Przycisk „Zapisz jako PDF” w Hero wywołuje `window.print()`. Na desktopie akcje Hero są wizualnie pod avatarem, a na mobile pod tekstem Hero; w druku pozostają ukryte niezależnie od położenia ekranowego. Przeglądarka otwiera systemowy podgląd drukowania, a użytkownik zapisuje wynik jako PDF.
 
 ## Widok drukowany
 
 Widok drukowany kontroluje `src/styles/print.css`. Arkusz druku:
 
-* ukrywa przyciski, przełącznik języka, chevrony, komunikat fallbacku i znaczniki `Szkic` / `Draft`;
+* ukrywa przyciski akcji Hero, przełącznik języka, chevrony, komunikat fallbacku i znaczniki `Szkic` / `Draft`;
 * pokazuje panele accordionu niezależnie od ich stanu otwarcia na stronie;
 * przywraca wewnętrzne nagłówki sekcji, tak aby tytuł każdej sekcji był widoczny dokładnie raz;
 * zachowuje avatar w kompaktowej formie, używając `portrait.printSrc`, jeśli istnieje, albo `portrait.src` jako fallbacku;
+* zachowuje osobny, pełnoszerokościowy pas „Profil przygotowany dla…” tylko dla poprawnie załadowanego profilu `#p=<token>`, wraz z subtelną linią oddzielającą;
 * usuwa zbędne tła, cienie i elementy interaktywne.
 
 ## Statusy w PDF
