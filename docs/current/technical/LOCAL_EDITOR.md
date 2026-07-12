@@ -28,15 +28,15 @@ Brak `config.local.json` nie blokuje edytora. Pola formularza pozostają dostęp
 
 ## Adres Workera
 
-`workerApiBaseUrl` musi być pełnym adresem bazowym zaczynającym się od `http://` albo `https://`; dla środowiska Cloudflare zwykle będzie to `https://...workers.dev`. Edytor nie dopisuje protokołu automatycznie, bo użytkownik musi podać jednoznaczny adres.
+`workerApiBaseUrl` musi być pełnym adresem bazowym zaczynającym się od `https://`; dla środowiska Cloudflare zwykle będzie to `https://...workers.dev`. Edytor nie dopisuje protokołu automatycznie, bo użytkownik musi podać jednoznaczny adres, i nie dopuszcza przekierowania HTTP → HTTPS.
 
-Adres Workera ma być bazowy, bez endpointu `/profile` i bez endpointu `/admin/create`. Edytor sam dopisuje `/admin/create` podczas aktywacji prywatnego tokenu.
+Adres Workera ma być bazowy, bez endpointu `/profile` i bez endpointu `/admin/create`. Edytor usuwa końcowe ukośniki i sam buduje endpoint dokładnie jako `<workerApiBaseUrl>/admin/create` podczas aktywacji prywatnego tokenu. Żądanie blokuje przekierowania, żeby nie wysłać nagłówka `Authorization` do innego hosta.
 
 ## Klucz administracyjny
 
-`editorAdminKey` z `config.local.json` jest używany, gdy pole ręczne w formularzu pozostaje puste. Ręcznie wpisana niepusta wartość nadpisuje konfigurację tylko dla bieżącej sesji Streamlit.
+`editorAdminKey` z `config.local.json` jest używany, gdy pole ręczne w formularzu pozostaje puste po `strip()`. Ręcznie wpisana niepusta wartość nadpisuje konfigurację tylko dla bieżącej sesji Streamlit. Puste pole `password` ani starszy stan widgetu z poprzedniej wersji aplikacji nie nadpisują konfiguracji bez wiedzy użytkownika.
 
-Pole ręczne pozostaje polem typu `password`. Edytor nie ustawia klucza jako widocznej wartości widgetu, nie pokazuje go w interfejsie, komunikatach błędów, logach ani generowanych plikach. Widoczny jest wyłącznie status: `Klucz administracyjny: wczytany` albo `Klucz administracyjny: brak`.
+Pole ręczne pozostaje polem typu `password`. Edytor nie ustawia klucza z konfiguracji jako jawnej wartości widgetu, nie pokazuje go w interfejsie, komunikatach błędów, logach ani generowanych plikach. Przycisk „Wyczyść ręczne nadpisanie klucza” czyści wyłącznie ręczną wartość bieżącej sesji i nie modyfikuje `config.local.json`.
 
 ## Generowanie i aktywacja tokenów
 
@@ -46,12 +46,18 @@ Eksportowany JSON profilu zawiera wyłącznie `id` i `companyName`. Prywatny tok
 
 Podczas generowania materiałów edytor sprawdza poprawność `workerApiBaseUrl` i obecność `editorAdminKey` przed wysłaniem żądania. Następnie wykonuje `POST <workerApiBaseUrl>/admin/create` z nagłówkiem `Authorization: Bearer <editorAdminKey>` i body zawierającym tylko prywatny token oraz `expiresAt: null`. Link `#p=<p>&k=<k>` jest pokazywany w mailu i liście dopiero po odpowiedzi `{"ok": true}`.
 
+Przycisk „Ponów aktywację tego samego tokenu” wysyła ponownie bieżący prywatny token `k` bez generowania nowego publicznego tokenu `p` ani nowego `k`.
+
 ## Diagnostyka bez sekretów
 
 Interfejs pokazuje tylko niewrażliwe statusy:
 
 * `config.local.json`: znaleziony, brak albo niepoprawny;
+* źródło adresu Workera: konfiguracja albo pole ręczne;
 * `Adres Workera`: skonfigurowany, brak albo niepoprawny;
-* `Klucz administracyjny`: wczytany albo brak.
+* źródło klucza: konfiguracja, pole ręczne albo brak;
+* host i ścieżkę endpointu aktywacji bez parametrów;
+* długość klucza po `strip()` oraz informację, czy wykryto białe znaki na początku lub końcu;
+* ostatni rzeczywisty status HTTP i pole `error` z JSON-a Workera, jeśli istnieje.
 
-Diagnostyka nie pokazuje ścieżek zawierających dane użytkownika, wartości sekretów ani pełnych tokenów.
+Diagnostyka nie pokazuje wartości klucza, nagłówka `Authorization`, prywatnego tokenu `k`, body żądania, zawartości `config.local.json`, ścieżek zawierających dane użytkownika ani pełnych tokenów. Błędy HTTP 401, 403, 404 i 500 mają odrębne komunikaty; odpowiedź spoza oczekiwanego JSON API jest oznaczana bez pokazywania treści body.
