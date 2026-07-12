@@ -2,30 +2,28 @@
 
 ## Cel
 
-Dokument opisuje docelowy kierunek publikacji dla statycznej aplikacji Vite. Zależy od `docs/current/technical/FRONTEND_ARCHITECTURE.md` i `docs/current/security/ACCESS_AND_PRIVACY.md`.
+Dokument opisuje aktualny stan publikacji i planowany kierunek hostingu.
 
-## Vite
+## Aktualny stan
 
-Aplikacja jest budowana jako statyczny frontend Vite. Vite odpowiada za lokalne uruchamianie, bundling i przygotowanie artefaktów statycznych. Lokalnie potwierdzono działanie instalacji zależności npm, `npm run validate:content`, `npm run build` oraz uruchomienie strony przez `npm run dev`.
+Nie ma wdrożenia produkcyjnego. Praca odbywa się lokalnie przez Vite. Dokument nie opisuje wykonanego deploymentu ani gotowego pipeline'u publikacji.
 
-## GitHub Pages
+## Lokalny tryb pracy
 
-Docelowym hostingiem publicznej aplikacji pozostaje GitHub Pages. Publikowane artefakty są statyczne, więc wszystkie dane w nich zawarte należy traktować jako publiczne. Produkcyjny deployment na GitHub Pages nie został jeszcze potwierdzony.
+Aplikacja jest statycznym frontendem Vite. Lokalny podgląd odbywa się przez środowisko deweloperskie Vite po dostępnej instalacji zależności. W bieżącym handoffie nie należy przedstawiać `npm run validate:content` ani `npm run build` jako potwierdzonych przez Codex, jeżeli zależności nie są dostępne.
 
-## Status potoku
+## Planowany kierunek
 
-Nie ma jeszcze potwierdzonego produkcyjnego procesu publikacji. Dokument nie opisuje gotowych GitHub Actions ani wdrożonego środowiska produkcyjnego; ustala wyłącznie kierunek dla statycznej aplikacji Vite.
+GitHub Pages pozostaje planowanym kierunkiem publikacji statycznej aplikacji. Publikowane artefakty będą publiczne, dlatego wszystkie dane w publicznych JSON-ach i zasobach statycznych muszą być traktowane jako publiczne.
 
-## Dane prywatne
+## Prywatność
 
-GitHub Pages nie jest miejscem na prywatne dane. Jeśli aplikacja ma pokazać dane prywatne, musi pobrać je później z zewnętrznego backendu. Token i kod nie zabezpieczają danych zapisanych w statycznych plikach.
+GitHub Pages nie jest miejscem na prywatne dane ani sekrety. Status `draft` oraz parametr `?preview=draft` nie chronią danych. Prywatne informacje wymagają przyszłego backendu i właściwej autoryzacji; backend nie jest obecnie zaimplementowany.
 
 ## PDF
 
-Pierwsza wersja PDF działa jako wydruk aktualnego widoku przez `window.print()` i `src/styles/print.css`. Przyszła automatyzacja przez Playwright ma używać tego samego HTML, view modelu i stylów wydruku; Playwright nie jest jeszcze zaimplementowany jako część deploymentu.
+Aktualny PDF działa jako `window.print()` bieżącej strony i `src/styles/print.css`. Playwright nie jest częścią obecnego deploymentu i pozostaje przyszłą automatyzacją.
 
-## Zależności
+## Następny krok przed deploymentem
 
-* Architektura frontendu: `docs/current/technical/FRONTEND_ARCHITECTURE.md`.
-* Prywatność: `docs/current/security/ACCESS_AND_PRIVACY.md`.
-* PDF: `docs/current/technical/PDF_PIPELINE.md`.
+Przed przygotowaniem publikacji należy lokalnie wykonać pełne `npm run validate:content`, `npm run build`, test mobile, kontrolę wydruku PL i EN oraz redakcyjny przegląd treści.

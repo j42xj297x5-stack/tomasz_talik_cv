@@ -2,27 +2,28 @@
 
 ## Cel
 
-Dokument jest źródłem prawdy dla rozdzielenia danych publicznych i prywatnych. Zależy od `docs/current/content/CONTENT_MODEL.md` i ogranicza system personalizacji opisany w `docs/current/product/PERSONALIZATION_SYSTEM.md`.
+Dokument rozdziela aktualne dane publiczne od prywatnych oraz wyjaśnia ograniczenia statycznego frontendu.
 
 ## Dane publiczne
 
-Wszystko, co znajduje się w publicznym frontendzie, należy traktować jako publiczne. Dotyczy to plików HTML, JavaScript, CSS, JSON, zasobów w `public/` oraz wygenerowanych statycznych artefaktów.
+Wszystkie dane umieszczone w publicznych JSON-ach należy traktować jako publiczne. Dotyczy to `content/public/identity.json`, `about.json`, `projects.json`, `experience.json`, `education.json`, `skills.json`, `links.json` oraz publicznych profili. Zasoby statyczne w `public/`, w tym avatar, również są publiczne.
 
-## Dane prywatne
+Status `draft` nie chroni danych. `?preview=draft` jest narzędziem redakcyjnym, nie zabezpieczeniem dostępu i nie mechanizmem prywatności.
 
-Dane prywatne nie mogą być zapisane w repozytorium jako część publicznego frontendu ani w statycznych plikach hostowanych przez GitHub Pages. Prywatne dane będą później pobierane z zewnętrznego backendu, np. funkcji serverless lub innej usługi API.
+## Dane prywatne i sekrety
 
-## Token i kod
+Prywatne dane, sekrety, tokeny usług, prywatne adresy, telefony lub inne informacje wymagające ograniczenia dostępu nie mogą trafiać do frontendu, publicznych JSON-ów, profili, CSS, JavaScriptu ani zasobów statycznych.
 
-`#t=<token>` oraz zapasowy kod 6–8 znaków nie chronią danych, które już są zapisane w publicznym frontendzie. Mogą służyć do wyboru profilu, wygody użytkownika albo przyszłej wymiany z backendem, ale nie są samodzielnym zabezpieczeniem statycznych danych.
+Jeśli w przyszłości aplikacja ma obsługiwać prywatne dane, musi pobierać je z zewnętrznego backendu po właściwej autoryzacji. Backend nie jest obecnie zaimplementowany.
 
-## Publiczne profile
+## Parametry URL
 
-Profil dostępny przez `?p=<profileId>` jest publiczną konfiguracją prezentacji. Nie może zawierać prywatnych danych kontaktowych ani sekretów. Jeśli profil ma odblokować dane prywatne, musi jedynie inicjować późniejszy przepływ pobrania ich z backendu.
+`?p=<profileId>` wybiera publiczny profil prezentacji. `?preview=draft` pokazuje robocze wpisy zapisane już w publicznych JSON-ach. `#t=<token>` lub krótki kod mogą w przyszłości służyć do wygody użytkownika albo przepływu backendowego, ale nie chronią danych statycznie umieszczonych we frontendzie.
 
-## Zależności
+## Linki publiczne
 
-* Model publicznych danych opisuje `docs/current/content/CONTENT_MODEL.md`.
-* Mechanikę profili opisuje `docs/current/product/PERSONALIZATION_SYSTEM.md`.
-* Deployment statyczny opisuje `docs/current/technical/DEPLOYMENT.md`.
+Aktualny frontend może renderować publiczny link GitHub w Hero. Prywatne repozytorium DIG Engine nie jest linkowane w CV i nie powinno być dodawane jako publiczny link bez świadomej decyzji.
 
+## Deployment
+
+Brak produkcyjnego deploymentu nie zmienia modelu prywatności: wszystko, co znajduje się w publicznym frontendzie i zasobach statycznych, należy traktować jako publiczne już na etapie przygotowania.

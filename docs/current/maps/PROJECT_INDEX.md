@@ -2,53 +2,72 @@
 
 ## Cel
 
-Ten dokument mapuje aktualne źródła prawdy po ukończeniu pierwszego działającego pionowego przekroju aplikacji „Tomasz Talik CV”. Źródłem nadrzędnym jest `docs/current/README.md`, a szczegóły znajdują się w dokumentach tematycznych.
+Mapa wskazuje aktualne źródła prawdy po zamknięciu pierwszego pełnego roboczego przekroju aplikacji „Tomasz Talik CV”.
 
 ## Dokumenty aktualne
 
-| Dokument | Rola | Główne zależności |
-| --- | --- | --- |
-| `docs/README.md` | Wejście do dokumentacji | `docs/current/README.md`, `docs/handoff/CURRENT_STATE.md` |
-| `docs/current/README.md` | Kanoniczny opis aktualnego stanu | wszystkie dokumenty szczegółowe |
-| `docs/current/maps/PROJECT_INDEX.md` | Mapa dokumentów, kodu i danych | `docs/current/README.md` |
-| `docs/current/content/CONTENT_MODEL.md` | Publiczne JSON, statusy, profile i konfiguracja PDF | personalizacja, UI, PDF |
-| `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` | Robocze źródło pierwszej paczki treści CV; nie opisuje funkcji ani treści już opublikowanych | model treści, dane publiczne |
-| `docs/current/product/PERSONALIZATION_SYSTEM.md` | Profile przez `?p=<profileId>` i fallback do `default` | model treści, bezpieczeństwo, UI |
-| `docs/current/ui/SINGLE_PAGE_FLOW.md` | Jedna karta CV, mobile first, accordion i aria | frontend, model treści, personalizacja |
-| `docs/current/security/ACCESS_AND_PRIVACY.md` | Rozdział danych publicznych i prywatnych | model treści, personalizacja, deployment |
-| `docs/current/technical/FRONTEND_ARCHITECTURE.md` | Zaimplementowany przekrój Vite, Vanilla JS, CSS i JSON | model treści, personalizacja, UI, PDF |
-| `docs/current/technical/PDF_PIPELINE.md` | PDF jako `window.print()` aktualnego widoku i `print.css` | frontend, model treści, personalizacja |
-| `docs/current/technical/LOCAL_EDITOR.md` | Przyszły lokalny edytor Streamlit | model treści, personalizacja, bezpieczeństwo |
-| `docs/current/technical/DEPLOYMENT.md` | Docelowy GitHub Pages i niepotwierdzony deployment produkcyjny | frontend, bezpieczeństwo, PDF |
-| `docs/handoff/README.md` | Wejście do dokumentów przekazania pracy | `docs/handoff/CURRENT_STATE.md` |
-| `docs/handoff/CURRENT_STATE.md` | Aktualny stan, testy, decyzje i następny krok | dokumentacja bieżąca, kod, dane |
+| Dokument | Rola |
+| --- | --- |
+| `docs/current/README.md` | Kanoniczny opis aktualnego stanu przekroju |
+| `docs/current/content/CONTENT_MODEL.md` | Publiczne JSON-y, statusy, profil default, schematy i walidator |
+| `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` | Kanoniczny dokument treści CV, bez kopiowania pełnej treści do architektury |
+| `docs/current/product/PERSONALIZATION_SYSTEM.md` | `?p=`, fallback i `?preview=draft` |
+| `docs/current/ui/SINGLE_PAGE_FLOW.md` | Jedna karta CV, Hero, accordion, PL/EN, avatar i druk |
+| `docs/current/security/ACCESS_AND_PRIVACY.md` | Publiczny charakter JSON-ów, zasobów statycznych i ograniczenia prywatności |
+| `docs/current/technical/FRONTEND_ARCHITECTURE.md` | Vite, Vanilla JS, CSS, dane i renderery |
+| `docs/current/technical/PDF_PIPELINE.md` | PDF przez `window.print()` |
+| `docs/current/technical/DEPLOYMENT.md` | Brak deploymentu produkcyjnego, planowany GitHub Pages |
+| `docs/handoff/CURRENT_STATE.md` | Aktualny handoff etapu |
 
-## Pliki kodu i danych istotne dla przekroju
+## Pliki danych
 
 | Plik | Rola |
 | --- | --- |
-| `package.json` | Skrypty `dev`, `build`, `validate:content` i zależności Vite/Ajv |
-| `vite.config.js` | Konfiguracja Vite z relatywną bazą |
-| `content/public/*.json` | Publiczne dane CV, w tym `education.json`; obecnie większość rzeczywistej treści ma status `draft` |
-| `docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` | Robocza paczka źródłowa dla pierwszych treści, przeniesiona z katalogu głównego dokumentacji roboczej |
-| `content/profiles/default.json` | Bezpieczny profil awaryjny `default` |
-| `content/schemas/*.schema.json` | Kontrakt danych JSON, w tym `education.schema.json` |
-| `src/app/content-loader.js` | Import publicznych JSON i profili przez eager glob |
+| `content/public/identity.json` | Imię i nazwisko oraz opcjonalny avatar |
+| `content/public/about.json` | Krótki opis Hero i sekcja O mnie |
+| `content/public/projects.json` | Sekcja Projekty |
+| `content/public/experience.json` | Sekcja Doświadczenie |
+| `content/public/education.json` | Sekcja Wykształcenie |
+| `content/public/skills.json` | Płaska lista umiejętności |
+| `content/public/links.json` | Publiczne linki używane w Hero |
+| `content/profiles/default.json` | Domyślny profil i kolejności prezentacji |
+| `content/schemas/education.schema.json` | Schemat danych wykształcenia |
+| `content/schemas/*.schema.json` | Pozostałe kontrakty danych JSON |
+
+## Pliki aplikacji i renderery
+
+| Plik | Rola |
+| --- | --- |
+| `package.json` | Skrypty Vite, build i walidacja treści |
+| `src/app/content-loader.js` | Ładowanie publicznych JSON-ów i profili |
 | `src/app/profile-resolver.js` | Wybór profilu przez `?p=` i fallback do `default` |
-| `src/app/view-model.js` | Łączenie danych, filtrowanie `published` lub `published` + `draft` w `?preview=draft`, ukrywanie pustych sekcji |
-| `src/app/bootstrap.js` | Składanie strony, komunikat fallbacku i jedna karta CV |
-| `src/components/hero-card.js` | Górna część karty, opcjonalny portret, akcje i `window.print()` |
-| `src/components/accordion.js` | Dostępny accordion z maksymalnie jednym otwartym panelem |
-| `src/sections/education-section.js` | Renderer sekcji wykształcenia używający wspólnego accordionu i bezpiecznych narzędzi DOM |
-| `src/styles/print.css` | Widok drukowany pokazujący opublikowane sekcje niezależnie od accordionu |
+| `src/app/view-model.js` | Lokalizacja, filtrowanie statusów, sekcje i Hero |
+| `src/app/bootstrap.js` | Składanie strony, `lang`, Hero i accordion |
+| `src/components/hero-card.js` | Hero, PL/EN, avatar, PDF i publiczny link |
+| `src/components/accordion.js` | Dostępny accordion z jednym otwartym panelem lub wszystkimi zamkniętymi |
+| `src/sections/about-section.js` | Renderer O mnie |
+| `src/sections/projects-section.js` | Renderer Projektów |
+| `src/sections/experience-section.js` | Renderer Doświadczenia |
+| `src/sections/education-section.js` | Renderer Wykształcenia |
+| `src/sections/skills-section.js` | Renderer Umiejętności |
+| `src/styles/components.css` | Hero, avatar, znaczniki szkiców i sekcje |
+| `src/styles/accordion.css` | Style accordionu |
+| `src/styles/print.css` | Wydruk i PDF |
 
 ## Decyzje przekrojowe
 
-* Jedna aplikacja, jeden katalog treści, wiele profili firm.
-* Publiczne profile wybiera `?p=<profileId>`; nieistniejący profil wraca do `profile default` i pokazuje zwarty pasek fallbacku.
-* UI jest jedną wspólną kartą CV o maksymalnej szerokości około 940 px, z podejściem mobile first i motywem przez `prefers-color-scheme`.
-* Accordion używa dostępnych przycisków i aria; jednocześnie otwarty może być najwyżej jeden panel, a wszystkie panele można zamknąć.
-* Elementy `draft` są widoczne tylko przez `?preview=draft`; `archived` oraz puste sekcje są ukrywane zawsze.
-* Publiczny widok może obecnie pokazać tylko imię i nazwisko, ponieważ większość treści pozostaje `draft`.
-* PDF jest wydrukiem aktualnego HTML i view modelu przez `window.print()` oraz `print.css`; nie jest statycznym plikiem.
-* Streamlit i Playwright pozostają przyszłe i mają używać tego samego HTML, view modelu i stylów wydruku.
+* Aktualny stos to Vite, Vanilla JavaScript, CSS i publiczne JSON-y bez frameworka frontendowego.
+* UI składa się z jednej responsywnej karty CV.
+* Zaimplementowane sekcje to O mnie, Projekty, Doświadczenie, Wykształcenie i Umiejętności.
+* Nie ma osobnej gotowej sekcji kontaktowej; publiczny link pojawia się jako akcja Hero.
+* `?preview=draft` jest redakcyjnym trybem podglądu, który pokazuje `published` i `draft` oraz można go łączyć z profilem, np. `?p=default&preview=draft`.
+* `archived` jest zawsze ukryte, a puste sekcje nie są renderowane.
+* Tryb podglądu nie jest zabezpieczeniem i nie zapewnia prywatności.
+* Przełącznik PL/EN zmienia lokalizowane treści, oznaczenia `Szkic` / `Draft` i atrybut `lang` dokumentu.
+* Hero obsługuje avatar `public/assets/identity/tomasz-talik-avatar.webp` wskazany jako `assets/identity/tomasz-talik-avatar.webp`.
+* PDF powstaje przez `window.print()` z tego samego HTML i view modelu, bez osobnego szablonu.
+* Brak produkcyjnego deploymentu; GitHub Pages pozostaje planowanym kierunkiem.
+
+## Przyszłe obszary
+
+Streamlit, Playwright, backend, automatyczny pipeline PDF i deployment produkcyjny pozostają przyszłe. Nie są częścią aktualnie zamkniętego przekroju.
