@@ -104,12 +104,12 @@ export function createHeroCard(hero, options = {}) {
     headline,
     description,
     skills.children.length ? skills : null,
+    actions.children.length ? actions : null,
     profileInfo,
   ]);
 
   return appendChildren(card, [
     content,
-    actions.children.length ? actions : null,
     media,
     company,
   ]);
