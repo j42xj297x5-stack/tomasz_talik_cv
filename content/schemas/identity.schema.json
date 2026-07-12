@@ -14,7 +14,8 @@
       "required": ["src", "alt"],
       "properties": {
         "src": { "$ref": "common.schema.json#/definitions/assetPath" },
-        "alt": { "$ref": "common.schema.json#/definitions/localizedText" }
+        "alt": { "$ref": "common.schema.json#/definitions/localizedText" },
+        "printSrc": { "$ref": "common.schema.json#/definitions/assetPath" }
       },
       "additionalProperties": false
     }

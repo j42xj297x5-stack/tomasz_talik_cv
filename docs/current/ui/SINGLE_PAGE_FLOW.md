@@ -19,7 +19,7 @@ Hero prezentuje:
 * publiczny link GitHub, jeśli przejdzie filtrowanie statusu;
 * opcjonalny avatar.
 
-Avatar jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazywanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Obraz zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px i lekkie obniżenie w układzie desktopowym. Na desktopie znajduje się po prawej stronie Hero, a na mobile nad tekstem. Brak avatara nie zostawia pustej kolumny.
+Avatar ekranowy jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazywanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Obraz zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px i lekkie obniżenie w układzie desktopowym. Na desktopie znajduje się po prawej stronie Hero, a na mobile nad tekstem. Opcjonalny avatar drukowany jest wskazywany przez `portrait.printSrc` i używa pliku `public/assets/identity/tomasz-talik-avatar_bw.webp`; nie zmienia układu ekranowego. Brak avatara nie zostawia pustej kolumny.
 
 ## Język
 
@@ -49,7 +49,7 @@ Bez `preview` widoczne są tylko elementy `published`. `?preview=draft` pokazuje
 
 ## PDF
 
-Przycisk PDF uruchamia `window.print()`. Wydruk korzysta z tego samego HTML i view modelu co strona, nie zależy od stanu otwarcia accordionu, zawiera szkice w `?preview=draft`, ukrywa znaczniki szkiców, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie.
+Przycisk PDF uruchamia `window.print()`. Wydruk korzysta z tego samego HTML i view modelu co strona, nie zależy od stanu otwarcia accordionu, zawiera szkice w `?preview=draft`, ukrywa znaczniki szkiców, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie. Jeśli istnieje `portrait.printSrc`, druk/PDF pokazuje ten osobny wariant na białym tle, bez ramki i ozdobników; bez tego pola używa avatara ekranowego jako fallbacku.
 
 ## Przyszłe elementy
 

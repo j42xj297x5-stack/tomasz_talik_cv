@@ -77,7 +77,7 @@ Aktualnie zaimplementowane sekcje profilu to O mnie, Projekty, Doświadczenie, W
 
 ## Hero, linki i avatar
 
-`identity.json` przechowuje imię i nazwisko oraz opcjonalny `portrait`. Obecny avatar jest wskazywany jako `assets/identity/tomasz-talik-avatar.webp`, co odpowiada plikowi `public/assets/identity/tomasz-talik-avatar.webp`. `links.json` dostarcza publiczny link renderowany jako akcja Hero po przejściu filtrowania statusów. Brak portretu nie tworzy pustej kolumny ani placeholdera.
+`identity.json` przechowuje imię i nazwisko oraz opcjonalny `portrait`. Obecny avatar ekranowy jest wskazywany w `portrait.src` jako `assets/identity/tomasz-talik-avatar.webp`, co odpowiada plikowi `public/assets/identity/tomasz-talik-avatar.webp`. Opcjonalne `portrait.printSrc` wskazuje osobny avatar do wydruku/PDF: `assets/identity/tomasz-talik-avatar_bw.webp`, odpowiadający `public/assets/identity/tomasz-talik-avatar_bw.webp`. Jeśli `printSrc` nie istnieje, druk bezpiecznie używa `portrait.src`. `links.json` dostarcza publiczny link renderowany jako akcja Hero po przejściu filtrowania statusów. Brak portretu nie tworzy pustej kolumny ani placeholdera.
 
 ## Umiejętności
 
@@ -85,7 +85,7 @@ Aktualna lista umiejętności pozostaje płaska. Wynika to z obecnego `skills.sc
 
 ## PDF
 
-Konfiguracja `pdf` w profilu jest opcjonalna i nie wskazuje osobnego pliku. PDF powstaje przez `window.print()` z tego samego HTML, danych i view modelu co strona. Przy `?preview=draft` wydruk zawiera również szkice, ale znaczniki `Szkic` / `Draft` są ukrywane.
+Konfiguracja `pdf` w profilu jest opcjonalna i nie wskazuje osobnego pliku. PDF powstaje przez `window.print()` z tego samego HTML, danych i view modelu co strona. Przy `?preview=draft` wydruk zawiera również szkice, ale znaczniki `Szkic` / `Draft` są ukrywane. Jeśli w danych istnieje `portrait.printSrc`, wydruk używa osobnego avatara drukowanego zamiast kolorowego avatara ekranowego; w przeciwnym razie używa `portrait.src` jako fallbacku.
 
 ## Prywatność
 
