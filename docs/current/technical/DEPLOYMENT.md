@@ -27,3 +27,7 @@ Aktualny PDF działa jako `window.print()` bieżącej strony i `src/styles/print
 ## Następny krok przed deploymentem
 
 Przed przygotowaniem publikacji należy lokalnie wykonać pełne `npm run validate:content`, `npm run build`, test mobile, kontrolę wydruku PL i EN oraz redakcyjny przegląd treści.
+
+## Publikacja profili firmowych
+
+Profil firmowy generowany lokalnie trzeba ręcznie zapisać jako `public/profiles/<token>.json`, a następnie ponownie opublikować statyczną stronę. Link ma postać `<deploymentBaseUrl>#p=<token>`. Nie ma backendu, API, bazy danych ani automatycznego wysyłania maili. Plik profilu jest publiczny i zawiera wyłącznie token oraz nazwę firmy; token nie jest mechanizmem autoryzacji.

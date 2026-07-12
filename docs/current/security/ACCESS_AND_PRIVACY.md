@@ -27,3 +27,7 @@ Aktualny frontend może renderować publiczny link GitHub w Hero. Prywatne repoz
 ## Deployment
 
 Brak produkcyjnego deploymentu nie zmienia modelu prywatności: wszystko, co znajduje się w publicznym frontendzie i zasobach statycznych, należy traktować jako publiczne już na etapie przygotowania.
+
+## Tokeny firmowe
+
+Fragment `#p=<długi-token>` jest wyłącznie publicznym identyfikatorem pliku profilu firmowego w `public/profiles/`. Długi, nieodgadywalny token ogranicza przypadkowe zgadywanie linku, ale nie jest autoryzacją, zabezpieczeniem ani gwarancją prywatności. Profil firmowy jest statycznym publicznym JSON-em i zawiera tylko token oraz nazwę firmy. Dane rekrutera, stanowisko, adres ogłoszenia, mail i list motywacyjny pozostają lokalne w edytorze i nie trafiają do publicznego JSON-u.

@@ -62,6 +62,9 @@ export function createHeroCard(hero, options = {}) {
   const headline = hero.headline ? createElement('p', { className: 'hero-card__headline', text: hero.headline }) : null;
   const description = hero.description ? createElement('p', { className: 'hero-card__description', text: hero.description }) : null;
   const profileInfo = hero.profileInfo ? createElement('p', { className: 'hero-card__profile', text: hero.profileInfo }) : null;
+  const company = hero.companyName
+    ? createElement('p', { className: 'hero-card__company', text: `${hero.companyLabel} ${hero.companyName}` })
+    : null;
   const skills = createElement('ul', { className: 'hero-card__skills', attributes: { 'aria-label': labels.featuredSkills || 'Wyróżnione umiejętności' } });
 
   if (description && hero.descriptionIsDraft) {
@@ -102,6 +105,7 @@ export function createHeroCard(hero, options = {}) {
     description,
     skills.children.length ? skills : null,
     actions.children.length ? actions : null,
+    company,
     profileInfo,
   ]);
   return appendChildren(card, [content, media]);

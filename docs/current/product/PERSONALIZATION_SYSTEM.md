@@ -60,3 +60,7 @@ PDF korzysta z tego samego profilu, HTML i view modelu co strona. Przy `?preview
 ## Bezpieczeństwo
 
 Tokeny, kody i parametry URL nie chronią danych zapisanych w publicznym frontendzie. Dane prywatne mogą być obsłużone dopiero przez przyszły backend i właściwą autoryzację; backend nie jest obecnie zaimplementowany.
+
+## Minimalna nakładka firmowa przez fragment URL
+
+Niezależnie od `?p=<profileId>` aplikacja może odczytać fragment `#p=<długi-token>`. Poprawny token wskazuje publiczny plik `public/profiles/<token>.json`, który zawiera wyłącznie `id` i `companyName`. Nazwa firmy jest łączona z wcześniej rozwiązanym profilem, więc token firmowy nie zastępuje profilu `default` ani profilu wybranego przez `?p=`. Brak pliku, błędny token lub niepoprawny JSON uruchamia zwykły fallback i nie blokuje CV. Token nie jest autoryzacją ani ochroną danych.

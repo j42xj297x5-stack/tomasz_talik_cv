@@ -71,3 +71,14 @@ Mapa wskazuje aktualne źródła prawdy po zamknięciu pierwszego pełnego roboc
 ## Przyszłe obszary
 
 Streamlit, Playwright, backend, automatyczny pipeline PDF i deployment produkcyjny pozostają przyszłe. Nie są częścią aktualnie zamkniętego przekroju.
+
+## Lokalny edytor i profile firmowe
+
+| Plik | Rola |
+| --- | --- |
+| `editor/app.py` | Lokalny edytor Streamlit generujący token, JSON profilu, link oraz szablony maila/listu |
+| `editor/config.example.json` | Przykład lokalnej konfiguracji `deploymentBaseUrl` bez danych prywatnych |
+| `content/schemas/company-profile.schema.json` | Schemat minimalnego publicznego profilu firmowego |
+| `public/profiles/.gitkeep` | Katalog na ręcznie publikowane profile firmowe |
+
+Profile firmowe są publicznymi minimalnymi nakładkami z `id` i `companyName`, wybieranymi przez `#p=<długi-token>`. Token nie jest autoryzacją ani ochroną danych.

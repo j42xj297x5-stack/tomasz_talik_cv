@@ -90,3 +90,7 @@ Konfiguracja `pdf` w profilu jest opcjonalna i nie wskazuje osobnego pliku. PDF 
 ## Prywatność
 
 Prywatne dane i sekrety nie mogą trafiać do publicznych JSON-ów, profili, kodu frontendu ani zasobów statycznych. Status `draft` nie chroni danych.
+
+## Minimalne profile firmowe
+
+Profile firmowe są publicznymi minimalnymi nakładkami ładowanymi z `public/profiles/<token>.json` przez fragment URL `#p=<długi-token>`. Schemat `content/schemas/company-profile.schema.json` dopuszcza wyłącznie pola `id` i `companyName`. Taki profil nie kopiuje konfiguracji `default`, nie przechowuje maila, listu, danych rekrutera, stanowiska ani adresu ogłoszenia i dodaje jedynie nazwę firmy do wcześniej rozwiązanego profilu `default` albo profilu wybranego przez `?p=`.
