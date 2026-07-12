@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Zamknięto pierwszy pełny roboczy przekrój aplikacji: Vite, Vanilla JavaScript, CSS, publiczne JSON-y, profil `default`, redakcyjny `?preview=draft`, PL/EN, Hero z opcjonalnym avatarem, accordion, sekcje CV i PDF przez `window.print()`. Dokumentacja opisuje stan potwierdzony kodem, danymi i lokalnym podglądem Projektanta.
+Opublikowano pierwszą pełną zaakceptowaną treść CV w pierwszym pełnym przekroju aplikacji: Vite, Vanilla JavaScript, CSS, publiczne JSON-y, profil `default`, redakcyjny `?preview=draft`, PL/EN, Hero z opcjonalnym avatarem, accordion, sekcje CV i PDF przez `window.print()`. Dokumentacja opisuje stan potwierdzony kodem, danymi i lokalnym podglądem Projektanta.
 
 ## Stan architektury
 
@@ -28,7 +28,7 @@ Globalny przełącznik PL/EN zmienia lokalizowane treści i etykiety szkiców. W
 
 `?p=<profileId>` wybiera publiczny profil. Brak parametru używa `default`, a niepoprawny profil wraca do `default` z komunikatem fallbacku.
 
-Bez parametru `preview` renderowane są wyłącznie elementy `published`. `?preview=draft` renderuje `published` oraz `draft`. `archived` pozostaje niewidoczne w obu trybach, a puste sekcje nie są renderowane. Tryb roboczy można łączyć z profilem:
+Bez parametru `preview` renderowane są wyłącznie elementy `published`; obecnie obejmuje to pełną zaakceptowaną treść CV. `?preview=draft` renderuje `published` oraz przyszłe `draft`. `archived` pozostaje niewidoczne w obu trybach, a puste sekcje nie są renderowane. Tryb roboczy można łączyć z profilem:
 
 ```text
 ?p=default&preview=draft
@@ -46,7 +46,7 @@ Avatar jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazanym
 
 ## Status danych
 
-Publiczne dane obejmują `identity.json`, `about.json`, `projects.json`, `experience.json`, `education.json`, `skills.json`, `links.json` i profil `default`. Schematy oraz `scripts/validate-content.mjs` definiują kontrakt i walidację. Lista umiejętności pozostaje płaska z powodu obecnego schematu i danych. `FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV; dokumenty architektoniczne nie przepisują pełnej treści CV.
+Publiczne dane obejmują opublikowaną pierwszą pełną treść CV w `identity.json`, `about.json`, `projects.json`, `experience.json`, `education.json`, `skills.json`, `links.json` i profil `default`. Schematy oraz `scripts/validate-content.mjs` definiują kontrakt i walidację. Lista umiejętności pozostaje płaska z powodu obecnego schematu i danych. `FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV; dokumenty architektoniczne nie przepisują pełnej treści CV.
 
 ## Potwierdzone testy
 
@@ -55,16 +55,20 @@ Publiczne dane obejmują `identity.json`, `about.json`, `projects.json`, `experi
 * Codex nie mógł potwierdzić `npm run validate:content` ani `npm run build` z powodu braku zależności i błędu registry 403.
 * Pełna walidacja i build pozostają do wykonania w lokalnym środowisku z dostępnymi zależnościami.
 
+## Profile firmowe
+
+Profile firmowe korzystają z tej samej opublikowanej treści CV i dodają wyłącznie etykietę firmy. Nie zmieniają treści sekcji ani nie publikują danych prywatnych.
+
 ## Znane ograniczenia
 
 * Brak produkcyjnego deploymentu.
 * Brak potwierdzonego builda i walidacji treści w środowisku Codex.
-* `?preview=draft` nie zapewnia prywatności.
+* `?preview=draft` pozostaje dostępny dla przyszłych treści roboczych i nie zapewnia prywatności.
 * Dane i zasoby w publicznym frontendzie są publiczne niezależnie od statusu.
 * Brak osobnej sekcji kontaktowej.
-* Brak backendu, Streamlit i Playwright.
+* Brak backendu i Playwright; lokalny edytor Streamlit pozostaje narzędziem lokalnym.
 * Aktualny model umiejętności jest płaski.
 
 ## Rekomendowany następny etap
 
-Następny etap powinien obejmować pełne lokalne `npm run validate:content` i `npm run build`, test mobile, kontrolę wydruku PL i EN, redakcyjny przegląd treści, późniejsze świadome zmienianie wybranych statusów `draft` na `published` i dopiero potem przygotowanie deploymentu.
+Następny etap powinien obejmować pełne lokalne `npm run validate:content` i `npm run build`, test mobile, kontrolę wydruku PL i EN, redakcyjny przegląd treści, utrzymanie `?preview=draft` dla przyszłych szkiców i przygotowanie deploymentu.

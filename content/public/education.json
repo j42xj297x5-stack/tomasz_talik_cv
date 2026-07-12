@@ -2,7 +2,7 @@
   "items": [
     {
       "stableId": "education-ath-environmental-engineering",
-      "status": "draft",
+      "status": "published",
       "institution": {
         "pl": "Akademia Techniczno-Humanistyczna w Bielsku-Białej",
         "en": "University of Technology and Humanities in Bielsko-Biala"
@@ -33,7 +33,7 @@
     },
     {
       "stableId": "education-electronics-technician",
-      "status": "draft",
+      "status": "published",
       "institution": {
         "pl": "Zespół Szkół Elektronicznych, Elektrycznych i Mechanicznych im. Jędrzeja Śniadeckiego w Bielsku-Białej",
         "en": "Zespół Szkół Elektronicznych, Elektrycznych i Mechanicznych im. Jędrzeja Śniadeckiego w Bielsku-Białej"

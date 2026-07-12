@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "experience-ui-szansa",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "Usługi Informatyczne Szansa",
         "en": "Usługi Informatyczne Szansa"
@@ -14,7 +14,7 @@
     },
     {
       "id": "experience-banialuka",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "Teatr Lalek Banialuka",
         "en": "Banialuka Puppet Theatre"
@@ -26,7 +26,7 @@
     },
     {
       "id": "experience-independent-creative-practice",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "Niezależna praktyka twórcza i produkcyjna",
         "en": "Independent Creative and Production Practice"
@@ -38,7 +38,7 @@
     },
     {
       "id": "experience-tt-small-business",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "T&T s.c.",
         "en": "T&T s.c."

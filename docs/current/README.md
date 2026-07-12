@@ -2,7 +2,7 @@
 
 ## Status
 
-Zamknięto dokumentacyjnie pierwszy pełny roboczy przekrój aplikacji. Projekt jest statyczną aplikacją Vite z Vanilla JavaScript, CSS, publicznymi danymi JSON i jedną responsywną kartą CV. Nie używa frameworka frontendowego. Ten dokument opisuje wyłącznie stan potwierdzony aktualnym kodem, danymi i lokalnym podglądem Projektanta.
+Opublikowano pierwszą pełną zaakceptowaną treść CV w publicznych danych JSON. Projekt jest statyczną aplikacją Vite z Vanilla JavaScript, CSS, publicznymi danymi JSON i jedną responsywną kartą CV. Nie używa frameworka frontendowego. Ten dokument opisuje wyłącznie stan potwierdzony aktualnym kodem, danymi i lokalnym podglądem Projektanta.
 
 ## Zakres zaimplementowanego przekroju
 
@@ -10,7 +10,7 @@ Zamknięto dokumentacyjnie pierwszy pełny roboczy przekrój aplikacji. Projekt 
 * Widok jest składany w Vanilla JavaScript, a style są utrzymywane w CSS.
 * Dane publiczne są ładowane z `content/public/identity.json`, `about.json`, `projects.json`, `experience.json`, `education.json`, `skills.json` i `links.json`.
 * Profil wybiera parametr `?p=<profileId>`; brak parametru używa profilu `default`.
-* Tryb roboczy można łączyć z profilem, np. `?p=default&preview=draft`.
+* Pierwsza pełna zaakceptowana treść CV jest widoczna bez `?preview=draft`; tryb roboczy można nadal łączyć z profilem dla przyszłych szkiców, np. `?p=default&preview=draft`.
 * UI ma jedną wspólną responsywną kartę CV.
 * Zaimplementowane sekcje to: O mnie, Projekty, Doświadczenie, Wykształcenie i Umiejętności.
 * Sekcja kontaktowa nie jest osobną gotową sekcją; aktualny kod używa publicznego linku w akcjach Hero, jeśli link przejdzie filtrowanie statusu.
@@ -31,7 +31,7 @@ Kontrakt statusów jest następujący:
 * `archived` pozostaje niewidoczne w obu trybach;
 * puste sekcje nie są renderowane.
 
-`?preview=draft` jest narzędziem redakcyjnym. Nie jest zabezpieczeniem dostępu i nie zapewnia prywatności, ponieważ publiczne JSON-y oraz zasoby statyczne są częścią frontendu. Robocze elementy widoczne na stronie dostają oznaczenie `Szkic` w PL i `Draft` w EN; znaczniki są ukrywane w wydruku.
+Pierwsza pełna zaakceptowana treść CV jest opublikowana, więc aktualne sekcje Hero, O mnie, Projekty, Doświadczenie, Wykształcenie, Umiejętności i zaakceptowane publiczne linki są widoczne bez `?preview=draft`. `?preview=draft` pozostaje narzędziem redakcyjnym dla przyszłych treści roboczych. Nie jest zabezpieczeniem dostępu i nie zapewnia prywatności, ponieważ publiczne JSON-y oraz zasoby statyczne są częścią frontendu. Robocze elementy widoczne na stronie dostają oznaczenie `Szkic` w PL i `Draft` w EN; opublikowane elementy nie dostają takich oznaczeń, a znaczniki są ukrywane w wydruku.
 
 ## Accordion
 
@@ -60,4 +60,4 @@ Nie ma potwierdzonego deploymentu produkcyjnego. Streamlit, Playwright, backend,
 
 ## Lokalny edytor i profile firmowe
 
-Zaimplementowano lokalny edytor Streamlit w `editor/app.py`. Działa bez backendu, API, połączeń sieciowych i bez automatycznego wysyłania maili. Generuje deterministyczne teksty PL/EN, plik JSON profilu firmowego oraz link z fragmentem `#p=<długi-token>`. JSON zawiera wyłącznie `id` tokenu i `companyName`; dane rekrutera, stanowisko, ogłoszenie, mail i list pozostają lokalne w formularzu. Profil firmowy jest ręcznie dodawany do `public/profiles/` i wymaga ponownego opublikowania strony. Token jest nieodgadywalnym identyfikatorem wygody, ale nie jest autoryzacją ani ochroną danych.
+Zaimplementowano lokalny edytor Streamlit w `editor/app.py`. Działa bez backendu, API, połączeń sieciowych i bez automatycznego wysyłania maili. Generuje deterministyczne teksty PL/EN, plik JSON profilu firmowego oraz link z fragmentem `#p=<długi-token>`. JSON zawiera wyłącznie `id` tokenu i `companyName`; profile firmowe korzystają z tej samej opublikowanej treści CV i dodają wyłącznie etykietę firmy. Dane rekrutera, stanowisko, ogłoszenie, mail i list pozostają lokalne w formularzu. Profil firmowy jest ręcznie dodawany do `public/profiles/` i wymaga ponownego opublikowania strony. Token jest nieodgadywalnym identyfikatorem wygody, ale nie jest autoryzacją ani ochroną danych.

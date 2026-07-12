@@ -2,7 +2,7 @@
 
 ## Cel
 
-Dokument opisuje aktualny model publicznych danych JSON pierwszego roboczego przekroju aplikacji. Źródłem prawdy pozostają aktualne pliki `content/`, schematy oraz walidator.
+Dokument opisuje aktualny model publicznych danych JSON po publikacji pierwszej pełnej zaakceptowanej treści CV. Źródłem prawdy pozostają aktualne pliki `content/`, schematy oraz walidator.
 
 ## Publiczne obszary danych
 
@@ -21,7 +21,7 @@ content/schemas/*.schema.json    # kontrakt danych JSON
 scripts/validate-content.mjs     # walidator schematów i relacji
 ```
 
-`docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV. Dokumenty architektoniczne nie kopiują pełnej treści CV.
+`docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV. Pierwsza pełna zaakceptowana treść CV jest opublikowana w publicznych JSON-ach jako `published`; dokumenty architektoniczne nie kopiują pełnej treści CV.
 
 ## Stos danych i walidacja
 
@@ -63,7 +63,7 @@ Statusy oznaczają:
 * `published` — treść widoczna w zwykłym publicznym renderze;
 * `archived` — treść historyczna niewidoczna w aktualnym renderze.
 
-`?preview=draft` nie jest zabezpieczeniem dostępu i nie zapewnia prywatności. Dane zapisane w publicznych JSON-ach należy traktować jako publiczne niezależnie od statusu.
+`?preview=draft` nie jest zabezpieczeniem dostępu i nie zapewnia prywatności. Dane zapisane w publicznych JSON-ach należy traktować jako publiczne niezależnie od statusu. Aktualnie zaakceptowane sekcje są widoczne bez `?preview=draft`, a tryb redakcyjny pozostaje dostępny dla przyszłych treści roboczych.
 
 ## Profil default i personalizacja
 
@@ -93,4 +93,4 @@ Prywatne dane i sekrety nie mogą trafiać do publicznych JSON-ów, profili, kod
 
 ## Minimalne profile firmowe
 
-Profile firmowe są publicznymi minimalnymi nakładkami ładowanymi z `public/profiles/<token>.json` przez fragment URL `#p=<długi-token>`. Schemat `content/schemas/company-profile.schema.json` dopuszcza wyłącznie pola `id` i `companyName`. Taki profil nie kopiuje konfiguracji `default`, nie przechowuje maila, listu, danych rekrutera, stanowiska ani adresu ogłoszenia i dodaje jedynie nazwę firmy do wcześniej rozwiązanego profilu `default` albo profilu wybranego przez `?p=`.
+Profile firmowe są publicznymi minimalnymi nakładkami ładowanymi z `public/profiles/<token>.json` przez fragment URL `#p=<długi-token>`. Schemat `content/schemas/company-profile.schema.json` dopuszcza wyłącznie pola `id` i `companyName`. Taki profil korzysta z tej samej opublikowanej treści CV, nie kopiuje konfiguracji `default`, nie przechowuje maila, listu, danych rekrutera, stanowiska ani adresu ogłoszenia i dodaje jedynie nazwę firmy do wcześniej rozwiązanego profilu `default` albo profilu wybranego przez `?p=`.

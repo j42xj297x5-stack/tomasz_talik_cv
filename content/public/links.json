@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "link-github-profile",
-      "status": "draft",
+      "status": "published",
       "label": {
         "pl": "Profil GitHub",
         "en": "GitHub profile"
@@ -11,7 +11,7 @@
     },
     {
       "id": "link-portfolio",
-      "status": "draft",
+      "status": "published",
       "label": {
         "pl": "Portfolio",
         "en": "Portfolio"
@@ -20,7 +20,7 @@
     },
     {
       "id": "link-portfolio-repository",
-      "status": "draft",
+      "status": "published",
       "label": {
         "pl": "Repozytorium portfolio",
         "en": "Portfolio repository"
@@ -29,7 +29,7 @@
     },
     {
       "id": "link-haiku-cosmos-demo",
-      "status": "draft",
+      "status": "published",
       "label": {
         "pl": "Demo Haiku Cosmos",
         "en": "Haiku Cosmos demo"
@@ -38,7 +38,7 @@
     },
     {
       "id": "link-haiku-cosmos-repository",
-      "status": "draft",
+      "status": "published",
       "label": {
         "pl": "Repozytorium Haiku Cosmos",
         "en": "Haiku Cosmos repository"
@@ -47,7 +47,7 @@
     },
     {
       "id": "link-dig-engine-demo",
-      "status": "draft",
+      "status": "published",
       "label": {
         "pl": "Demonstracja DIG Engine",
         "en": "DIG Engine demonstration"
