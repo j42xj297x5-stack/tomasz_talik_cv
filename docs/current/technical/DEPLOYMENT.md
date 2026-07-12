@@ -1,33 +1,25 @@
 # Deployment
 
-## Cel
+## Produkcja
 
-Dokument opisuje aktualny stan publikacji i planowany kierunek hostingu.
+Produkcyjny adres CV to `https://j42xj297x5-stack.github.io/tomasz_talik_cv/`. GitHub Pages publikuje statyczny katalog `dist` z gałęzi `tomasz_talik_cv`; nie jest używana gałąź `main` ani osobna gałąź `gh-pages`. Produkcyjny `base` Vite wynosi `/tomasz_talik_cv/`, a lokalny `npm run dev` działa pod `/`.
 
-## Aktualny stan
+## GitHub Actions
 
-Nie ma wdrożenia produkcyjnego. Praca odbywa się lokalnie przez Vite. Dokument nie opisuje wykonanego deploymentu ani gotowego pipeline'u publikacji.
+Workflow `.github/workflows/deploy-pages.yml` uruchamia się automatycznie po pushu do gałęzi `tomasz_talik_cv` oraz ręcznie przez `workflow_dispatch`. Używa środowiska `github-pages`, minimalnych uprawnień `contents: read`, `pages: write`, `id-token: write`, współbieżności Pages z anulowaniem starszych niezakończonych wdrożeń, Node.js 24 oraz oficjalnych akcji `actions/checkout@v4`, `actions/setup-node@v4`, `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3` i `actions/deploy-pages@v4`.
 
-## Lokalny tryb pracy
+Pipeline wykonuje `npm ci`, `npm run validate:content` i `npm run build`, a następnie publikuje `dist`.
 
-Aplikacja jest statycznym frontendem Vite. Lokalny podgląd odbywa się przez środowisko deweloperskie Vite po dostępnej instalacji zależności. W bieżącym handoffie nie należy przedstawiać `npm run validate:content` ani `npm run build` jako potwierdzonych przez Codex, jeżeli zależności nie są dostępne.
+## Publiczna konfiguracja API
 
-## Planowany kierunek
+Frontend produkcyjny zna publiczny adres Workera z `.env.production`: `https://withered-leaf-cf6b.tapchanbuddha.workers.dev`. To publiczna konfiguracja, nie sekret. Sekrety takie jak `EDITOR_ADMIN_KEY`, `TOKEN_PEPPER` i `PRIVATE_PROFILE_JSON` nie trafiają do `.env.production`, repozytorium ani GitHub Pages.
 
-GitHub Pages pozostaje planowanym kierunkiem publikacji statycznej aplikacji. Publikowane artefakty będą publiczne, dlatego wszystkie dane w publicznych JSON-ach i zasobach statycznych muszą być traktowane jako publiczne.
+Cloudflare Worker musi dopuścić origin `https://j42xj297x5-stack.github.io`. Sam deployment na GitHub Pages nie zastępuje poprawnej konfiguracji CORS po stronie Workera.
 
 ## Prywatność
 
-GitHub Pages nie jest miejscem na prywatne dane ani sekrety. Status `draft` oraz parametr `?preview=draft` nie chronią danych. Prywatne informacje wymagają przyszłego backendu i właściwej autoryzacji; backend nie jest obecnie zaimplementowany.
+GitHub Pages nie jest miejscem na prywatne dane ani sekrety. Status `draft`, `?preview=draft`, publiczne profile i statyczne zasoby nie chronią danych. Publiczny JSON profilu pozostaje w formacie `public/profiles/<p>.json` i zawiera tylko `id` oraz `companyName`; prywatny token `k` oraz dane prywatne nie trafiają do repozytorium ani Pages.
 
-## PDF
+## Profile firmowe
 
-Aktualny PDF działa jako `window.print()` bieżącej strony i `src/styles/print.css`. Playwright nie jest częścią obecnego deploymentu i pozostaje przyszłą automatyzacją.
-
-## Następny krok przed deploymentem
-
-Przed przygotowaniem publikacji należy lokalnie wykonać pełne `npm run validate:content`, `npm run build`, test mobile, kontrolę wydruku PL i EN oraz redakcyjny przegląd treści.
-
-## Publikacja profili firmowych
-
-Profil firmowy generowany lokalnie trzeba ręcznie zapisać jako `public/profiles/<token>.json`, a następnie ponownie opublikować statyczną stronę. Link ma postać `<deploymentBaseUrl>#p=<token>`. Nie ma backendu, API, bazy danych ani automatycznego wysyłania maili. Plik profilu jest publiczny i zawiera wyłącznie token oraz nazwę firmy; token nie jest mechanizmem autoryzacji.
+Lokalny edytor generuje link w formacie `https://j42xj297x5-stack.github.io/tomasz_talik_cv/#p=<p>&k=<k>`. Użytkownik w normalnej pracy nie wpisuje adresu CV ani Workera, bo publiczne stałe pochodzą z `editor/config.defaults.json`; lokalny sekret `editorAdminKey` pozostaje w ignorowanym `editor/config.local.json`.

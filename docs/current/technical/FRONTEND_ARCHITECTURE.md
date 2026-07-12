@@ -125,3 +125,9 @@ Streamlit, Playwright, backend i produkcyjny deployment nie są zaimplementowane
 ## Prywatny blok kontaktowy
 
 `profile-resolver.js` obsługuje publiczny token firmy `p` we fragmencie URL, a `private-profile-client.js` obsługuje niezależny token `k`. Klient prywatnego profilu pobiera publiczny adres API z `VITE_PRIVATE_PROFILE_API_URL`, wykonuje `POST /profile` z `credentials: "omit"` i nie blokuje renderowania publicznego CV. `bootstrap.js` renderuje Hero i accordion od razu, a po poprawnej odpowiedzi Workera wstawia blok `private-contact` bezpośrednio pod Hero. Blok aktualizuje etykiety i lokalizowane wartości przy przełączaniu PL/EN; przy błędzie pokazuje wyłącznie neutralny komunikat statusowy. Dane prywatne nie są dodawane do publicznych profili ani view modelu treści publicznych.
+
+## Produkcyjna konfiguracja Pages i Workera
+
+Vite używa `/` dla lokalnego `npm run dev` i `/tomasz_talik_cv/` dla produkcyjnego builda GitHub Pages. Produkcyjny frontend jest publikowany pod `https://j42xj297x5-stack.github.io/tomasz_talik_cv/` z gałęzi `tomasz_talik_cv`, a workflow Pages można uruchomić także ręcznie. GitHub Actions wykonuje `npm run validate:content` oraz `npm run build` przed publikacją katalogu `dist`.
+
+Publiczny adres Workera pochodzi z `.env.production` (`VITE_PRIVATE_PROFILE_API_URL=https://withered-leaf-cf6b.tapchanbuddha.workers.dev`). Worker musi dopuścić origin `https://j42xj297x5-stack.github.io`; sama publikacja statycznego frontendu nie konfiguruje CORS. Dane prywatne nadal pochodzą tylko z Workera i nie trafiają do publicznych JSON-ów ani Pages.

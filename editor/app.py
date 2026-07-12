@@ -9,7 +9,9 @@ from pathlib import Path
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG_LOCAL = Path(__file__).resolve().parent / "config.local.json"
+EDITOR_DIR = Path(__file__).resolve().parent
+CONFIG_DEFAULTS = EDITOR_DIR / "config.defaults.json"
+CONFIG_LOCAL = EDITOR_DIR / "config.local.json"
 PROJECTS_PATH = ROOT / "content" / "public" / "projects.json"
 LINKS_PATH = ROOT / "content" / "public" / "links.json"
 TOKEN_MIN = 32
@@ -28,18 +30,25 @@ def load_json(path, default):
         return default
 
 
-def load_local_config(path):
+def load_config_file(path, display_name):
     try:
         with path.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
     except FileNotFoundError:
         return {}, "missing", None
     except json.JSONDecodeError:
-        return {}, "invalid", "Niepoprawny JSON w config.local.json. Popraw plik albo uzupełnij pola ręcznie."
+        return {}, "invalid", f"Niepoprawny JSON w {display_name}. Popraw plik albo uzupełnij pola ręcznie."
 
     if not isinstance(data, dict):
-        return {}, "invalid", "config.local.json musi zawierać obiekt JSON z nazwanymi polami."
+        return {}, "invalid", f"{display_name} musi zawierać obiekt JSON z nazwanymi polami."
     return data, "found", None
+
+
+def load_editor_config():
+    defaults, defaults_status, defaults_error = load_config_file(CONFIG_DEFAULTS, "config.defaults.json")
+    local, local_status, local_error = load_config_file(CONFIG_LOCAL, "config.local.json")
+    config = {**defaults, **local}
+    return config, defaults_status, local_status, defaults_error, local_error
 
 
 def localized(value, language):
@@ -165,7 +174,7 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
         return False, worker_error or "Niepoprawny adres API Workera."
     editor_admin_key = str(editor_admin_key or "").strip()
     if not editor_admin_key:
-        return False, "Brakuje klucza administracyjnego edytora."
+        return False, "Brakuje klucza administracyjnego edytora. Dodaj editorAdminKey w editor/config.local.json albo wpisz ręczne nadpisanie w Konfiguracji technicznej."
 
     endpoint = build_admin_create_endpoint(api_base)
     payload = json.dumps({"token": private_token, "expiresAt": None}).encode("utf-8")
@@ -280,11 +289,10 @@ st.set_page_config(page_title="Lokalny edytor profili firmowych", layout="wide")
 st.title("Lokalny edytor profili firmowych")
 st.caption("Edytor działa lokalnie. Eksportowany JSON zawiera wyłącznie token i nazwę firmy.")
 
-config, config_status, config_error = load_local_config(CONFIG_LOCAL)
-if config_error:
-    st.error(config_error)
-elif config_status == "missing":
-    st.info("config.local.json: brak — używana jest konfiguracja ręczna.")
+config, defaults_status, local_status, defaults_error, local_error = load_editor_config()
+for error in (defaults_error, local_error):
+    if error:
+        st.error(error)
 
 if st.button("Wygeneruj nowy token"):
     st.session_state.company_profile_token = secrets.token_urlsafe(32)
@@ -294,27 +302,14 @@ if st.button("Wygeneruj nowy token"):
 token = ensure_token()
 private_token = ensure_private_token()
 
+default_deployment_base_url = str(config.get("deploymentBaseUrl") or "")
+default_worker_api_base_url = str(config.get("workerApiBaseUrl") or "")
+
 language = st.radio("Język treści", ["PL", "EN"], horizontal=True).lower()
 projects = public_options(PROJECTS_PATH, language)
 links = public_options(LINKS_PATH, language)
 
 with st.form("profile_form"):
-    deployment_base_url_input = st.text_input(
-        "Adres wdrożonego CV",
-        value="",
-        help="Pozostaw puste, aby użyć deploymentBaseUrl z config.local.json.",
-    )
-    worker_api_base_url_input = st.text_input(
-        "Bazowy adres API Workera",
-        value="",
-        help="Pozostaw puste, aby użyć workerApiBaseUrl z config.local.json. Podaj pełny adres https:// bez /profile i /admin/create.",
-    )
-    editor_admin_key_input = st.text_input(
-        "Klucz administracyjny edytora (pozostaw puste, aby użyć config.local.json)",
-        value="",
-        type="password",
-        key="editor_admin_key_manual_v2",
-    )
     company_name = st.text_input("Nazwa firmy", max_chars=120)
     role = st.text_input("Stanowisko")
     recruiter_name = st.text_input("Imię rekrutera")
@@ -325,57 +320,48 @@ with st.form("profile_form"):
     output_kind = st.radio("Generuj", ["Krótki mail", "Pełny list motywacyjny", "Oba"], index=2, horizontal=True)
     submitted = st.form_submit_button("Generuj materiały")
 
+with st.expander("Konfiguracja techniczna", expanded=False):
+    deployment_base_url_input = st.text_input(
+        "Docelowy adres CV",
+        value=default_deployment_base_url,
+        help="Wartość startowa pochodzi z config.defaults.json albo lokalnego nadpisania z config.local.json; zmiana działa w bieżącej sesji.",
+    )
+    worker_api_base_url_input = st.text_input(
+        "Bazowy adres Workera",
+        value=default_worker_api_base_url,
+        help="Wartość startowa pochodzi z config.defaults.json albo lokalnego nadpisania z config.local.json. Podaj pełny adres https:// bez /profile i /admin/create.",
+    )
+    editor_admin_key_input = st.text_input(
+        "Ręczne nadpisanie klucza administracyjnego",
+        value="",
+        type="password",
+        key="editor_admin_key_manual_v2",
+        help="Nie pokazuje wartości wczytanej z config.local.json; niepusta wartość działa tylko w bieżącej sesji.",
+    )
+    st.button("Wyczyść ręczne nadpisanie klucza", on_click=clear_manual_admin_key)
+
+    deployment_base_url = deployment_base_url_input.strip()
+    worker_api_base_url = worker_api_base_url_input.strip()
+    worker_api_base_url, worker_status, worker_error = validate_worker_api_base_url(worker_api_base_url)
+    base_url = normalize_base_url(deployment_base_url)
+    base_url_status = "configured" if base_url else "missing"
+    config_editor_admin_key_stripped = str(config.get("editorAdminKey") or "").strip()
+    manual_editor_admin_key_stripped = str(editor_admin_key_input or "").strip()
+    editor_admin_key = manual_editor_admin_key_stripped or config_editor_admin_key_stripped
+    admin_create_endpoint = build_admin_create_endpoint(worker_api_base_url) if worker_status == "configured" else ""
+    endpoint_host, endpoint_path = parse_endpoint_public_parts(admin_create_endpoint) if admin_create_endpoint else ("", "")
+
+    st.write(f"config.defaults.json: {'znaleziony' if defaults_status == 'found' else 'brak' if defaults_status == 'missing' else 'niepoprawny'}")
+    st.write(f"config.local.json: {'znaleziony' if local_status == 'found' else 'brak' if local_status == 'missing' else 'niepoprawny'}")
+    st.write(f"Adres produkcyjny: {'skonfigurowany' if base_url_status == 'configured' else 'brak'}")
+    st.write(f"Worker: {'skonfigurowany' if worker_status == 'configured' else 'brak' if worker_status == 'missing' else 'niepoprawny'}")
+    st.write(f"Klucz administracyjny: {'wczytany' if editor_admin_key else 'brak'}")
+    if endpoint_host and endpoint_path:
+        st.write(f"Endpoint aktywacji: host `{endpoint_host}`, ścieżka `{endpoint_path}`")
+
 selected_projects = [item for item in projects if item["label"] in selected_project_labels]
 selected_links = [item for item in links if item["label"] in selected_link_labels]
 link_lines = selected_link_lines(selected_projects, selected_links)
-deployment_base_url = deployment_base_url_input.strip() or str(config.get("deploymentBaseUrl") or "")
-manual_worker_api_base_url = worker_api_base_url_input.strip()
-worker_api_base_url_source = "pole ręczne" if manual_worker_api_base_url else "konfiguracja"
-worker_api_base_url = manual_worker_api_base_url or str(config.get("workerApiBaseUrl") or "")
-worker_api_base_url, worker_status, worker_error = validate_worker_api_base_url(worker_api_base_url)
-base_url = normalize_base_url(deployment_base_url)
-manual_editor_admin_key = str(editor_admin_key_input or "")
-manual_editor_admin_key_stripped = manual_editor_admin_key.strip()
-config_editor_admin_key = str(config.get("editorAdminKey") or "")
-config_editor_admin_key_stripped = config_editor_admin_key.strip()
-if manual_editor_admin_key_stripped:
-    editor_admin_key = manual_editor_admin_key_stripped
-    editor_admin_key_source = "pole ręczne"
-    editor_admin_key_had_outer_whitespace = manual_editor_admin_key != manual_editor_admin_key_stripped
-elif config_editor_admin_key_stripped:
-    editor_admin_key = config_editor_admin_key_stripped
-    editor_admin_key_source = "konfiguracja"
-    editor_admin_key_had_outer_whitespace = config_editor_admin_key != config_editor_admin_key_stripped
-else:
-    editor_admin_key = ""
-    editor_admin_key_source = "brak"
-    editor_admin_key_had_outer_whitespace = False
-admin_create_endpoint = build_admin_create_endpoint(worker_api_base_url) if worker_status == "configured" else ""
-endpoint_host, endpoint_path = parse_endpoint_public_parts(admin_create_endpoint) if admin_create_endpoint else ("", "")
-
-with st.expander("Diagnostyka konfiguracji", expanded=True):
-    st.write(f"config.local.json: {'znaleziony' if config_status == 'found' else 'brak' if config_status == 'missing' else 'niepoprawny'}")
-    st.write(f"Źródło adresu Workera: {worker_api_base_url_source}")
-    st.write(f"Adres Workera: {'skonfigurowany' if worker_status == 'configured' else 'brak' if worker_status == 'missing' else 'niepoprawny'}")
-    st.write(f"Źródło klucza: {editor_admin_key_source}")
-    st.write(f"Długość klucza po strip(): {len(editor_admin_key)}")
-    st.write(f"Białe znaki na początku lub końcu klucza: {'tak' if editor_admin_key_had_outer_whitespace else 'nie'}")
-    if endpoint_host and endpoint_path:
-        st.write(f"Endpoint aktywacji: host `{endpoint_host}`, ścieżka `{endpoint_path}`")
-    http_status = st.session_state.get("private_token_activation_http_status")
-    if http_status is not None:
-        st.write(f"Ostatni status HTTP: {http_status}")
-    worker_error_code = st.session_state.get("private_token_activation_worker_error")
-    content_type = st.session_state.get("private_token_activation_content_type")
-    if content_type:
-        st.write(f"Ostatni Content-Type odpowiedzi: {content_type}")
-    body_kind = st.session_state.get("private_token_activation_body_kind")
-    if body_kind:
-        st.write(f"Ostatni typ odpowiedzi: {'JSON' if body_kind == 'json' else 'HTML' if body_kind == 'html' else 'inny'}")
-    if worker_error_code:
-        st.write(f"Ostatnie pole error Workera: {worker_error_code}")
-
-st.button("Wyczyść ręczne nadpisanie klucza", on_click=clear_manual_admin_key)
 
 retry_activation = st.button("Ponów aktywację tego samego tokenu", help="Wysyła ponownie bieżący prywatny token bez generowania nowego p ani k.")
 

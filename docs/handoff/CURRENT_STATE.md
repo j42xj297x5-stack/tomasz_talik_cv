@@ -76,3 +76,9 @@ Następny etap powinien obejmować pełne lokalne `npm run validate:content` i `
 ## Aktualizacja: publiczny `p` i prywatny `k`
 
 Frontend obsługuje `#p=<publiczny-token>&k=<prywatny-token>`. `p` wybiera publiczny JSON firmy zawierający tylko `id` i `companyName`; `k` odblokowuje stałe dane kontaktowe z zewnętrznego Workera. Domyślny profil i adres bez `k` nie pokazują danych osobowych. Edytor Streamlit automatycznie aktywuje `k` przez chroniony endpoint administracyjny z `editorAdminKey` trzymanym lokalnie w `editor/config.local.json`. Frontend zna tylko publiczny adres Workera, nie wysyła nazwy firmy, a PDF usuwa `k` z widocznego adresu na czas drukowania.
+
+## Aktualizacja: deployment GitHub Pages i edytor
+
+Produkcja jest przygotowana pod `https://j42xj297x5-stack.github.io/tomasz_talik_cv/` z bazą Vite `/tomasz_talik_cv/`. Workflow GitHub Pages publikuje `dist` po pushu do gałęzi `tomasz_talik_cv` oraz przez ręczne `workflow_dispatch`, wykonując `npm ci`, `npm run validate:content` i `npm run build`.
+
+Frontend produkcyjny zna publiczny adres Workera z `.env.production`. `editor/config.defaults.json` zawiera publiczne stałe adresu CV i Workera, a `editor/config.local.json` pozostaje lokalnym, ignorowanym miejscem na `editorAdminKey`. Główny formularz edytora nie pokazuje pól infrastrukturalnych; są w zamkniętym panelu „Konfiguracja techniczna”. Worker nadal musi dopuścić origin `https://j42xj297x5-stack.github.io`, a prywatne dane i sekrety nie trafiają do repozytorium ani GitHub Pages.
