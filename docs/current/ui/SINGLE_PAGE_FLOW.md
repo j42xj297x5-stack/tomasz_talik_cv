@@ -14,12 +14,17 @@ Hero prezentuje:
 
 * imię i nazwisko;
 * krótki opis odrębny od sekcji O mnie;
-* wyróżnione umiejętności;
+* wyróżnione umiejętności w uproszczonym, tekstowym zapisie;
 * przycisk zapisu jako PDF;
 * publiczny link GitHub, jeśli przejdzie filtrowanie statusu;
-* opcjonalny avatar.
+* opcjonalny avatar;
+* opcjonalny pas profilu firmowego widoczny tylko po poprawnym załadowaniu `#p=<token>`.
 
-Avatar ekranowy jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazywanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Obraz zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px i lekkie obniżenie w układzie desktopowym. Na desktopie znajduje się po prawej stronie Hero, a na mobile nad tekstem. Opcjonalny avatar drukowany jest wskazywany przez `portrait.printSrc` i używa pliku `public/assets/identity/tomasz-talik-avatar_bw.webp`; nie zmienia układu ekranowego. Brak avatara nie zostawia pustej kolumny.
+Avatar ekranowy jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazywanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Obraz zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px i lekkie obniżenie w układzie desktopowym. Na desktopie znajduje się po prawej stronie Hero, a akcje „Zapisz jako PDF” i „Profil GitHub” są ustawione pionowo pod avatarem z jednakową szerokością. Na mobile avatar pozostaje nad tekstem, a akcje wracają pod opis i wyróżnione umiejętności. Opcjonalny avatar drukowany jest wskazywany przez `portrait.printSrc` i używa pliku `public/assets/identity/tomasz-talik-avatar_bw.webp`; nie zmienia układu ekranowego. Brak avatara nie zostawia pustej kolumny, a akcje pozostają w części tekstowej Hero.
+
+Wyróżnione umiejętności w Hero nie używają kapsułek, ramek ani teł. Są renderowane jako jeden zawijający się ciąg tekstowy z wizualnym uppercase / kapitalikami, kursywą, umiarkowanym trackingiem i separatorem `·`; główna sekcja Umiejętności zachowuje dotychczasowy wygląd.
+
+Profil firmowy renderuje się wyłącznie po poprawnym załadowaniu profilu przez `#p=<token>`. Jest osobnym pasem na pełną szerokość Hero, oddzielonym cienką poziomą linią, z wycentrowanym tekstem o wadze zbliżonej do małego nagłówka. Bez aktywnego profilu pas, linia i tekst zastępczy nie istnieją.
 
 ## Język
 
