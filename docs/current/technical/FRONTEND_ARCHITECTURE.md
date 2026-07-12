@@ -121,3 +121,7 @@ Przycisk Hero wywołuje `window.print()`. Wydruk używa tego samego HTML i view 
 ## Przyszłe elementy
 
 Streamlit, Playwright, backend i produkcyjny deployment nie są zaimplementowane. Jeśli zostaną dodane, powinny korzystać z tego samego modelu danych, HTML, view modelu i stylów wydruku.
+
+## Prywatny blok kontaktowy
+
+`profile-resolver.js` obsługuje publiczny token firmy `p` we fragmencie URL, a `private-profile-client.js` obsługuje niezależny token `k`. Klient prywatnego profilu pobiera publiczny adres API z `VITE_PRIVATE_PROFILE_API_URL`, wykonuje `POST /profile` z `credentials: "omit"` i nie blokuje renderowania publicznego CV. `bootstrap.js` renderuje Hero i accordion od razu, a po poprawnej odpowiedzi Workera wstawia blok `private-contact` bezpośrednio pod Hero. Blok aktualizuje etykiety i lokalizowane wartości przy przełączaniu PL/EN; przy błędzie pokazuje wyłącznie neutralny komunikat statusowy. Dane prywatne nie są dodawane do publicznych profili ani view modelu treści publicznych.

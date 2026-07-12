@@ -64,3 +64,7 @@ Tokeny, kody i parametry URL nie chronią danych zapisanych w publicznym fronten
 ## Minimalna nakładka firmowa przez fragment URL
 
 Niezależnie od `?p=<profileId>` aplikacja może odczytać fragment `#p=<długi-token>`. Poprawny token wskazuje publiczny plik `public/profiles/<token>.json`, który zawiera wyłącznie `id` i `companyName`. Nazwa firmy jest łączona z wcześniej rozwiązanym profilem, więc token firmowy nie zastępuje profilu `default` ani profilu wybranego przez `?p=`. Brak pliku, błędny token lub niepoprawny JSON uruchamia zwykły fallback i nie blokuje CV. Token nie jest autoryzacją ani ochroną danych.
+
+## Prywatny token kontaktowy
+
+Fragment może mieć postać `#p=<publiczny-token-profilu>&k=<prywatny-token-dostępu>`. `p` pozostaje publicznym identyfikatorem pliku `public/profiles/<p>.json` i służy wyłącznie do pokazania nazwy firmy. `k` jest niezależnym tokenem sprawdzanym przez Worker i nie jest zapisywany w publicznym JSON-ie ani repozytorium. Bez poprawnego `k` CV działa publicznie bez danych kontaktowych. Worker zwraca jeden stały zestaw danych kontaktowych dla wszystkich aktywnych tokenów, bez zapisywania nazw firm w D1.

@@ -37,6 +37,29 @@ function createLanguageSwitch(currentLanguage, onLanguageChange) {
   return switcher;
 }
 
+function fragmentWithoutPrivateToken(hash) {
+  const params = new URLSearchParams(String(hash || '').replace(/^#/, ''));
+  params.delete('k');
+  const next = params.toString();
+  return next ? `#${next}` : '';
+}
+
+function printWithoutPrivateToken() {
+  const originalHash = window.location.hash;
+  const sanitizedHash = fragmentWithoutPrivateToken(originalHash);
+  const currentUrl = `${window.location.pathname}${window.location.search}${originalHash}`;
+  const sanitizedUrl = `${window.location.pathname}${window.location.search}${sanitizedHash}`;
+
+  if (originalHash !== sanitizedHash) {
+    window.history.replaceState(window.history.state, '', sanitizedUrl);
+    window.addEventListener('afterprint', () => {
+      window.history.replaceState(window.history.state, '', currentUrl);
+    }, { once: true });
+  }
+
+  window.print();
+}
+
 export function createHeroCard(hero, options = {}) {
   const { language = 'pl', labels = {}, onLanguageChange = () => {} } = options;
   const card = createElement('header', { className: `hero-card${hero.avatar?.src ? '' : ' hero-card--no-avatar'}` });
@@ -86,7 +109,7 @@ export function createHeroCard(hero, options = {}) {
       attributes: { type: 'button' },
     });
 
-    printButton.addEventListener('click', () => window.print());
+    printButton.addEventListener('click', printWithoutPrivateToken);
     actions.appendChild(printButton);
   }
 
