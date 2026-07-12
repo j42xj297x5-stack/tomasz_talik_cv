@@ -19,7 +19,7 @@ Widok drukowany kontroluje `src/styles/print.css`. Arkusz druku:
 * ukrywa przyciski, przełącznik języka, chevrony, komunikat fallbacku i znaczniki `Szkic` / `Draft`;
 * pokazuje panele accordionu niezależnie od ich stanu otwarcia na stronie;
 * przywraca wewnętrzne nagłówki sekcji, tak aby tytuł każdej sekcji był widoczny dokładnie raz;
-* zachowuje avatar w kompaktowej formie;
+* zachowuje avatar w kompaktowej formie, używając `portrait.printSrc`, jeśli istnieje, albo `portrait.src` jako fallbacku;
 * usuwa zbędne tła, cienie i elementy interaktywne.
 
 ## Statusy w PDF
@@ -28,7 +28,7 @@ Wydruk korzysta z aktualnego filtrowania view modelu. Bez `preview` zawiera tylk
 
 ## Profil i konfiguracja
 
-Opcjonalne pole `pdf.enabled` w profilu może ukryć przycisk PDF, jeśli ma wartość `false`. Profil nie przechowuje ścieżki do pliku PDF ani osobnych list sekcji, projektów czy umiejętności dla wydruku.
+Opcjonalne pole `pdf.enabled` w profilu może ukryć przycisk PDF, jeśli ma wartość `false`. Profil nie przechowuje ścieżki do pliku PDF ani osobnych list sekcji, projektów czy umiejętności dla wydruku. Osobny avatar drukowany należy do modelu `identity`: opcjonalne `portrait.printSrc` wskazuje `assets/identity/tomasz-talik-avatar_bw.webp`, czyli publiczny zasób `public/assets/identity/tomasz-talik-avatar_bw.webp`. Wydruk renderuje ten wariant na białym tle, bez ramki i ozdobników; jeśli pole nie istnieje, używa `portrait.src`.
 
 ## Stan automatyzacji
 

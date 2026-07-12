@@ -41,12 +41,23 @@ export function createHeroCard(hero, options = {}) {
   const { language = 'pl', labels = {}, onLanguageChange = () => {} } = options;
   const card = createElement('header', { className: 'hero-card' });
   const content = createElement('div', { className: 'hero-card__content' });
+  const avatarAlt = hero.avatar?.alt?.[language] || hero.avatar?.alt?.pl || '';
   const media = hero.avatar?.src
-    ? createElement('img', {
-        className: 'hero-card__avatar',
-        attributes: { src: getAssetUrl(hero.avatar.src), alt: hero.avatar.alt?.[language] || hero.avatar.alt?.pl || '' },
-      })
+    ? createElement('div', { className: 'hero-card__media' })
     : null;
+
+  if (media) {
+    const screenAvatar = createElement('img', {
+      className: 'hero-card__avatar hero-card__avatar--screen',
+      attributes: { src: getAssetUrl(hero.avatar.src), alt: avatarAlt },
+    });
+    const printAvatar = createElement('img', {
+      className: 'hero-card__avatar hero-card__avatar--print',
+      attributes: { src: getAssetUrl(hero.avatar.printSrc || hero.avatar.src), alt: avatarAlt },
+    });
+
+    appendChildren(media, [screenAvatar, printAvatar]);
+  }
   const title = createElement('h1', { className: 'hero-card__name', text: hero.name });
   const headline = hero.headline ? createElement('p', { className: 'hero-card__headline', text: hero.headline }) : null;
   const description = hero.description ? createElement('p', { className: 'hero-card__description', text: hero.description }) : null;

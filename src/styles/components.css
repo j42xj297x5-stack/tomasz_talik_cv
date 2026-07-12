@@ -29,15 +29,22 @@
   outline-offset: 0.2rem;
 }
 .hero-card__language-separator { color: var(--color-border); }
-.hero-card__avatar {
+.hero-card__media {
   flex: 0 0 auto;
   margin-top: clamp(12px, 1.2vw, 18px);
   width: clamp(6.875rem, 16vw, 10.625rem);
   max-width: 100%;
+}
+.hero-card__avatar {
+  display: block;
+  width: 100%;
   height: auto;
+}
+.hero-card__avatar--screen {
   border: 1px solid color-mix(in srgb, var(--color-accent) 58%, var(--color-border));
   border-radius: 0.875rem;
 }
+.hero-card__avatar--print { display: none; }
 .hero-card__name {
   margin: 0;
   font-size: clamp(2.2rem, 10vw, 4rem);
@@ -102,7 +109,7 @@
 .project-card p { margin: var(--space-2) 0 0; }
 @media (max-width: 39rem) {
   .hero-card { flex-direction: column-reverse; padding: var(--space-5); }
-  .hero-card__avatar {
+  .hero-card__media {
     margin-top: 0;
     width: clamp(6.875rem, 38vw, 9rem);
   }
