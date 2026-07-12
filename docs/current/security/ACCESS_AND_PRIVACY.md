@@ -35,3 +35,9 @@ Fragment `#p=<długi-token>` jest wyłącznie publicznym identyfikatorem pliku p
 ## Token `k` i zewnętrzny Worker
 
 Aktualny przepływ prywatnego kontaktu używa `#p=<p>&k=<k>`. `p` jest publicznym identyfikatorem profilu firmy; `k` jest prywatnym tokenem dostępu weryfikowanym przez zewnętrzny Worker. `k` nie jest przechowywany w repozytorium, publicznym JSON-ie, localStorage, sessionStorage ani cookies. Frontend zna tylko publiczny adres Workera, wysyła do niego sam token i nie wysyła nazwy firmy. Worker zwraca jeden stały zestaw danych osobowych dla wszystkich aktywnych tokenów, a nazwy firm nie trafiają do D1. Token może zostać przekazany dalej przez odbiorcę, więc nie stanowi pełnej autoryzacji użytkownika. Domyślny profil nie pobiera ani nie pokazuje danych osobowych.
+
+## Produkcyjny Pages, Worker i konfiguracja edytora
+
+Produkcyjny adres CV to `https://j42xj297x5-stack.github.io/tomasz_talik_cv/`, publikowany automatycznie z gałęzi `tomasz_talik_cv` przez GitHub Pages. Produkcyjny `base` wynosi `/tomasz_talik_cv/`, a publiczny adres Workera jest zapisany w `.env.production`. Są to wartości publiczne, nie sekrety.
+
+`editor/config.defaults.json` zawiera publiczne stałe edytora: adres CV i adres Workera. Lokalny `editor/config.local.json` zawiera `editorAdminKey`, jest ignorowany przez Git i nie powinien być pokazywany ani commitowany. W normalnej pracy edytor nie wymaga wpisywania adresu CV ani Workera; ustawienia techniczne są ukryte w rozwijanym panelu. Cloudflare Worker musi dopuścić origin `https://j42xj297x5-stack.github.io`, bo deployment GitHub Pages nie zastępuje poprawnej konfiguracji CORS. Prywatny token `k`, klucze i dane prywatne nie trafiają do repozytorium ani GitHub Pages.

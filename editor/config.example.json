@@ -1,5 +1,3 @@
 {
-  "deploymentBaseUrl": "http://localhost:5173/",
-  "workerApiBaseUrl": "https://example-worker.example.workers.dev",
   "editorAdminKey": "LOCAL_SECRET_NOT_FOR_GIT"
 }
