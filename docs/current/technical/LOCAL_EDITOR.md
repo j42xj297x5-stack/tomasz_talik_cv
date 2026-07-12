@@ -44,7 +44,7 @@ Edytor generuje dwa niezależne tokeny w `st.session_state`: publiczny `p` dla p
 
 Eksportowany JSON profilu zawiera wyłącznie `id` i `companyName`. Prywatny token `k` oraz klucz administracyjny nie trafiają do publicznych danych ani pobieranych plików.
 
-Podczas generowania materiałów edytor sprawdza poprawność `workerApiBaseUrl` i obecność `editorAdminKey` przed wysłaniem żądania. Następnie wykonuje `POST <workerApiBaseUrl>/admin/create` z nagłówkiem `Authorization: Bearer <editorAdminKey>` i body zawierającym tylko prywatny token oraz `expiresAt: null`. Link `#p=<p>&k=<k>` jest pokazywany w mailu i liście dopiero po odpowiedzi `{"ok": true}`.
+Podczas generowania materiałów edytor sprawdza poprawność `workerApiBaseUrl` i obecność `editorAdminKey` przed wysłaniem żądania. Następnie wykonuje `POST <workerApiBaseUrl>/admin/create` z nagłówkami `Authorization: Bearer <editorAdminKey>`, `Content-Type: application/json`, `Accept: application/json` oraz jawnym `User-Agent: TomaszTalikCVEditor/1.0`. Jawny User-Agent jest elementem zgodności połączenia z Cloudflare i zastępuje domyślny identyfikator klienta `Python-urllib`. Body zawiera tylko prywatny token oraz `expiresAt: null`. Link `#p=<p>&k=<k>` jest pokazywany w mailu i liście dopiero po odpowiedzi `{"ok": true}`.
 
 Przycisk „Ponów aktywację tego samego tokenu” wysyła ponownie bieżący prywatny token `k` bez generowania nowego publicznego tokenu `p` ani nowego `k`.
 
@@ -60,4 +60,4 @@ Interfejs pokazuje tylko niewrażliwe statusy:
 * długość klucza po `strip()` oraz informację, czy wykryto białe znaki na początku lub końcu;
 * ostatni rzeczywisty status HTTP i pole `error` z JSON-a Workera, jeśli istnieje.
 
-Diagnostyka nie pokazuje wartości klucza, nagłówka `Authorization`, prywatnego tokenu `k`, body żądania, zawartości `config.local.json`, ścieżek zawierających dane użytkownika ani pełnych tokenów. Błędy HTTP 401, 403, 404 i 500 mają odrębne komunikaty; odpowiedź spoza oczekiwanego JSON API jest oznaczana bez pokazywania treści body.
+Diagnostyka nie pokazuje wartości klucza, nagłówka `Authorization`, prywatnego tokenu `k`, body żądania, zawartości `config.local.json`, ścieżek zawierających dane użytkownika ani pełnych tokenów. Błędy HTTP 401, 403, 404 i 500 mają odrębne komunikaty. Edytor zapisuje niewrażliwy status, `Content-Type`, typ odpowiedzi oraz pole `error` z JSON-a Workera, jeśli istnieje. Odpowiedź `application/json` pokazuje rzeczywiste pole `error`, a `403` z `text/html` jest opisywany jako odrzucenie przez warstwę Cloudflare przed odpowiedzią API, bez pokazywania treści HTML.

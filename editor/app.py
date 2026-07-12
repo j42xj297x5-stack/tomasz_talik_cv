@@ -14,6 +14,7 @@ PROJECTS_PATH = ROOT / "content" / "public" / "projects.json"
 LINKS_PATH = ROOT / "content" / "public" / "links.json"
 TOKEN_MIN = 32
 TOKEN_MAX = 128
+EDITOR_USER_AGENT = "TomaszTalikCVEditor/1.0"
 
 
 def load_json(path, default):
@@ -108,19 +109,33 @@ def parse_endpoint_public_parts(endpoint):
     return parsed.netloc, parsed.path
 
 
-def parse_worker_error_body(body):
+def response_body_kind(content_type):
+    media_type = str(content_type or "").split(";", 1)[0].strip().lower()
+    if media_type == "application/json" or media_type.endswith("+json"):
+        return "json"
+    if media_type == "text/html":
+        return "html"
+    return "other"
+
+
+def parse_worker_error_body(body, content_type):
+    body_kind = response_body_kind(content_type)
+    if body_kind != "json":
+        return None, body_kind
     try:
         data = json.loads(body.decode("utf-8"))
     except (json.JSONDecodeError, UnicodeDecodeError):
-        return None, False
+        return None, "other"
     if isinstance(data, dict):
-        return data.get("error"), True
-    return None, True
+        return data.get("error"), "json"
+    return None, "json"
 
 
-def http_status_message(status, worker_error=None, expected_json=True):
+def http_status_message(status, worker_error=None, body_kind="json"):
     suffix = f" Kod Workera: {worker_error}." if worker_error else ""
-    if not expected_json:
+    if status == 403 and body_kind == "html":
+        return "HTTP 403: Żądanie zostało odrzucone przez warstwę Cloudflare przed odpowiedzią API."
+    if body_kind != "json":
         return f"HTTP {status}: odpowiedź nie pochodziła z oczekiwanego API."
     messages = {
         401: "HTTP 401: brak autoryzacji. Sprawdź klucz administracyjny edytora.",
@@ -161,6 +176,8 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
         headers={
             "Authorization": f"Bearer {editor_admin_key}",
             "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": EDITOR_USER_AGENT,
         },
     )
 
@@ -168,21 +185,32 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
         with NO_REDIRECT_OPENER.open(request, timeout=10) as response:
             st.session_state.private_token_activation_http_status = response.status
             st.session_state.private_token_activation_worker_error = None
+            st.session_state.private_token_activation_content_type = response.headers.get_content_type()
+            st.session_state.private_token_activation_body_kind = response_body_kind(response.headers.get_content_type())
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         body = error.read() if error.fp else b""
-        worker_error, expected_json = parse_worker_error_body(body)
+        content_type = error.headers.get_content_type() if error.headers else ""
+        worker_error, body_kind = parse_worker_error_body(body, content_type)
         st.session_state.private_token_activation_http_status = error.code
+        st.session_state.private_token_activation_content_type = content_type
+        st.session_state.private_token_activation_body_kind = body_kind
         st.session_state.private_token_activation_worker_error = worker_error
-        return False, http_status_message(error.code, worker_error, expected_json)
+        return False, http_status_message(error.code, worker_error, body_kind)
     except urllib.error.URLError:
         st.session_state.private_token_activation_http_status = None
+        st.session_state.private_token_activation_content_type = None
+        st.session_state.private_token_activation_body_kind = None
         return False, "Nie udało się połączyć z API Workera."
     except ValueError:
         st.session_state.private_token_activation_http_status = None
+        st.session_state.private_token_activation_content_type = None
+        st.session_state.private_token_activation_body_kind = None
         return False, "Niepoprawny adres API Workera."
     except (TimeoutError, socket.timeout, json.JSONDecodeError, UnicodeDecodeError):
         st.session_state.private_token_activation_http_status = None
+        st.session_state.private_token_activation_content_type = None
+        st.session_state.private_token_activation_body_kind = None
         return False, "Worker nie potwierdził aktywacji poprawną odpowiedzią JSON."
 
     if isinstance(data, dict) and data.get("ok") is True:
@@ -338,6 +366,12 @@ with st.expander("Diagnostyka konfiguracji", expanded=True):
     if http_status is not None:
         st.write(f"Ostatni status HTTP: {http_status}")
     worker_error_code = st.session_state.get("private_token_activation_worker_error")
+    content_type = st.session_state.get("private_token_activation_content_type")
+    if content_type:
+        st.write(f"Ostatni Content-Type odpowiedzi: {content_type}")
+    body_kind = st.session_state.get("private_token_activation_body_kind")
+    if body_kind:
+        st.write(f"Ostatni typ odpowiedzi: {'JSON' if body_kind == 'json' else 'HTML' if body_kind == 'html' else 'inny'}")
     if worker_error_code:
         st.write(f"Ostatnie pole error Workera: {worker_error_code}")
 
