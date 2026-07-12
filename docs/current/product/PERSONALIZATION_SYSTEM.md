@@ -2,56 +2,61 @@
 
 ## Cel
 
-Dokument definiuje sposób wyboru profili firm i zależy od `docs/current/content/CONTENT_MODEL.md` oraz `docs/current/security/ACCESS_AND_PRIVACY.md`.
+Dokument opisuje aktualnie zaimplementowany wybór profilu i redakcyjny podgląd szkiców w jednej statycznej aplikacji.
 
 ## Model jednej aplikacji
 
-Personalizacja działa w jednej aplikacji i na jednym katalogu treści. Nie powstają oddzielne kopie CV dla każdej firmy. Każdy profil firmy jest konfiguracją sposobu prezentacji publicznych danych.
+Personalizacja działa w jednej aplikacji Vite i na jednym katalogu publicznych treści JSON. Nie powstają osobne kopie CV dla firm. Profil jest publiczną konfiguracją prezentacji danych.
 
 ## Publiczny profil przez URL
 
-Publiczny profil jest wybierany przez parametr:
+Profil wybiera parametr:
 
 ```text
 ?p=<profileId>
 ```
 
-`profileId` wskazuje profil zapisany w publicznych danych. Brak parametru oznacza profil domyślny.
+Brak parametru oznacza profil `default`. Nieistniejący lub nieużywalny profil wraca do `default` i pokazuje komunikat fallbacku nad kartą CV.
 
-## Token i kod
+## Tryb roboczy
 
-Długi token może być przekazany we fragmencie adresu:
+Redakcyjny podgląd szkiców uruchamia parametr:
 
 ```text
-#t=<token>
+?preview=draft
 ```
 
-Fragment URL nie jest wysyłany standardowo do serwera statycznego hostingu, ale jest dostępny dla JavaScriptu w przeglądarce. Zapasowy kod 6–8 znaków może być wpisywany ręcznie przez użytkownika i mapowany na profil lub przyszłą autoryzację backendową.
+Można go łączyć z profilem:
 
-## Ograniczenie bezpieczeństwa
+```text
+?p=default&preview=draft
+```
 
-Token i krótki kod nie chronią danych zapisanych w publicznym frontendzie. Jeśli dane znajdują się w publicznym HTML, JS, CSS lub JSON, należy traktować je jako publiczne. Prywatne dane będą później pobierane z zewnętrznego backendu po właściwej autoryzacji.
+Bez `preview` renderowane są wyłącznie elementy `published`. W `?preview=draft` renderowane są `published` oraz `draft`. Elementy `archived` pozostają niewidoczne w obu trybach, a puste sekcje nie są renderowane.
+
+`?preview=draft` jest narzędziem redakcyjnym. Nie jest zabezpieczeniem dostępu i nie zapewnia prywatności, ponieważ publiczne JSON-y są częścią frontendu.
 
 ## Co może zmieniać profil
 
-Profil może zmieniać:
+Aktualny profil może wpływać na:
 
 * kolejność sekcji;
-* eksponowane projekty;
+* widoczność sekcji;
+* kolejność projektów;
 * kolejność umiejętności;
-* krótką wiadomość do firmy na głównej karcie;
-* wariant nagłówków lub akcentów;
-* publiczną wersję danych do PDF.
+* wyróżnione umiejętności w Hero;
+* opcjonalną konfigurację przycisku PDF.
 
-Profil nie może duplikować głównych danych ani przechowywać danych prywatnych.
+Profil nie kopiuje treści CV, nie przechowuje prywatnych danych i nie renderuje obecnie osobnej sekcji kontaktowej.
 
-## Wiadomość do firmy
+## Język
 
-Na głównej karcie może pojawić się krótka wiadomość do firmy. Jej długość kanoniczna to 300–500 znaków. Treść jest publiczna, jeśli profil jest publiczny.
+Globalny przełącznik PL/EN działa w obrębie wyrenderowanego profilu. Zmienia lokalizowane treści, oznaczenia `Szkic` / `Draft` i aktualizuje `document.documentElement.lang`.
 
-## Zależności
+## PDF
 
-* Identyfikatory i brak duplikacji opisuje `docs/current/content/CONTENT_MODEL.md`.
-* Zasady prywatności opisuje `docs/current/security/ACCESS_AND_PRIVACY.md`.
-* Prezentację na stronie opisuje `docs/current/ui/SINGLE_PAGE_FLOW.md`.
+PDF korzysta z tego samego profilu, HTML i view modelu co strona. Przy `?preview=draft` wydruk zawiera również szkice, lecz znaczniki szkiców są ukryte w stylach druku.
 
+## Bezpieczeństwo
+
+Tokeny, kody i parametry URL nie chronią danych zapisanych w publicznym frontendzie. Dane prywatne mogą być obsłużone dopiero przez przyszły backend i właściwą autoryzację; backend nie jest obecnie zaimplementowany.

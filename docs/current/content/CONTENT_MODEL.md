@@ -2,30 +2,42 @@
 
 ## Cel
 
-Dokument jest źródłem prawdy dla organizacji danych JSON. Zależy od decyzji ogólnych z `docs/current/README.md` i jest używany przez dokumenty o personalizacji, PDF, edytorze lokalnym i frontendzie.
+Dokument opisuje aktualny model publicznych danych JSON pierwszego roboczego przekroju aplikacji. Źródłem prawdy pozostają aktualne pliki `content/`, schematy oraz walidator.
 
-## Struktura plików
+## Publiczne obszary danych
 
-Kanoniczne dane publiczne są rozdzielone według obszarów:
+Aktualnie ładowane publiczne dane to:
 
 ```text
-content/public/identity.json     # podstawowa tożsamość publiczna i opcjonalny portret
-content/public/about.json        # publiczne teksty opisowe
-content/public/projects.json     # projekty i ich relacje do umiejętności
-content/public/experience.json   # publiczne doświadczenie, bez danych niepotwierdzonych
-content/public/education.json    # wykształcenie; obecne wpisy pozostają draft
-content/public/skills.json       # umiejętności
-content/public/links.json        # publiczne linki
-content/profiles/default.json    # bezpieczny profil awaryjny
-content/schemas/*.schema.json    # kontrakt JSON Schema
-scripts/validate-content.mjs     # walidacja schematów i relacji
+content/public/identity.json     # tożsamość, imię i nazwisko, opcjonalny portret
+content/public/about.json        # krótki opis Hero i treść sekcji O mnie
+content/public/projects.json     # projekty
+content/public/experience.json   # doświadczenie
+content/public/education.json    # wykształcenie
+content/public/skills.json       # płaska lista umiejętności
+content/public/links.json        # publiczne linki używane w akcjach Hero
+content/profiles/default.json    # profil default
+content/schemas/*.schema.json    # kontrakt danych JSON
+scripts/validate-content.mjs     # walidator schematów i relacji
 ```
 
-Dane publiczne mogą być zbundlowane lub pobrane przez statyczny frontend. Obejmują wyłącznie informacje, które mogą być publicznie widoczne. Dane prywatne nie mogą być zapisane w publicznym JSON, HTML ani JavaScript.
+`docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV. Dokumenty architektoniczne nie kopiują pełnej treści CV.
+
+## Stos danych i walidacja
+
+Frontend importuje publiczne JSON-y przez moduły Vite, a profile przez `import.meta.glob`. Schematy obejmują między innymi `identity.schema.json`, `about.schema.json`, `projects.schema.json`, `experience.schema.json`, `education.schema.json`, `skills.schema.json`, `links.schema.json` i `profile.schema.json`.
+
+Walidację uruchamia polecenie:
+
+```bash
+npm run validate:content
+```
+
+Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików ze schematami, identyfikatory, relacje profili do danych, duplikaty, niedozwolone pola profilu, ścieżki zasobów i podejrzane prywatne klucze.
 
 ## Model językowy
 
-Teksty przechowuje się jako obiekty językowe:
+Teksty lokalizowane są przechowywane jako obiekty językowe z polskim wariantem podstawowym i opcjonalnym angielskim:
 
 ```json
 {
@@ -34,84 +46,47 @@ Teksty przechowuje się jako obiekty językowe:
 }
 ```
 
-Pole `pl` jest wymagane, a `en` jest opcjonalne. Dodanie języka nie może wymagać zmiany identyfikatorów.
-
-## Stabilne identyfikatory
-
-Każdy element wybierany przez profil musi mieć trwały identyfikator niezależny od późniejszej zmiany tytułu. `stableId` używa wyłącznie małych liter, cyfr i myślników, np. `project-haiku-cosmos` albo `skill-javascript`.
-
-`profileId` akceptuje `default` albo identyfikator firmy w formacie `p_<losowy_ciag>`. Kolejność sekcji, projektów i umiejętności jest zapisywana jako tablica identyfikatorów.
+Przełącznik PL/EN zmienia widoczne lokalizowane treści oraz oznaczenia szkiców.
 
 ## Status elementów
 
-Frontend renderuje wyłącznie elementy ze statusem `published`, a w trybie `?preview=draft` elementy `published` i `draft`. Poza podglądem elementy `draft` są ukrywane, a `archived` są ukrywane zawsze; jeśli po filtrowaniu sekcja nie ma publicznej treści, nie renderuje się także jej nagłówek.
+Kontrakt renderowania statusów:
 
-Elementy treści mają status:
+* bez parametru `preview` renderowane są wyłącznie elementy `published`;
+* `?preview=draft` renderuje `published` oraz `draft`;
+* `archived` pozostaje niewidoczne w obu trybach;
+* sekcje puste po filtrowaniu nie są renderowane.
 
-* `draft` — informacja robocza lub niepełna;
-* `published` — informacja gotowa do publicznego użycia;
-* `archived` — informacja historyczna niewyświetlana domyślnie.
+Statusy oznaczają:
 
-Niepotwierdzone elementy należy pominąć albo oznaczyć jako `draft`.
+* `draft` — treść robocza, widoczna tylko w redakcyjnym `?preview=draft`;
+* `published` — treść widoczna w zwykłym publicznym renderze;
+* `archived` — treść historyczna niewidoczna w aktualnym renderze.
 
-## Profile firm
+`?preview=draft` nie jest zabezpieczeniem dostępu i nie zapewnia prywatności. Dane zapisane w publicznych JSON-ach należy traktować jako publiczne niezależnie od statusu.
 
-Profil może definiować wyłącznie pola:
+## Profil default i personalizacja
 
-* `profileId`;
-* `company`;
-* `targetRole`;
-* `headline`;
-* `companyMessage`;
-* `accent`;
-* `sectionOrder`;
-* `visibleSections`;
-* `projectOrder`;
-* `featuredProjectIds`;
-* `skillOrder`;
-* `featuredSkillIds`;
-* `pdf`;
-* `protectedScopes`.
+`content/profiles/default.json` jest profilem używanym przy braku `?p=`. Profil kontroluje kolejność i widoczność sekcji, kolejność projektów, kolejność umiejętności i wyróżnione umiejętności. Tryb redakcyjny można łączyć z profilem, np.:
 
-Profil nie może kopiować ani nadpisywać opisów projektów, doświadczenia lub umiejętności. Wiadomość `companyMessage` jest lokalizowana; dla profili innych niż `default` polski wariant musi mieć 300–500 znaków. `protectedScopes` zawiera wyłącznie nazwy zakresów, np. `phone`, i nie przechowuje prywatnych wartości.
-
-## Profil default
-
-`content/profiles/default.json` jest bezpiecznym profilem awaryjnym używanym przy braku parametru `?p=<profileId>`. Może nie mieć `companyMessage` i musi wskazywać wyłącznie istniejące identyfikatory projektów, umiejętności oraz sekcji.
-
-## Konfiguracja PDF
-
-Pole `pdf` w profilu jest opcjonalną konfiguracją, a nie ścieżką do fizycznego pliku. Może zawierać `enabled` oraz opcjonalne `includeCompanyMessage`. Brak pola oznacza domyślnie włączony przycisk „Zapisz jako PDF”, a `enabled: false` ukrywa przycisk.
-
-PDF powstaje z aktualnie wyrenderowanego HTML i view modelu profilu przez `window.print()` oraz `src/styles/print.css`. Profil nie przechowuje osobnych list projektów, umiejętności ani sekcji dla PDF i nie wskazuje statycznego pliku PDF profilu default. Ostateczny zakres, kolejność i wygląd treści PDF nie są jeszcze kanonem; zostaną ustalone po dodaniu rzeczywistych danych CV.
-
-## Portret i ścieżki zasobów
-
-`identity.json` może opcjonalnie zawierać `portrait.src` jako `assetPath` i `portrait.alt` jako `localizedText`. Brak pola nie tworzy pustej kolumny ani placeholdera, a dane nie powinny zawierać fikcyjnej ścieżki zdjęcia.
-
-Ścieżki zasobów są zapisywane względem katalogu `public/`, bez początkowego ukośnika, domeny i ścieżki GitHub Pages, np.:
-
-* `assets/projects/haiku-cosmos/cover.webp`;
-* `assets/companies/p_7m4k2x/logo.webp`.
-
-Dzięki temu dane pozostają niezależne od domeny i `BASE_URL`.
-
-## Wykształcenie
-
-Sekcja `education` korzysta z `content/public/education.json` i `content/schemas/education.schema.json`. Minimalny wpis zawiera `stableId`, `status`, `institution`, `degree`, opcjonalną `specialization`, `period` oraz tablicę lokalizowanych akapitów `description`. Prace dyplomowe są opisane w akapitach, bez osobnej rozbudowanej struktury. Oba pierwsze wpisy pozostają `draft`, więc publicznie są ukryte bez `?preview=draft`. `?preview=draft` nie jest mechanizmem prywatności, bo dane JSON są częścią publicznej paczki aplikacji.
-
-## Walidacja
-
-Walidację uruchamia się poleceniem:
-
-```bash
-npm run validate:content
+```text
+?p=default&preview=draft
 ```
 
-Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików z JSON Schema, duplikaty identyfikatorów `id` i `stableId`, relacje profili do projektów i umiejętności, duplikaty w tablicach kolejności, nieistniejące sekcje, niedozwolone pola profilu, ścieżki zasobów, podejrzane klucze (`phone`, `address`, `secret`, `token`, `privateData`) oraz długość `companyMessage` dla profili firmowych. Przy błędzie kończy działanie kodem `1`, a przy sukcesie kodem `0`.
+Aktualnie zaimplementowane sekcje profilu to O mnie, Projekty, Doświadczenie, Wykształcenie i Umiejętności. `contact` może występować w konfiguracji profilu, ale aktualny kod nie renderuje osobnej sekcji kontaktowej.
 
-## Zależności
+## Hero, linki i avatar
 
-* Personalizacja korzysta z tego modelu w `docs/current/product/PERSONALIZATION_SYSTEM.md`.
-* Edytor Streamlit ma walidować ten model zgodnie z `docs/current/technical/LOCAL_EDITOR.md`.
-* PDF renderuje te same dane, ten sam HTML i ten sam view model zgodnie z `docs/current/technical/PDF_PIPELINE.md`. Przyszłe Streamlit i Playwright mają korzystać z tego samego HTML, view modelu i stylów wydruku.
+`identity.json` przechowuje imię i nazwisko oraz opcjonalny `portrait`. Obecny avatar jest wskazywany jako `assets/identity/tomasz-talik-avatar.webp`, co odpowiada plikowi `public/assets/identity/tomasz-talik-avatar.webp`. `links.json` dostarcza publiczny link renderowany jako akcja Hero po przejściu filtrowania statusów. Brak portretu nie tworzy pustej kolumny ani placeholdera.
+
+## Umiejętności
+
+Aktualna lista umiejętności pozostaje płaska. Wynika to z obecnego `skills.schema.json` oraz danych `skills.json`, które opisują elementy jako pojedyncze pozycje bez kategorii, grup i opisów. Kolejność prezentacji pochodzi z profilu.
+
+## PDF
+
+Konfiguracja `pdf` w profilu jest opcjonalna i nie wskazuje osobnego pliku. PDF powstaje przez `window.print()` z tego samego HTML, danych i view modelu co strona. Przy `?preview=draft` wydruk zawiera również szkice, ale znaczniki `Szkic` / `Draft` są ukrywane.
+
+## Prywatność
+
+Prywatne dane i sekrety nie mogą trafiać do publicznych JSON-ów, profili, kodu frontendu ani zasobów statycznych. Status `draft` nie chroni danych.

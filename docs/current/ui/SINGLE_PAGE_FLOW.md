@@ -2,34 +2,55 @@
 
 ## Cel
 
-Dokument jest źródłem prawdy dla aktualnego układu i podstawowej interakcji UI. Zależy od `docs/current/technical/FRONTEND_ARCHITECTURE.md`, `docs/current/content/CONTENT_MODEL.md` i `docs/current/product/PERSONALIZATION_SYSTEM.md`.
+Dokument opisuje aktualny układ jednej responsywnej karty CV potwierdzony kodem i lokalnym podglądem Projektanta.
 
 ## Układ
 
-Aplikacja jest pojedynczą stroną. Użytkownik widzi jedną wspólną kartę CV o maksymalnej szerokości około 940 px, w której górna część i accordion tworzą jeden kontener. Nie ma osobnych kart sekcji, podstron ani routingu wymagającego frameworka frontendowego.
+Aplikacja jest pojedynczą stroną Vite bez frameworka frontendowego. Użytkownik widzi jedną kartę CV zawierającą Hero i accordion z sekcjami. Nie ma podstron, routingu aplikacyjnego ani osobnych kart dla sekcji.
 
-## Karta główna
+## Hero
 
-Karta główna prezentuje dostępne publiczne informacje z view modelu: imię i nazwisko, niepowtórzony headline albo targetRole, opublikowany krótki opis, opublikowane wyróżnione umiejętności, opcjonalny komunikat profilu firmowego oraz akcje dostępne tylko przy istniejących danych. Opcjonalny portret jest renderowany tylko wtedy, gdy istnieje w danych; brak portretu nie zostawia pustej kolumny ani placeholdera.
+Hero prezentuje:
 
-## Panele rozwijane
+* imię i nazwisko;
+* krótki opis odrębny od sekcji O mnie;
+* wyróżnione umiejętności;
+* przycisk zapisu jako PDF;
+* publiczny link GitHub, jeśli przejdzie filtrowanie statusu;
+* opcjonalny avatar.
 
-Sekcje szczegółowe są zwartymi wierszami accordionu rozdzielonymi subtelnymi liniami. Domyślnie wszystkie panele są zamknięte. Jednocześnie otwarty może być najwyżej jeden panel, a kliknięcie otwartego panelu zamyka wszystkie. Przyciski używają `aria-expanded` i `aria-controls`; panele używają `role="region"`, `aria-labelledby` i atrybutu `hidden`.
+Avatar jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazywanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Obraz zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px i lekkie obniżenie w układzie desktopowym. Na desktopie znajduje się po prawej stronie Hero, a na mobile nad tekstem. Brak avatara nie zostawia pustej kolumny.
 
-Sekcje bez opublikowanej treści nie są renderowane. Elementy `draft` są ukryte poza `?preview=draft`, a `archived` pozostają ukryte zawsze. Sekcja wykształcenia działa jak pozostałe panele accordionu, bez powtórzonego tytułu wewnątrz rozwiniętego widoku ekranowego; semantyczny nagłówek jest dostępny dla wydruku, który pokazuje nagłówek sekcji raz.
+## Język
 
-## Motyw
+Globalny przełącznik PL/EN zmienia lokalizowane treści w Hero i sekcjach oraz oznaczenia szkiców: `Szkic` w języku polskim i `Draft` w angielskim. Kod aktualizuje także atrybut `lang` dokumentu.
 
-UI korzysta z motywu systemowego przez `prefers-color-scheme`. Nie ma ręcznego przełącznika motywu.
+## Sekcje
 
-## Responsywność
+Zaimplementowane sekcje to:
 
-Interfejs jest projektowany mobile first i działa jako jedna responsywna strona. Na mniejszych ekranach karta zajmuje prawie całą szerokość z niewielkim marginesem, a pasek fallbacku jest zwięzłym statusem nad kartą, nie pełną sekcją CV.
+* O mnie;
+* Projekty;
+* Doświadczenie;
+* Wykształcenie;
+* Umiejętności.
 
-## Aktualny efekt danych
+Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link jest renderowany jako akcja Hero, nie jako panel kontaktowy.
 
-Ponieważ większość rzeczywistej treści CV pozostaje `draft`, publiczny widok może obecnie zawierać tylko imię i nazwisko. Jest to poprawny skutek filtrowania `published`, nie błąd układu.
+## Accordion
 
-## Podgląd i wydruk szkiców
+Accordion jest jedynym widocznym tytułowaniem sekcji na stronie: przycisk accordionu pokazuje tytuł panelu, a wewnętrzny semantyczny nagłówek pozostaje w DOM. Jednocześnie otwarty może być najwyżej jeden panel. Ponowne kliknięcie otwartego panelu zamyka wszystkie. Obsługiwane są `aria-expanded`, `aria-controls`, `role="region"` i `aria-labelledby`.
 
-`?preview=draft` pokazuje wpisy `draft`, w tym wykształcenie, ale nie jest mechanizmem prywatności. W wydruku treści widoczne w podglądzie pozostają widoczne, natomiast znaczniki `Szkic` / `Draft` są ukryte.
+W wydruku przyciski accordionu są ukryte, panele są rozwinięte niezależnie od stanu interakcji, a wewnętrzny nagłówek sekcji wraca jako widoczny tytuł występujący dokładnie raz.
+
+## Statusy i szkice
+
+Bez `preview` widoczne są tylko elementy `published`. `?preview=draft` pokazuje `published` oraz `draft`. `archived` jest ukryte zawsze, a puste sekcje nie są renderowane. Widoczne robocze elementy mają znaczniki `Szkic` albo `Draft`; znaczniki są ukrywane w wydruku.
+
+## PDF
+
+Przycisk PDF uruchamia `window.print()`. Wydruk korzysta z tego samego HTML i view modelu co strona, nie zależy od stanu otwarcia accordionu, zawiera szkice w `?preview=draft`, ukrywa znaczniki szkiców, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie.
+
+## Przyszłe elementy
+
+Ręczny przełącznik motywu, osobna sekcja kontaktowa, Playwright i Streamlit pozostają przyszłe, jeśli zostaną świadomie dodane.

@@ -1,51 +1,70 @@
 # Aktualny stan projektu „Tomasz Talik CV”
 
-## Ukończony etap
+## Executive Summary
 
-Ukończono pierwszy działający pionowy przekrój aplikacji: Vite, Vanilla JavaScript, CSS, publiczne dane JSON, profile wybierane przez `?p=<profileId>`, bezpieczny fallback do profilu `default`, jedna wspólna karta CV, accordion, filtrowanie statusów oraz pierwsza wersja wydruku PDF przez `window.print()`.
+Zamknięto pierwszy pełny roboczy przekrój aplikacji: Vite, Vanilla JavaScript, CSS, publiczne JSON-y, profil `default`, redakcyjny `?preview=draft`, PL/EN, Hero z opcjonalnym avatarem, accordion, sekcje CV i PDF przez `window.print()`. Dokumentacja opisuje stan potwierdzony kodem, danymi i lokalnym podglądem Projektanta.
 
-## Aktualne źródła prawdy
+## Stan architektury
 
-* `docs/current/README.md` — kanoniczny opis aktualnego zakresu.
-* `docs/current/technical/FRONTEND_ARCHITECTURE.md` — architektura zaimplementowanego frontendu.
-* `docs/current/content/CONTENT_MODEL.md` — model publicznych danych JSON, statusów `draft`/`published`/`archived`, profili i konfiguracji PDF.
-* `docs/current/ui/SINGLE_PAGE_FLOW.md` — układ jednej karty CV, mobile first, motyw systemowy i accordion.
-* `docs/current/technical/PDF_PIPELINE.md` — PDF jako wydruk aktualnego widoku przez `window.print()` i `src/styles/print.css`.
-* `docs/current/technical/DEPLOYMENT.md` — docelowy GitHub Pages; produkcyjny deployment nie został jeszcze potwierdzony.
-* Kod aplikacji w `src/`, dane w `content/` i skrypty npm w `package.json` pozostają źródłami prawdy dla zachowania runtime.
+Aplikacja jest statyczną stroną Vite bez frameworka frontendowego. `content-loader.js` ładuje `identity`, `about`, `projects`, `experience`, `education`, `skills` i `links` z `content/public/` oraz profile z `content/profiles/`. `view-model.js` odpowiada za lokalizację, filtrowanie statusów, Hero i listę sekcji. `bootstrap.js` składa jedną responsywną kartę CV z Hero i accordionem.
 
-## Ostatnie potwierdzone zachowania
+## Zaimplementowane sekcje
 
-* Instalacja zależności npm działa lokalnie.
-* `npm run validate:content` przechodzi.
-* `npm run build` przechodzi.
-* `npm run dev` uruchamia stronę.
-* Brak parametru profilu używa `profile default`.
-* Nieistniejący profil w `?p=<profileId>` wraca do `default` i pokazuje zwarty pasek fallbacku.
-* `window.print()` otwiera poprawny podgląd wydruku.
-* Wydruk korzysta z `src/styles/print.css`, pokazuje opublikowane sekcje wybrane przez profil i nie zależy od bieżącego stanu accordionu.
-* Wydruk nie pobiera już `default.htm` ani żadnego statycznego pliku PDF.
-* Większość rzeczywistej treści pozostaje `draft`; publiczny widok może obecnie zawierać tylko imię i nazwisko. To oczekiwany efekt filtrowania, nie błąd.
+Zaimplementowane są:
 
-## Funkcje jeszcze niezaimplementowane
+* O mnie;
+* Projekty;
+* Doświadczenie;
+* Wykształcenie;
+* Umiejętności.
 
-* Lokalny edytor Streamlit.
-* Automatyczne generowanie PDF przez Playwright.
-* Backend lub bezpieczne pobieranie danych prywatnych.
-* Ręczny przełącznik motywu.
-* Produkcyjny deployment na GitHub Pages.
-* Finalna kanoniczna treść CV.
-* Finalny zakres, kolejność i wygląd PDF.
+Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link GitHub może pojawić się jako akcja Hero po przejściu filtrowania statusu.
 
-## Znane otwarte decyzje
+## PL/EN
 
-* Ostateczny zakres publicznych danych kontaktowych.
-* Finalna rola zawodowa i krótki opis na karcie głównej.
-* Treść sekcji „O mnie”.
-* Kanoniczny opis projektu Haiku Cosmos.
-* Lista i kolejność umiejętności.
-* Ostateczna kolejność i wygląd treści PDF po dodaniu rzeczywistych danych CV.
+Globalny przełącznik PL/EN zmienia lokalizowane treści i etykiety szkiców. W języku polskim robocze elementy mają znacznik `Szkic`, a w angielskim `Draft`. Kod aktualizuje atrybut `lang` dokumentu.
 
-## Następny rekomendowany krok
+## `?p=` i `?preview=draft`
 
-Przygotować pierwszą kanoniczną paczkę rzeczywistych treści CV: rola zawodowa, krótki opis, „O mnie”, projekt Haiku Cosmos, umiejętności oraz publiczne dane kontaktowe. Dopiero po tej paczce należy ustalać finalny zakres i układ PDF.
+`?p=<profileId>` wybiera publiczny profil. Brak parametru używa `default`, a niepoprawny profil wraca do `default` z komunikatem fallbacku.
+
+Bez parametru `preview` renderowane są wyłącznie elementy `published`. `?preview=draft` renderuje `published` oraz `draft`. `archived` pozostaje niewidoczne w obu trybach, a puste sekcje nie są renderowane. Tryb roboczy można łączyć z profilem:
+
+```text
+?p=default&preview=draft
+```
+
+`?preview=draft` jest narzędziem redakcyjnym, nie zabezpieczeniem dostępu i nie mechanizmem prywatności.
+
+## PDF
+
+PDF działa przez `window.print()` uruchamiane z Hero. Używa tego samego HTML i view modelu co strona oraz `src/styles/print.css`. Nie ma osobnego szablonu PDF. Wydruk nie zależy od stanu otwarcia accordionu, zawiera szkice przy `?preview=draft`, ukrywa znaczniki `Szkic` / `Draft`, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie.
+
+## Avatar
+
+Avatar jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px, pozycję po prawej stronie Hero na desktopie i nad tekstem na mobile oraz niewielkie obniżenie w układzie desktopowym. Brak avatara nie zostawia pustej kolumny.
+
+## Status danych
+
+Publiczne dane obejmują `identity.json`, `about.json`, `projects.json`, `experience.json`, `education.json`, `skills.json`, `links.json` i profil `default`. Schematy oraz `scripts/validate-content.mjs` definiują kontrakt i walidację. Lista umiejętności pozostaje płaska z powodu obecnego schematu i danych. `FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV; dokumenty architektoniczne nie przepisują pełnej treści CV.
+
+## Potwierdzone testy
+
+* Interfejs i avatar zostały sprawdzone lokalnie przez Projektanta w Vite.
+* Kontrole statyczne i `git diff --check` przechodziły w kolejnych zadaniach.
+* Codex nie mógł potwierdzić `npm run validate:content` ani `npm run build` z powodu braku zależności i błędu registry 403.
+* Pełna walidacja i build pozostają do wykonania w lokalnym środowisku z dostępnymi zależnościami.
+
+## Znane ograniczenia
+
+* Brak produkcyjnego deploymentu.
+* Brak potwierdzonego builda i walidacji treści w środowisku Codex.
+* `?preview=draft` nie zapewnia prywatności.
+* Dane i zasoby w publicznym frontendzie są publiczne niezależnie od statusu.
+* Brak osobnej sekcji kontaktowej.
+* Brak backendu, Streamlit i Playwright.
+* Aktualny model umiejętności jest płaski.
+
+## Rekomendowany następny etap
+
+Następny etap powinien obejmować pełne lokalne `npm run validate:content` i `npm run build`, test mobile, kontrolę wydruku PL i EN, redakcyjny przegląd treści, późniejsze świadome zmienianie wybranych statusów `draft` na `published` i dopiero potem przygotowanie deploymentu.

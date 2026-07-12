@@ -2,24 +2,27 @@
 
 ## Cel
 
-Dokument opisuje aktualnie zaimplementowany pierwszy pionowy przekrój aplikacji webowej. Źródłami prawdy są `docs/current/README.md`, `docs/current/content/CONTENT_MODEL.md`, `docs/current/product/PERSONALIZATION_SYSTEM.md`, `docs/current/ui/SINGLE_PAGE_FLOW.md` i kod w `src/`.
+Dokument opisuje aktualny pierwszy pełny roboczy przekrój aplikacji „Tomasz Talik CV” potwierdzony kodem, danymi i lokalnym podglądem Projektanta.
 
 ## Stos technologiczny
 
-Aplikacja jest pojedynczą stroną Vite z:
+Aplikacja używa:
 
+* Vite;
 * Vanilla JavaScript;
-* HTML składanym w modułach JS bez frameworka frontendowego;
-* CSS, w tym osobnym stylem druku `src/styles/print.css`;
-* publicznymi danymi JSON z katalogu `content/`.
+* CSS;
+* publicznych danych JSON;
+* jednej responsywnej karty CV;
+* braku frameworka frontendowego.
 
-Nie ma Reacta, Vue, Svelte, Angulara ani innego frameworka frontendowego.
+Nie ma Reacta, Vue, Svelte, Angulara ani backendu.
 
 ## Rzeczywista struktura przekroju
 
 ```text
 index.html
 vite.config.js
+package.json
 src/
   main.js
   app/
@@ -33,7 +36,9 @@ src/
   sections/
     about-section.js
     projects-section.js
+    experience-section.js
     education-section.js
+    skills-section.js
   styles/
     tokens.css
     base.css
@@ -47,50 +52,72 @@ src/
     dom.js
 content/
   public/
+    identity.json
+    about.json
+    projects.json
+    experience.json
+    education.json
+    skills.json
+    links.json
   profiles/
+    default.json
   schemas/
+    common.schema.json
+    identity.schema.json
+    about.schema.json
+    projects.schema.json
+    experience.schema.json
+    education.schema.json
+    skills.schema.json
+    links.schema.json
+    profile.schema.json
 scripts/
-docs/
+  validate-content.mjs
 ```
 
-`content-loader.js` ładuje publiczne dane z `content/public/*.json` przez importy modułów JSON i profile z `content/profiles/*.json` przez `import.meta.glob` z trybem eager. Dane nie są kopiowane do `src/`.
+## Ładowanie danych
 
-## Routing, profil i fallback
+`content-loader.js` importuje `identity`, `about`, `projects`, `experience`, `education`, `skills` i `links` z `content/public/`. Profile są ładowane z `content/profiles/*.json` przez `import.meta.glob` w trybie eager.
 
-`profile-resolver.js` wybiera profil z parametru `?p=<profileId>`. Brak parametru oznacza `profile default`. Nieistniejący lub nieużywalny profil bezpiecznie wraca do `default`; `bootstrap.js` pokazuje wtedy zwarty komunikat fallbacku z `role="status"` nad kartą CV.
+## Profil i fallback
 
-## View model i filtrowanie
+`profile-resolver.js` wybiera profil przez `?p=<profileId>`. Brak parametru oznacza profil `default`. Nieistniejący albo nieużywalny profil wraca do `default`, a `bootstrap.js` renderuje komunikat fallbacku z `role="status"`.
 
-`view-model.js` niemutująco łączy publiczne dane z profilem. Renderowane są tylko elementy `published`. Elementy `draft` i `archived` są ukrywane, a sekcje bez opublikowanej treści nie są przekazywane do renderowania. W obecnych danych większość rzeczywistej treści jest nadal `draft`, więc publiczny widok może zawierać tylko imię i nazwisko; to oczekiwany efekt filtrowania.
+## View model i statusy
 
-## UI i stan interakcji
+`view-model.js` łączy publiczne dane z profilem bez mutowania źródeł. Kontrakt statusów:
 
-Aplikacja renderuje jedną wspólną kartę CV o maksymalnej szerokości około 940 px. Układ jest mobile first, avatar/portret w Hero jest opcjonalny, a motyw wynika z `prefers-color-scheme`. Główna karta obsługuje zasób `assets/identity/tomasz-talik-avatar.webp`; gdy ścieżki brakuje w danych, frontend nie renderuje obrazu, pustej kolumny ani placeholdera. Accordion przechowuje stan otwartego panelu lokalnie w komponencie: jednocześnie otwarty może być najwyżej jeden panel, a ponowne kliknięcie otwartego panelu zamyka wszystkie. Przyciski accordionu mają `aria-expanded` i `aria-controls`, a panele `role="region"` oraz `aria-labelledby`.
+* bez `preview` renderowane są tylko `published`;
+* `?preview=draft` renderuje `published` oraz `draft`;
+* `archived` jest ukryte zawsze;
+* puste sekcje nie są przekazywane do renderowania.
 
-## PDF i druk
+Tryb można łączyć z profilem: `?p=default&preview=draft`. Jest to narzędzie redakcyjne, nie zabezpieczenie ani mechanizm prywatności.
 
-Przycisk „Zapisz jako PDF” w `hero-card.js` wywołuje `window.print()`. Wydruk używa aktualnie wyrenderowanego HTML, tego samego view modelu i `src/styles/print.css`; opcjonalny avatar Hero pozostaje widoczny w PDF bez osobnego wariantu pliku. CSS druku pokazuje wszystkie opublikowane sekcje wybrane przez profil niezależnie od bieżącego stanu accordionu. Aplikacja nie pobiera statycznego pliku PDF i nie ma osobnego szablonu danych PDF.
+## Renderowane obszary UI
 
-## Funkcje przyszłe
+`bootstrap.js` składa jedną kartę CV z Hero i accordionem. Zaimplementowane sekcje to O mnie, Projekty, Doświadczenie, Wykształcenie i Umiejętności. Nie ma osobnego renderera sekcji kontaktowej.
 
-Streamlit, Playwright i backend nie są zaimplementowane. Gdy zostaną dodane, Streamlit i Playwright mają używać tego samego HTML, view modelu i stylów wydruku, bez osobnego szablonu PDF.
+Hero pokazuje imię i nazwisko, krótki opis z wydzielonego wpisu `about-public-summary`, wyróżnione umiejętności, przycisk `window.print()`, publiczny link GitHub z `links.json` oraz opcjonalny avatar z `identity.portrait`.
 
-## Podgląd szkiców
+Globalny przełącznik PL/EN zmienia lokalizowane treści, etykiety `Szkic` / `Draft` i ustawia `document.documentElement.lang`.
 
-Parametr `?preview=draft` uruchamia jawny tryb roboczego przeglądania treści. View model otrzymuje ten tryb jako ustawienie i przekazuje do renderowania elementy `published` oraz `draft`; elementy `archived` pozostają ukryte w każdym trybie. Parametr działa równolegle z profilem, np. `?p=default&preview=draft`, nie zapisuje się w `localStorage` i nie wymaga przeładowania po zmianie języka.
+## Avatar
 
-Tryb podglądu nie jest mechanizmem prywatności. Publiczne pliki JSON są częścią paczki aplikacji, dlatego dane zapisane w nich jako `draft` należy traktować jako publiczne.
+Avatar jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. `getAssetUrl` buduje adres względem `BASE_URL`. CSS zachowuje naturalny format obrazu bez okrągłej maski, ustawia go po prawej stronie Hero na desktopie i nad tekstem na mobile, z rozmiarem `clamp` około 110–170 px, subtelną ramką akcentową i niewielkim obniżeniem na desktopie. Brak avatara nie tworzy pustej kolumny.
 
-## Sekcja doświadczenia
+## Accordion
 
-Wdrożono pierwszą sekcję doświadczenia renderowaną w istniejącym accordionie. Renderer używa wspólnych narzędzi DOM i `textContent`, bez `innerHTML` dla danych JSON. W trybie podglądu widoczne szkice dostają lokalizowany znacznik `Szkic` / `Draft`; znaczniki są ukrywane w stylach druku, ale same treści draft pozostają w wydruku, jeśli zostały wyrenderowane przez `?preview=draft`.
+`accordion.js` dopuszcza najwyżej jeden otwarty panel i pozwala zamknąć wszystkie. Przyciski mają `aria-expanded` oraz `aria-controls`, panele mają `role="region"` i `aria-labelledby`. Przycisk jest jedynym widocznym tytułem sekcji na stronie; wewnętrzny nagłówek sekcji pozostaje w DOM i wraca w wydruku dokładnie raz.
 
-## Sekcja umiejętności
+## Umiejętności
 
-Wdrożono pierwszą sekcję umiejętności renderowaną w istniejącym accordionie. `skills-section.js` korzysta ze wspólnych narzędzi DOM oraz `textContent`, bez `innerHTML` dla danych JSON. View model filtruje wpisy tak jak pozostałe sekcje: `published` w trybie publicznym, `published` i `draft` w `?preview=draft`, a `archived` pozostają ukryte w obu trybach. Widoczne szkice używają istniejącego lokalizowanego znacznika `Szkic` / `Draft`, ukrywanego w stylach druku.
+Aktualna sekcja umiejętności renderuje płaską listę. Wynika to z obecnego schematu i danych `skills.json`, bez kategorii, grupowania i opisów.
 
-Dane pierwszej sekcji umiejętności pozostają w statusie `draft`. Obecny `skills.schema.json` nie obsługuje kategorii, grupowania ani opisów, dlatego kolejność profilu zachowuje płaską listę umiejętności zamiast dopisywania nowych pól poza schematem. To ogranicza prezentację zakresu kompetencji AI do nazwy umiejętności do czasu rozszerzenia modelu danych. `?preview=draft` nadal nie jest mechanizmem prywatności, ponieważ publiczne pliki JSON są częścią paczki aplikacji.
+## PDF
 
-## Sekcja wykształcenia
+Przycisk Hero wywołuje `window.print()`. Wydruk używa tego samego HTML i view modelu co strona oraz `src/styles/print.css`. Nie ma osobnego szablonu PDF. Wydruk rozwija panele niezależnie od stanu accordionu, pokazuje sekcje widoczne w aktualnym trybie filtrowania, zawiera szkice przy `?preview=draft`, ukrywa znaczniki `Szkic` / `Draft`, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie.
 
-Wdrożono sekcję `education` renderowaną w istniejącym accordionie. `education-section.js` używa wspólnych narzędzi DOM i `textContent`, bez `innerHTML` dla danych JSON. Wpisy pozostają `draft`: są ukryte bez `?preview=draft`, widoczne w podglądzie ze znacznikiem `Szkic` / `Draft`, a znaczniki są ukrywane w wydruku. Historyczna nazwa Akademia Techniczno-Humanistyczna w Bielsku-Białej pozostaje nieprzetłumaczona również w wariancie EN. `?preview=draft` nadal nie jest mechanizmem prywatności.
+## Przyszłe elementy
+
+Streamlit, Playwright, backend i produkcyjny deployment nie są zaimplementowane. Jeśli zostaną dodane, powinny korzystać z tego samego modelu danych, HTML, view modelu i stylów wydruku.
