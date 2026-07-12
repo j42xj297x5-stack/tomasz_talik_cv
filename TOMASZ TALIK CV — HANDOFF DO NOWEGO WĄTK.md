@@ -1,863 +1,546 @@
-TOMASZ TALIK CV — HANDOFF DO NOWEGO WĄTKU
+HANDOFF — TOMASZ TALIK CV
+Stan na: 2026-07-12
+Cel: kontynuacja pracy w nowym wątku bez ponownego odtwarzania decyzji i wdrożeń.
 
-1. CEL PROJEKTU
+1. TRYB WSPÓŁPRACY
 
-Projekt „Tomasz Talik CV” jest interaktywnym, jednostronicowym CV i portfolio działającym jako aplikacja Vite na GitHub Pages.
+Projektant: Tomasz Talik.
+ChatGPT pełni rolę architekta i redaktora.
+Codex wykonuje zmiany w repozytorium.
 
-Główne założenia:
-- jedna responsywna strona;
-- jedna wspólna karta CV;
-- rozwijane sekcje;
-- tylko jeden panel może być otwarty jednocześnie;
-- wszystkie panele można zamknąć, pozostawiając samą kartę główną;
-- personalizacja pod konkretne firmy bez tworzenia osobnych kopii aplikacji;
-- wspólny katalog treści i wiele profili prezentacji;
-- dane publiczne w repozytorium;
-- dane prywatne docelowo pobierane z zewnętrznego backendu;
-- lokalny edytor profili w Streamlit;
-- PDF generowany z tego samego HTML i view modelu co strona;
-- docelowy hosting: GitHub Pages;
-- frontend: Vite, Vanilla JavaScript, CSS, JSON;
-- bez Reacta i innych frameworków frontendowych na obecnym etapie.
+Dla nowego, złożonego tematu:
+- najpierw analiza i krótkie pytania decyzyjne;
+- format odpowiedzi Projektanta: np. 1b, 2a;
+- dopiero potem prompt wykonawczy dla Codexa.
 
-2. PRZYJĘTY PROTOKÓŁ PRACY
-
-Role:
-- Projektant ustala treść, kierunek i decyzje.
-- ChatGPT działa jako architekt.
-- Codex wykonuje konkretne zmiany w repozytorium.
-
-Dla większych tematów:
-1. analiza;
-2. pytania decyzyjne;
-3. odpowiedzi Projektanta;
-4. krótki prompt dla Codexa;
-5. analiza wyniku;
-6. aktualizacja dokumentacji.
-
-Prompty dla Codexa:
-- po polsku;
+Prompt dla Codexa:
 - jeden blok plain text;
-- mały zakres;
-- konkretne pliki;
-- jeden główny rezultat;
-- bez czytania całego repo;
-- bez docs/legacy/ i docs/audits/, chyba że wyraźnie wymagane;
-- wynik: Compact Summary, pliki, testy, ryzyka.
+- wyłącznie konkretne pliki;
+- sekcje:
+  PLIKI DO ODCZYTU:
+  PLIKI DO MODYFIKACJI:
+  AKCJA:
+  ZAKAZY:
+  FORMAT WYJŚCIOWY:
+- nie pozwalać czytać całego repozytorium;
+- nie pozwalać czytać docs/legacy/ ani docs/audits/;
+- wymagać wyłącznie Compact Summary do 50 słów;
+- nie wykonywać ogólnych refaktorów bez osobnej decyzji.
 
-3. WDROŻONA DOKUMENTACJA ARCHITEKTURY
+2. CEL PRODUKTU
 
-Utworzono dokumentację w docs/current/:
+Interaktywne, jednostronicowe CV Tomasza Talika, kierowane przede wszystkim do studiów gier i zespołów tworzących interaktywne produkty.
 
-- docs/current/technical/FRONTEND_ARCHITECTURE.md
-- docs/current/content/CONTENT_MODEL.md
-- docs/current/product/PERSONALIZATION_SYSTEM.md
-- docs/current/ui/SINGLE_PAGE_FLOW.md
-- docs/current/security/ACCESS_AND_PRIVACY.md
-- docs/current/technical/PDF_PIPELINE.md
-- docs/current/technical/LOCAL_EDITOR.md
-- docs/current/technical/DEPLOYMENT.md
-- docs/current/maps/PROJECT_INDEX.md
+Główne pozycjonowanie:
+Creative Technologist & Game Systems Designer
 
-Utworzono również:
-- docs/README.md
-- docs/current/README.md
+CV ma:
+- przedstawiać projektowanie systemów, gier i narzędzi;
+- pokazywać autorskie projekty jako główną wartość;
+- uczciwie opisywać sposób pracy wspomagany przez AI;
+- działać jako responsywna strona;
+- generować klasyczny PDF przez window.print();
+- docelowo obsługiwać profile dopasowane do firm przez ?p=<profileId>.
 
-Dokumentacja ustala:
-- jedną aplikację;
-- jeden katalog treści;
-- wiele profili firm;
-- rozdział danych publicznych i prywatnych;
-- Streamlit jako przyszły lokalny edytor;
-- Playwright jako przyszłą automatyzację PDF;
-- GitHub Pages jako docelowy hosting.
+3. AKTUALNA ARCHITEKTURA
 
-Checkpoint dokumentacyjny po pierwszym działającym przekroju został przygotowany jako prompt, ale w tym wątku nie ma jeszcze potwierdzenia, że Codex go wykonał.
+Stos:
+- Vite;
+- Vanilla JavaScript;
+- CSS;
+- publiczne dane JSON;
+- JSON Schema;
+- Ajv w walidatorze;
+- brak frameworka frontendowego;
+- brak backendu;
+- brak wdrożenia produkcyjnego.
 
-4. WDROŻONY MODEL DANYCH
+Aplikacja działa obecnie lokalnie przez Vite.
 
-Utworzono:
+GitHub Pages pozostaje planowanym kierunkiem, ale deployment nie został jeszcze wykonany.
 
-content/public/
-- identity.json
-- about.json
-- projects.json
-- experience.json
-- skills.json
-- links.json
+Główne obszary:
+- content/public/*.json — publiczne treści CV;
+- content/profiles/*.json — profile;
+- content/schemas/*.schema.json — schematy;
+- scripts/validate-content.mjs — walidator;
+- src/app/ — ładowanie danych, profil, view model i bootstrap;
+- src/components/ — Hero i accordion;
+- src/sections/ — renderery sekcji;
+- src/styles/print.css — wydruk.
 
-content/profiles/
-- default.json
+4. ZAIMPLEMENTOWANE FUNKCJE GLOBALNE
 
-content/schemas/
-- common.schema.json
-- identity.schema.json
-- about.schema.json
-- projects.schema.json
-- experience.schema.json
-- skills.schema.json
-- links.schema.json
-- profile.schema.json
+4.1. Języki
 
-Założenia modelu:
-- teksty są lokalizowane;
-- wymagany jest język pl;
-- en jest opcjonalny;
-- identyfikatory są trwałe i czytelne;
-- przykłady:
-  project-haiku-cosmos
-  skill-javascript
-  skill-three-js
-- elementy mają status:
-  draft
-  published
-  archived
-- frontend pokazuje wyłącznie published;
-- draft i archived są całkowicie ukryte;
-- puste sekcje nie są renderowane;
-- profile firm wskazują identyfikatory danych bazowych;
-- profile nie kopiują opisów projektów, doświadczenia ani umiejętności;
-- ścieżki zasobów są logiczne, bez domeny i bez początkowego ukośnika;
-- dane prywatne nie mogą trafiać do content/, src/ ani public/.
+Wdrożono globalny przełącznik PL/EN.
 
-5. WDROŻONY WALIDATOR DANYCH
+Potwierdzone zachowanie:
+- zmienia treści Hero i sekcji;
+- zmienia znaczniki Szkic/Draft;
+- aktualizuje język dokumentu;
+- kontrolka języka jest ukrywana w wydruku.
 
-Utworzono:
-- scripts/validate-content.mjs
+4.2. Profile
 
-Polecenie:
-npm run validate:content
+Obsługiwany jest parametr:
+?p=<profileId>
 
-Walidator używa:
-- Ajv
-- ajv-formats
+Profil default jest fallbackiem.
 
-Sprawdza:
-- zgodność z JSON Schema;
-- duplikaty identyfikatorów;
-- odwołania profili do nieistniejących danych;
-- duplikaty w kolejności;
-- nieistniejące sekcje;
-- niedozwolone pola profilu;
-- niepoprawne ścieżki zasobów;
-- podejrzane prywatne klucze;
-- długość companyMessage;
-- błędne dane powodują kod wyjścia 1.
+Parametr profilu można łączyć z podglądem szkiców:
+?p=default&preview=draft
 
-Usunięto przestarzałą opcję Ajv jsonPointers.
-Walidator korzysta z instancePath.
+4.3. Podgląd szkiców
 
-Lokalnie potwierdzono:
-- npm install działa;
-- npm ci działa po poprawieniu lockfile;
-- npm run validate:content przechodzi;
-- błędne dane zwracają kod 1.
+Wdrożono:
+?preview=draft
 
-6. PROBLEM LOCKFILE — ROZWIĄZANY
+Bez parametru:
+- renderowane są tylko elementy published;
+- draft jest ukryty;
+- archived jest ukryty;
+- puste sekcje są ukrywane.
 
-Poprzedni package-lock.json miał błędną sumę integrity dla fast-uri@3.0.1.
+Z parametrem:
+- renderowane są published i draft;
+- archived nadal jest ukryty;
+- elementy draft otrzymują znacznik Szkic albo Draft.
 
-Błędna suma należała faktycznie do argparse@2.0.1.
+Znaczniki:
+- są małe i przypisane do konkretnych elementów;
+- nie używają globalnego paska;
+- są ukrywane w PDF.
 
-Lockfile został lokalnie wygenerowany ponownie przez:
-- usunięcie package-lock.json;
-- npm install;
-- ponowne npm ci.
+Ważne:
+?preview=draft jest wyłącznie trybem redakcyjnym.
+Nie jest zabezpieczeniem i nie zapewnia prywatności.
+Każdy JSON oraz asset umieszczony publicznie należy traktować jako publiczny.
 
-Obecny lockfile powinien być przenośny i używać standardowych zależności npm.
+Znany commit:
+2d8693b — ?preview=draft, znaczniki PL/EN, doświadczenie i dokumentacja.
 
-Nie wolno wracać do:
-- file:
-- link:
-- globalnego node_modules;
-- lokalnych ścieżek.
+5. HERO
 
-7. GITIGNORE I NODE_MODULES
+Aktualny Hero został wizualnie potwierdzony na desktopie.
 
-node_modules zostało przypadkowo dodane do repozytorium, ale zostało usunięte z indeksu Git.
+Zawiera:
+- przełącznik PL/EN;
+- imię i nazwisko Tomasz Talik;
+- dwuzdaniowy opis;
+- pięć wyróżnionych umiejętności;
+- przycisk Zapisz jako PDF;
+- link Profil GitHub;
+- avatar po prawej stronie.
 
-.gitignore powinien zawierać przynajmniej:
+Aktualny tekst Hero PL:
 
-node_modules/
-dist/
-.vite/
+Buduję interaktywne światy, gry i narzędzia cyfrowe, łącząc technologię, mechanikę, obraz i dźwięk. Złożone pomysły przekładam na modularne systemy, które można rozwijać, testować i prowadzić od koncepcji do działającego produktu.
 
-.env
-.env.*
-!.env.example
+Aktualny tekst Hero EN:
 
-editor/local/
-__pycache__/
-*.pyc
+I build interactive worlds, games and digital tools by combining technology, mechanics, visuals and sound. I turn complex ideas into modular systems that can be developed, tested and guided from concept to a working product.
 
-.DS_Store
-Thumbs.db
+Hero został świadomie oddzielony od sekcji O mnie:
+- Hero mówi przede wszystkim, co Tomasz tworzy;
+- O mnie opisuje kierunek zawodowy, doświadczenia i sposób pracy;
+- ten sam tekst nie jest już powtarzany w obu miejscach.
 
-Kontrola:
-git ls-files node_modules
-git ls-files dist
+6. AVATAR
 
-Oba polecenia powinny zwracać pusty wynik.
+Plik:
+public/assets/identity/tomasz-talik-avatar.webp
 
-8. WDROŻONY FRONTEND VITE
+Ścieżka w danych:
+assets/identity/tomasz-talik-avatar.webp
 
-Utworzono pierwszy działający pionowy przekrój.
+Aktualne zachowanie:
+- naturalny pionowy format obrazu;
+- brak okrągłej maski;
+- subtelna ramka akcentowa;
+- elastyczny rozmiar przez clamp(), około 110–170 px;
+- desktop: prawa strona Hero;
+- mobile: założenie nad tekstem;
+- PDF: avatar ma być widoczny w bardziej kompaktowej formie;
+- brak danych avatara nie powinien pozostawiać pustej kolumny.
 
-Główne pliki:
+Po pierwszym wdrożeniu avatar był nieco za wysoko.
+Wprowadzono małe obniżenie wyłącznie na desktopie.
+Projektant potwierdził: „lepiej siedzi”.
 
-src/main.js
+Desktopowy wygląd avatara i Hero został potwierdzony screenem lokalnego Vite.
 
-src/app/
-- bootstrap.js
-- content-loader.js
-- profile-resolver.js
-- view-model.js
+Mobile i PDF wymagają jeszcze osobnego testu wizualnego.
 
-src/components/
-- hero-card.js
-- accordion.js
+7. ACCORDION
 
-src/sections/
-- about-section.js
-- projects-section.js
-
-src/styles/
-- tokens.css
-- base.css
-- layout.css
-- components.css
-- accordion.css
-- themes.css
-- print.css
-
-src/utils/
-- dom.js
-- assets.js
-
-Działa:
-- npm run dev;
-- npm run build;
-- npm run preview;
-- ładowanie danych JSON;
-- ładowanie profili przez import.meta.glob;
-- profil default;
-- wybór profilu przez ?p=<profileId>;
-- fallback do default przy nieistniejącym profilu;
-- dyskretny pasek fallbacku;
+Potwierdzony układ:
 - jedna wspólna karta CV;
-- responsywność Mobile First;
-- maksymalna szerokość karty około 940 px;
-- motyw jasny/ciemny przez prefers-color-scheme;
-- prefers-reduced-motion;
-- accordion;
-- maksymalnie jeden otwarty panel;
-- możliwość zamknięcia wszystkich paneli;
-- obsługa Tab, Enter i Space;
-- aria-expanded;
-- aria-controls;
-- aria-labelledby;
-- dekoracyjne chevrony;
-- brak innerHTML dla danych JSON;
-- dane są wstawiane przez textContent;
-- opcjonalny portret;
-- brak pustej kolumny, gdy portret nie istnieje;
-- imię i nazwisko nie jest powtarzane jako headline;
-- profil default nie jest podpisywany użytkownikowi;
-- sekcje bez published znikają.
+- najwyżej jeden panel otwarty jednocześnie;
+- panel można ponownie zamknąć;
+- wszystkie panele mogą być zamknięte;
+- zastosowane aria-expanded, aria-controls, role region i aria-labelledby.
 
-9. AKTUALNY WYGLĄD
+Naprawiono wizualne powtarzanie tytułów sekcji:
+- na stronie przycisk accordionu jest jedynym widocznym tytułem;
+- wewnętrzny semantyczny nagłówek pozostaje w DOM;
+- wewnętrzny nagłówek jest ukryty bez pozostawiania pustego miejsca;
+- w PDF przyciski znikają, a semantyczny tytuł jest ponownie pokazywany;
+- tytuł sekcji powinien występować w wydruku dokładnie raz.
 
-Pierwszy widok jest celowo bardzo pusty, ponieważ większość danych nadal ma status draft.
-
-Aktualnie może być widoczne jedynie:
-- Tomasz Talik;
-- przycisk „Zapisz jako PDF”.
-
-To nie jest błąd.
-To efekt poprawnego filtrowania published.
-
-Haiku Cosmos nadal ma status draft, więc panel Projekty może się nie wyświetlać.
-
-10. WDROŻONY PDF / WYDRUK
-
-Pierwotnie profil wskazywał nieistniejący plik:
-cv/default.pdf
-
-Powodowało to pobieranie default.htm.
-
-To zostało poprawione.
-
-Aktualny model:
-- brak statycznego pliku PDF;
-- brak linku do public/cv/;
-- przycisk „Zapisz jako PDF” jest buttonem;
-- kliknięcie wywołuje window.print();
-- PDF powstaje z aktualnie wyrenderowanego CV;
-- używany jest ten sam view model;
-- używany jest ten sam HTML;
-- używany jest src/styles/print.css;
-- w druku pokazują się wszystkie opublikowane sekcje wybrane przez profil;
-- wydruk nie zależy od tego, który accordion był otwarty;
-- przyciski, chevrony i fallback są ukrywane;
-- tła i zbędne cienie są usuwane;
-- po zamknięciu podglądu stan accordionu pozostaje bez zmian.
-
-Lokalnie potwierdzono:
-- window.print() działa;
-- podgląd wydruku wygląda poprawnie;
-- default.htm nie jest już pobierany.
-
-Ostateczny skład PDF nie jest jeszcze ustalony.
-Decyzje o:
-- kolejności;
-- zakresie treści;
-- datach;
-- firmie;
-- stanowisku;
-- stopce;
-- danych kontaktowych;
-- liczbie stron;
-zostaną podjęte po dodaniu właściwych danych.
-
-11. PRZYJĘTE DECYZJE PERSONALIZACJI
-
-Profile firm:
-- publiczne;
-- nieindeksowane;
-- dostępne przez losowy identyfikator;
-- adres:
-  ?p=p_xxxxx
-
-Dane prywatne:
-- nie znajdują się na GitHub Pages;
-- docelowo pobierane z backendu;
-- długi token w linku;
-- zapasowy kod 6–8 znaków;
-- token nie może być zabezpieczeniem danych zapisanych w publicznym frontendzie.
-
-Docelowy link:
-?p=p_xxxxx#t=DŁUGI_TOKEN
-
-Parametr p:
-- wybiera publiczny profil.
-
-Token:
-- ma później autoryzować prywatne dane w backendzie.
-
-12. PRZYJĘTE DECYZJE EDYTORA
-
-Lokalny edytor:
-- Streamlit;
-- uruchamiany lokalnie;
-- niepublikowany;
-- ma pozwalać dodawać firmy bez używania Codexa.
-
-Docelowe funkcje:
-- nazwa firmy;
-- strona firmy;
-- logo;
-- stanowisko;
-- język;
-- krótka wiadomość 300–500 znaków;
-- wybór sekcji;
-- wybór projektów;
-- wybór umiejętności;
-- kolejność;
-- wyróżnienia;
-- wybór danych kontaktowych;
-- tworzenie profileId;
-- generowanie linku;
-- walidacja;
-- podgląd;
-- uruchomienie generowania PDF;
-- przygotowanie plików do GitHub Desktop.
-
-Edytor nie może zapisywać prywatnych danych do publicznych profili.
-Może zapisywać wyłącznie protectedScopes.
-
-13. PRZYJĘTE DECYZJE TREŚCI
-
-Na pierwszym ekranie docelowo mają znaleźć się:
-- imię i nazwisko;
-- docelowa rola;
-- krótki opis;
-- najważniejsze technologie;
-- przycisk PDF;
-- kontakt;
-- przy profilu firmowym:
-  nazwa firmy;
-  logo;
-  krótka wiadomość 300–500 znaków.
-
-Sekcje:
+Zmiana objęła:
 - O mnie;
 - Projekty;
 - Doświadczenie;
-- Umiejętności;
-- Kontakt;
-- opcjonalnie sposób pracy lub dodatkowe informacje.
+- Wykształcenie;
+- Umiejętności.
 
-Jedna karta.
-Panele jako zwarte wiersze z chevronem.
-Nie osobne duże kafle.
+8. ZAIMPLEMENTOWANE SEKCJE
 
-Opcjonalny portret:
-- mały;
-- po prawej na desktopie;
-- około 140–180 px;
-- object-fit: cover;
-- łagodne zaokrąglenie;
-- na telefonie przechodzi nad treść albo zmniejsza się.
+Aktualna kolejność widoczna na screenie:
 
-14. POTWIERDZONE LOKALNIE
+1. O mnie
+2. Projekty
+3. Doświadczenie
+4. Wykształcenie
+5. Umiejętności
 
-Na komputerze Projektanta:
-- Vite działa;
-- strona się wyświetla;
-- build przechodzi;
-- walidacja przechodzi;
-- profile działają;
-- fallback działa;
+Sekcja kontaktowa nie została jeszcze wdrożona jako pełny panel.
+
+8.1. O mnie
+
+Aktualny tekst PL:
+
+Akapit 1:
+Obecnie koncentruję się na projektowaniu gier i interaktywnych systemów. W autorskich projektach łączę wykształcenie inżynierskie, wieloletnią praktykę twórczą oraz doświadczenie zdobyte w elektronice, dźwięku, świetle, sprzedaży technicznej i pracy z użytkownikami. Interesuje mnie nie tylko efekt końcowy, ale również logika, mechanika, przepływ danych i relacje pomiędzy elementami systemu.
+
+Akapit 2:
+Pracę zaczynam od zrozumienia problemu i ustalenia zasad. Dzielę złożone projekty na małe moduły, przygotowuję dokumentację, kieruję implementacją wspomaganą przez AI i sprawdzam rezultat w kodzie, testach, diagnostyce oraz działającym produkcie. Dzięki temu potrafię patrzeć na projekt jednocześnie jak twórca, technik i użytkownik.
+
+Wersja EN również została dodana.
+
+8.2. Projekty
+
+Dodano trzy wpisy jako draft:
+
+Haiku Cosmos
+- główny projekt;
+- rola: Creator, Game Systems Designer & Technical Lead;
+- publiczne demo:
+  https://j42xj297x5-stack.github.io/Haiku-Cosmos/
+- publiczne repo:
+  https://github.com/j42xj297x5-stack/Haiku-Cosmos
+- Vite, Vanilla JS, Three.js;
+- tryby Three.js 3D i Canvas2D;
+- systemy gry, dane, diagnostyka, dokumentacja i assety.
+
+DIG Engine
+- lokalny system odkrywania i analizowania muzyki;
+- Python, PySide6, API, baza lokalna;
+- aktualny opis projektu wskazuje SQLite i FTS5;
+- prywatne repozytorium nie jest linkowane;
+- pokazywany przez case study i demonstrację;
+- pełny pokaz działania na życzenie;
+- demo GIF:
+  https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/gif/DIG_engine.gif
+
+Interactive AI Portfolio
+- publiczne demo:
+  https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/
+- publiczne repo:
+  https://github.com/j42xj297x5-stack/tomasz-talik-portfolio
+- Vite, Vanilla JS i Three.js;
+- krótszy trzeci projekt.
+
+8.3. Doświadczenie
+
+Wdrożono cztery wpisy draft:
+
+Usługi Informatyczne Szansa
+- 07/2024–obecnie;
+- Inżynier sprzedaży systemów CAD / Opiekun klienta;
+- ZW3D;
+- dokumentacja i baza wiedzy obejmująca setki funkcji;
+- AI-assisted analiza, tłumaczenia i dokumentacja;
+- komunikacja z klientami przemysłowymi;
+- wsparcie kampanii i narzędzia wyszukiwania odbiorców.
+
+Teatr Lalek Banialuka
+- 09/2022–12/2023;
+- realizator światła i dźwięku / elektroakustyk;
+- scena, sprzęt, dźwięk, światło;
+- reakcja w czasie rzeczywistym;
+- współpraca techniczna i artystyczna.
+
+Niezależna praktyka twórcza i produkcyjna
+- 1998–obecnie;
+- muzyka, DJ, dźwięk, wydarzenia, radio internetowe, grafika i wydawnictwo;
+- obecnie również autorskie systemy cyfrowe;
+- wpis został rozszerzony o praktyczne działania związane z adaptacją akustyczną sal prób.
+
+T&T s.c.
+- 2002–2015;
+- technik IT / sprzedaż techniczna / prowadzenie małej firmy;
+- strona, sklep i marketplace;
+- dokumentacja produktów, fotografia i SEO;
+- identyfikacja części;
+- sprzedaż, magazyn i codzienna obsługa działalności.
+
+8.4. Umiejętności
+
+Wdrożono sekcję Umiejętności jako draft.
+
+Znany commit:
+0641205
+
+Zakres:
+- projektowanie systemów gry;
+- projektowanie modularnych systemów;
+- architektura techniczna;
+- prototypowanie interakcji;
+- diagnostyka i walidacja;
+- dokumentacja techniczna;
+- orkiestracja AI w pracy technicznej i kreatywnej;
+- JavaScript;
+- Three.js;
+- HTML;
+- CSS;
+- JSON;
+- Vite;
+- Node.js;
+- Python;
+- PySide6;
+- MySQL;
+- SQL;
+- REST API;
+- Git/GitHub;
+- Blender;
+- Inkscape;
+- Figma;
+- Ableton Live;
+- samodzielne uczenie się;
+- czytanie kodu;
+- komunikacja techniczna;
+- komunikacja z klientem;
+- dekompozycja problemów.
+
+Nie przypisano poziomów znajomości.
+
+Nie przedstawiono Tomasza jako tradycyjnego eksperta samodzielnie piszącego każdy fragment kodu.
+
+Aktualny schemat wymusił płaską listę umiejętności zamiast grup kategorii.
+
+Wyróżnione w Hero:
+- Projektowanie systemów gry;
+- Orkiestracja AI w pracy technicznej i kreatywnej;
+- JavaScript;
+- Three.js;
+- Python.
+
+8.5. Wykształcenie
+
+Sekcja Wykształcenie jest widoczna na aktualnym screenie, więc renderer, profil i podstawowe dane zostały wdrożone.
+
+Dodane wpisy:
+
+education-ath-environmental-engineering
+- 10/2000–06/2005;
+- Akademia Techniczno-Humanistyczna w Bielsku-Białej;
+- University of Technology and Humanities in Bielsko-Biala;
+- Magister inżynier — Ochrona środowiska;
+- Master of Engineering — Environmental Protection;
+- specjalizacja:
+  Inżynieria środowiska / Environmental Engineering;
+- praca inżynierska:
+  aktywne i pasywne tłumienie drgań;
+- praca magisterska:
+  „Dobór efektywnych rozwiązań w kształtowaniu parametrów akustycznych pomieszczeń przy różnych zastosowaniach funkcjonalnych”.
+
+education-electronics-technician
+- 09/1995–06/2000;
+- technik elektronik;
+- praktyka w serwisie elektronicznym;
+- projekt końcowy dotyczący przełączania tranzystorów.
+
+9. WAŻNA NIEPEWNOŚĆ — OSTATNIA KOREKTA EDUKACJI
+
+Po przygotowaniu ostatniego promptu rozszerzającego opis studiów nie otrzymano w tym wątku Compact Summary Codexa.
+
+Nie należy więc zakładać bez sprawdzenia, że ostatnia wersja została zapisana w repozytorium.
+
+Nowy wątek powinien najpierw sprawdzić:
+
+content/public/education.json
+content/public/experience.json
+docs/current/content/FIRST_PUBLIC_CV_CONTENT.md
+
+Docelowy pierwszy akapit studiów powinien opisywać szeroki zakres programu, między innymi:
+- matematykę;
+- fizykę;
+- chemię;
+- biologię środowiska;
+- geologię;
+- mechanikę płynów;
+- wodę i ścieki;
+- odpady;
+- ochronę powietrza;
+- HVAC;
+- monitoring;
+- instalacje przemysłowe;
+- zagrożenia wibroakustyczne;
+- ocenę oddziaływania na środowisko;
+- zarządzanie środowiskowe;
+- prawo;
+- ekonomię środowiska.
+
+Docelowy opis pracy magisterskiej powinien:
+- porównywać salę wykładową i niską betonową halę;
+- wskazywać, że hala była wcześniej używana jako sala prób, przestrzeń koncertowa i eventowa;
+- opisywać wcześniejsze wydzielenie niskobudżetowej strefy prób z zawieszanych dywanów i podłogi z palet;
+- przedstawiać demontowalność jako ograniczenie tamtej praktycznej strefy, a nie główny cel pracy magisterskiej;
+- wskazywać analizę czasu pogłosu w pasmach częstotliwości;
+- wskazywać symulacje komputerowe;
+- mówić o propozycjach poprawy akustyki dopasowanych do funkcji pomieszczeń;
+- nie sugerować, że rozwiązania zaproponowane w pracy zostały później fizycznie wykonane;
+- rozróżniać kształtowanie akustyki wnętrza od izolacji akustycznej.
+
+Docelowy wpis niezależnej praktyki powinien zawierać osobny akapit:
+
+PL:
+Projektowałem i współtworzyłem niskobudżetowe adaptacje akustyczne sal prób. Jednym z takich działań było wydzielenie strefy prób w wielofunkcyjnej betonowej hali przy użyciu zawieszanych dywanów i podłogi z palet. Rozwiązanie musiało poprawiać warunki grania, a jednocześnie umożliwiać szybkie przywrócenie przestrzeni do funkcji koncertowej i eventowej.
+
+EN:
+I designed and helped build low-budget acoustic treatments for rehearsal rooms. One such project involved creating a rehearsal zone inside a multi-purpose concrete hall using hanging carpets and a pallet floor. The solution had to improve rehearsal conditions while allowing the space to be quickly restored for concerts and events.
+
+10. PDF
+
+PDF działa przez:
+window.print()
+
+Założenia i wdrożone zachowanie:
+- ten sam HTML i view model co strona;
+- brak osobnego szablonu PDF;
+- wydruk nie powinien zależeć od otwartego panelu accordionu;
+- przy ?preview=draft szkice są uwzględniane;
+- znaczniki Szkic/Draft są ukryte;
+- nagłówki sekcji występują raz;
+- avatar jest uwzględniony;
+- przełącznik języka jest ukryty.
+
+Pełny test wydruku po ostatnich zmianach avatara, edukacji i layoutu pozostaje do wykonania dla PL i EN.
+
+11. PRYWATNOŚĆ
+
+Do publicznych danych nie dodawać:
+- adresu;
+- telefonu;
+- prywatnego e-maila;
+- sekretów;
+- tokenów;
+- prywatnych danych profilu;
+- materiałów pracodawców;
+- linku do prywatnego repozytorium DIG Engine.
+
+Wszystko umieszczone w:
+- content/public/;
+- public/;
+- kodzie frontendu;
+należy traktować jako publiczne.
+
+Status draft nie zapewnia ochrony danych.
+
+12. TESTY I OGRANICZENIA
+
+Potwierdzone:
+- interfejs działa lokalnie przez Vite;
+- PL/EN działa;
+- ?preview=draft działa;
 - accordion działa;
-- responsywność podstawowa działa;
-- ciemny motyw działa;
-- wydruk działa;
-- Git jest czysty;
-- node_modules nie jest śledzone.
-
-Ścieżka /Haiku-Cosmos/ widoczna lokalnie wynikała z historii lub równoległego uruchamiania innych projektów na tym samym porcie.
-Nie jest to uznane za błąd projektu Tomasz Talik CV.
-
-15. POZOSTAŁE KROKI — REKOMENDOWANA KOLEJNOŚĆ
-
-ETAP A — CHECKPOINT DOKUMENTACYJNY
-
-1. Wykonać przygotowany wcześniej prompt aktualizacji dokumentacji.
-2. Utworzyć albo zaktualizować:
-   - docs/handoff/README.md
-   - docs/handoff/CURRENT_STATE.md
-3. Zapisać aktualny stan:
-   - działający Vite;
-   - model danych;
-   - walidator;
-   - profil default;
-   - jedna karta;
-   - accordion;
-   - wydruk;
-   - elementy draft ukryte;
-   - brak wdrożonego Streamlit, backendu i Playwright.
-4. Upewnić się, że dokumentacja nie opisuje przyszłych funkcji jako gotowych.
-
-ETAP B — PIERWSZA KANONICZNA PACZKA TREŚCI CV
-
-Najpierw przygotować rzeczywistą treść, zanim dalej rozwijany będzie wygląd.
-
-Do opracowania:
-1. docelowa rola zawodowa;
-2. headline;
-3. krótki opis na kartę główną;
-4. sekcja „O mnie”;
-5. projekt Haiku Cosmos;
-6. umiejętności;
-7. technologie;
-8. doświadczenie zawodowe;
-9. kompetencje przenoszalne z dotychczasowej pracy;
-10. publiczne dane kontaktowe;
-11. publiczne linki;
-12. decyzja o portrecie;
-13. decyzja o języku angielskim.
-
-Treści muszą być:
-- prawdziwe;
-- konkretne;
-- bez zawyżania poziomu;
-- bez fikcyjnych osiągnięć;
-- dopasowane do kierunku:
-  JavaScript;
-  frontend;
-  game development;
-  system design;
-  Three.js.
-
-Po zatwierdzeniu elementy zmienić z draft na published.
-
-ETAP C — PEŁNY ZAKRES SEKCJI FRONTENDU
-
-Dodać sekcje:
-- Doświadczenie;
-- Umiejętności;
-- Kontakt;
-- ewentualnie Sposób pracy.
-
-Rozbudować:
-- pełny rendering projektów;
-- technologie jako znaczniki;
-- linki do GitHub i demo;
-- osiągnięcia;
-- odpowiedzialności;
-- kompetencje przenoszalne;
-- puste stany;
-- kolejność z profilu;
-- ukrywanie sekcji przez visibleSections.
-
-ETAP D — DOPRACOWANIE PIERWSZEGO EKRANU
-
-Po dodaniu prawdziwych danych:
-1. ocenić wysokość karty;
-2. ustalić ostateczne proporcje hero;
-3. ustalić typografię;
-4. ustalić wygląd technologii;
-5. dodać portret, jeśli zatwierdzony;
-6. dodać publiczny kontakt;
-7. dopracować przyciski;
-8. sprawdzić telefon, tablet, laptop i szeroki ekran;
-9. sprawdzić długie teksty;
-10. sprawdzić bardzo długą nazwę firmy i stanowiska.
-
-ETAP E — PROFIL FIRMY
-
-Utworzyć pierwszy testowy profil firmy.
-
-Profil ma zawierać:
-- profileId;
-- company.name;
-- company.website;
-- company.logo;
-- targetRole;
-- headline;
-- companyMessage 300–500 znaków;
-- accent;
-- sectionOrder;
-- visibleSections;
-- projectOrder;
-- featuredProjectIds;
-- skillOrder;
-- featuredSkillIds;
-- pdf.enabled;
-- pdf.includeCompanyMessage;
-- protectedScopes.
-
-Profil nie może kopiować opisów projektów ani umiejętności.
-
-Sprawdzić:
-- ?p=<profileId>;
-- poprawne logo;
-- wiadomość;
-- kolejność;
-- wyróżnienia;
-- fallback do default;
-- nieindeksowanie profilu.
-
-ETAP F — LOGO I DANE FIRMY
-
-Ustalić zasady:
-- logo lokalnie w public/assets/companies/;
-- zoptymalizowane WebP albo SVG, jeśli dozwolone;
-- brak hotlinkowania;
-- zapis źródła logo;
-- alt;
-- maksymalny rozmiar;
-- brak stylizowania całego CV na identyfikację firmy;
-- firma ma być adresatem, nie właścicielem strony.
-
-ETAP G — STREAMLIT MVP
-
-Utworzyć lokalny edytor:
-
-editor/
-- app.py
-- requirements.txt
-- services/
-- local/
-
-Pierwsza wersja:
-1. lista istniejących profili;
-2. nowy profil;
-3. edycja profilu;
-4. wybór firmy;
-5. stanowisko;
-6. wiadomość;
-7. wybór projektów;
-8. wybór umiejętności;
-9. kolejność;
-10. widoczne sekcje;
-11. accent;
-12. protectedScopes;
-13. zapis JSON;
-14. walidacja;
-15. generowanie linku;
-16. kopiowanie linku;
-17. brak automatycznego commita;
-18. brak prywatnych danych w pliku profilu.
-
-editor/local/ musi pozostać w .gitignore.
-
-ETAP H — PODGLĄD PROFILU Z EDYTORA
-
-Edytor powinien:
-- uruchamiać albo wykrywać lokalny Vite;
-- tworzyć link podglądu;
-- otwierać:
-  http://localhost:5173/?p=<profileId>
-- pokazywać błędy walidacji;
-- blokować zapis niepoprawnego profilu;
-- nie wymagać Codexa przy dodawaniu kolejnej firmy.
-
-ETAP I — PLAYWRIGHT I AUTOMATYCZNY PDF
-
-Dopiero po ustaleniu treści i print.css:
-1. dodać Playwright;
-2. otwierać profil;
-3. czekać na gotowość danych;
-4. uruchamiać tryb wydruku;
-5. zapisywać PDF;
-6. używać tego samego HTML i view modelu;
-7. nie tworzyć osobnego szablonu;
-8. sterować nazwą pliku;
-9. sprawdzić format A4;
-10. sprawdzić podziały stron;
-11. sprawdzić marginesy;
-12. sprawdzić zdjęcia;
-13. sprawdzić linki;
-14. sprawdzić wielostronicowe CV.
-
-Streamlit ma później uruchamiać ten proces lokalnie.
-
-ETAP J — DECYZJE PDF
-
-Po dodaniu prawdziwej treści ustalić:
-- czy PDF ma być jedno- czy dwustronicowy;
-- co jest na pierwszej stronie;
-- czy wiadomość dla firmy trafia do PDF;
-- czy logo firmy trafia do PDF;
-- czy pokazywać datę;
-- czy pokazywać miesiąc i rok;
-- czy pokazywać miasto;
-- czy pokazywać stanowisko;
-- czy pokazywać nazwę firmy;
-- czy dodawać stopkę;
-- czy dodawać link do wersji internetowej;
-- czy sekcje mają być skrócone względem strony;
-- czy wszystkie projekty mają trafić do PDF.
-
-Na razie nie tworzyć osobnego modelu treści PDF.
-PDF korzysta z bieżącego profilu i tego samego view modelu.
-
-ETAP K — BACKEND DANYCH PRYWATNYCH
-
-Dopiero po działającym frontendzie i edytorze.
-
-Rekomendowany kierunek:
-- Cloudflare Worker;
-- KV albo D1;
-- opcjonalnie R2.
-
-Funkcje:
-- rejestr tokenów;
-- hash tokenu;
-- profileId;
-- scopes;
-- data utworzenia;
-- data wygaśnięcia;
-- active/revoked;
-- rate limiting;
-- kod 6–8 znaków;
-- długi token w linku;
-- możliwość unieważnienia;
-- brak prywatnych wartości w repozytorium.
-
-Frontend:
-- odczytuje #t=<token>;
-- nie wysyła tokenu do GitHub Pages;
-- wysyła go do backendu;
-- pobiera wyłącznie dozwolone pola;
-- nie zapisuje danych prywatnych w localStorage;
-- nie loguje tokenu do konsoli.
-
-ETAP L — DANE PRYWATNE
-
-Ustalić:
-- jakie pola są prywatne;
-- telefon;
-- ewentualny dodatkowy e-mail;
-- inne dane kontaktowe;
-- czy istnieje data wygaśnięcia;
-- czy PDF prywatny ma być generowany lokalnie czy pobierany z backendu;
-- jak unieważniać dostęp.
-
-Pełnego adresu zamieszkania raczej nie publikować.
-Miasto może być publiczne, jeśli potrzebne.
-
-ETAP M — GITHUB PAGES
-
-Po ustabilizowaniu aplikacji:
-1. potwierdzić nazwę repozytorium;
-2. ustawić poprawny base;
-3. skonfigurować deployment;
-4. sprawdzić:
-   - stronę główną;
-   - ?p=;
-   - assets;
-   - logo;
-   - odświeżenie;
-   - wydruk;
-   - build;
-   - brak prywatnych danych;
-   - brak source map, jeśli niepotrzebne;
-   - poprawne ścieżki;
-   - mobilny Chrome;
-   - mobilny Safari, jeśli dostępny.
-
-ETAP N — SEO I METADANE
-
-Dodać:
-- title;
-- description;
-- favicon;
-- Open Graph;
-- obraz podglądu;
-- canonical;
-- robots;
-- sitemap dla publicznej wersji;
-- brak indeksowania profili firm;
-- meta noindex dla spersonalizowanych profili, jeśli potrzebne.
-
-ETAP O — DOSTĘPNOŚĆ
-
-Wykonać audyt:
-- semantyczny HTML;
-- hierarchia nagłówków;
-- klawiatura;
-- fokus;
-- kontrast;
-- aria;
-- alt;
-- reduced motion;
-- powiększenie 200%;
-- druk;
-- komunikaty błędów;
-- brak informacji wyłącznie kolorem;
-- test czytnika ekranu w podstawowym zakresie.
-
-ETAP P — WYDAJNOŚĆ
-
-Sprawdzić:
-- rozmiar paczki;
-- obrazy;
-- fonty;
-- lazy loading;
-- brak ciężkich bibliotek;
-- brak efektów blokujących pierwszy ekran;
-- brak niepotrzebnych żądań;
-- brak pobierania wszystkich prywatnych danych;
-- Lighthouse;
-- działanie na słabszym telefonie.
-
-ETAP Q — TESTY AUTOMATYCZNE
-
-Dodać stopniowo:
-- test walidatora;
-- test fallback profilu;
-- test resolve localizedText;
-- test filtrowania statusów;
-- test kolejności sekcji;
-- test niedozwolonych odwołań;
-- test widoczności PDF;
-- test accordionu;
-- test build;
-- test braku prywatnych kluczy w dist;
-- ewentualnie Playwright E2E.
-
-ETAP R — BEZPIECZEŃSTWO
-
-Przed backendem i publikacją:
-- audyt dist;
-- brak tokenów;
-- brak telefonu;
-- brak adresu;
-- brak sekretów;
-- brak prywatnych profili;
-- CSP, jeśli możliwe;
-- ograniczenie zewnętrznych skryptów;
-- walidacja odpowiedzi backendu;
-- rate limiting;
-- CORS;
-- logowanie bez danych wrażliwych.
-
-ETAP S — FINALNY EDYTOR PROFILI
-
-Po MVP:
-- duplikowanie profilu;
-- archiwizacja;
-- status profilu;
-- data utworzenia;
-- data wysłania;
-- data wygaśnięcia;
-- notatki lokalne;
-- podgląd desktop/mobile;
-- generowanie PDF;
-- generowanie linku;
-- kod QR;
-- lista zmian;
-- eksport;
-- walidacja logo;
-- optymalizacja grafik;
-- ewentualna integracja z backendem tokenów.
-
-ETAP T — ANALITYKA OPCJONALNA
-
-Tylko po decyzji Projektanta.
-
-Możliwe dane:
-- wejście na profil;
-- data;
-- przybliżony kraj;
-- urządzenie;
-- kliknięcie projektu;
-- pobranie/druk PDF;
-- użycie tokenu.
-
-Bez:
-- śledzenia nadmiarowego;
-- fingerprintingu;
-- danych osobowych;
-- przekazywania rozmów lub prywatnych danych reklamodawcom;
-- przechowywania tokenów w logach.
-
-16. NAJBLIŻSZY REKOMENDOWANY KROK
-
-Najpierw wykonać checkpoint dokumentacyjny, jeśli nie został jeszcze wykonany.
-
-Następnie rozpocząć nowy wątek od przygotowania pierwszej kanonicznej paczki rzeczywistych treści CV.
-
-Nie przechodzić jeszcze do:
-- Streamlit;
-- backendu;
-- Playwright;
-- analityki;
-- efektów wizualnych.
-
-Najbliższy temat:
-„Treść pierwszej publicznej wersji CV”.
-
-W tym etapie należy najpierw zadać pytania decyzyjne dotyczące:
-1. docelowej roli;
-2. odbiorcy;
-3. tonu;
-4. długości opisu;
-5. sposobu przedstawienia Haiku Cosmos;
-6. sposobu przedstawienia doświadczenia spoza IT;
-7. listy realnych umiejętności;
-8. publicznego kontaktu;
-9. portretu;
-10. języka angielskiego.
-
-17. ZASADA NA KOLEJNY WĄTEK
-
-Nie generuj od razu promptu dla Codexa.
-
-Najpierw:
-- przeanalizuj obecny stan;
-- zadaj pytania decyzyjne dotyczące treści CV;
-- poczekaj na odpowiedzi Projektanta;
-- dopiero potem przygotuj prompt do zmiany danych JSON i statusów draft/published.
+- sekcje są widoczne;
+- avatar i jego położenie zostały sprawdzone wizualnie;
+- kolejne zadania przechodziły git diff --check;
+- wykonywano statyczne kontrole Node i rg.
+
+Niepotwierdzone w środowisku Codexa:
+- npm run validate:content;
+- npm run build.
+
+Powód:
+- brak lokalnych zależności;
+- brak ajv albo vite;
+- registry zwracał 403;
+- npm install --no-audit --no-fund zawiesił się.
+
+Nie zapisywać tych testów jako zaliczonych.
+
+Pełna walidacja i build muszą zostać wykonane w lokalnym środowisku Projektanta z zainstalowanymi zależnościami.
+
+13. DOKUMENTACJA
+
+Przygotowano prompt zamykający etap dokumentacją, obejmujący między innymi:
+
+docs/current/README.md
+docs/current/content/CONTENT_MODEL.md
+docs/current/product/PERSONALIZATION_SYSTEM.md
+docs/current/ui/SINGLE_PAGE_FLOW.md
+docs/current/security/ACCESS_AND_PRIVACY.md
+docs/current/technical/FRONTEND_ARCHITECTURE.md
+docs/current/technical/PDF_PIPELINE.md
+docs/current/technical/DEPLOYMENT.md
+docs/current/maps/PROJECT_INDEX.md
+docs/handoff/CURRENT_STATE.md
+
+W tym wątku nie otrzymano jednak Compact Summary potwierdzającego wykonanie tego promptu.
+
+Nie uznawać dokumentacyjnego zamknięcia etapu za wykonane bez sprawdzenia repozytorium.
+
+Stare kopie dokumentów mogą nadal zawierać nieaktualne informacje, np.:
+- że publiczny widok pokazuje tylko imię i nazwisko;
+- że draft jest zawsze ukryty bez wyjątku;
+- że istnieją tylko sekcje About i Projects;
+- że education.json i education-section.js nie istnieją;
+- że avatar nie został wdrożony.
+
+14. PIERWSZE CZYNNOŚCI W NOWYM WĄTKU
+
+Najpierw wykonać audyt bez zmian kodu:
+
+1. Sprawdzić, czy ostatnia korekta edukacji i akustyki znajduje się w:
+   - content/public/education.json;
+   - content/public/experience.json;
+   - docs/current/content/FIRST_PUBLIC_CV_CONTENT.md.
+
+2. Sprawdzić, czy dokumentacyjny pass zamykający etap został faktycznie wykonany.
+
+3. Lokalnie uruchomić:
+   npm install
+   npm run validate:content
+   npm run build
+   npm run dev
+
+4. Sprawdzić:
+   - desktop PL;
+   - desktop EN;
+   - mobile PL;
+   - mobile EN;
+   - PDF PL;
+   - PDF EN;
+   - widok bez ?preview=draft;
+   - widok z ?preview=draft;
+   - ?p=default&preview=draft;
+   - brak pustej kolumny po czasowym usunięciu portrait z identity;
+   - avatar na mobile i w PDF;
+   - nagłówki sekcji dokładnie raz w PDF.
+
+15. REKOMENDOWANY NASTĘPNY ETAP
+
+Po audycie i testach:
+
+1. Zakończyć aktualizację dokumentacji.
+2. Przeprowadzić redakcyjny przegląd całej treści CV.
+3. Sprawdzić długość wpisów doświadczenia i edukacji na mobile oraz w PDF.
+4. Zdecydować, które elementy mogą przejść z draft na published.
+5. Dopiero po świadomej publikacji treści przygotować deployment GitHub Pages.
+6. Sekcję kontaktową i prywatne dane projektować osobno, zgodnie z systemem profili i zasadami prywatności.
+
+Nie zaczynać deploymentu ani zmiany statusów przed pełnym validate:content, build i kontrolą PDF.
