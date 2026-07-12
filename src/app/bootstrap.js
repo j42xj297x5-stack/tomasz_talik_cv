@@ -26,10 +26,10 @@ function createSectionContent(section, viewModel) {
   return null;
 }
 
-export function bootstrap(root) {
+export async function bootstrap(root) {
   try {
     const { publicContent, profiles } = loadContent();
-    const { profile, usedFallback } = resolveProfile(profiles);
+    const { profile, usedFallback, companyProfile } = await resolveProfile(profiles);
     const previewMode = resolvePreviewMode();
     let language = DEFAULT_LANGUAGE;
 
@@ -39,7 +39,7 @@ export function bootstrap(root) {
 
     const render = () => {
       document.documentElement.lang = language;
-      const viewModel = createViewModel(publicContent, profile, language, { previewMode });
+      const viewModel = createViewModel(publicContent, profile, language, { previewMode, companyName: companyProfile?.companyName || '' });
       const main = createElement('main', { className: 'app-shell' });
       const notice = usedFallback
         ? createElement('p', { className: 'notice', text: FALLBACK_MESSAGE, attributes: { role: 'status' } })

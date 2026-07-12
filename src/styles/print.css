@@ -79,7 +79,8 @@
   .hero-card__skills,
   .hero-card__headline,
   .hero-card__description,
-  .hero-card__profile {
+  .hero-card__profile,
+  .hero-card__company {
     margin-top: 0.5rem;
   }
 

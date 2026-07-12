@@ -29,3 +29,9 @@ W tej fazie Streamlit nie jest implementowany. Nie powstaje backend, formularz p
 * Personalizacja: `docs/current/product/PERSONALIZATION_SYSTEM.md`.
 * Prywatność: `docs/current/security/ACCESS_AND_PRIVACY.md`.
 
+
+## Stan implementacji
+
+Lokalny edytor Streamlit jest zaimplementowany w `editor/app.py`. Działa bez API, backendu, bazy danych, połączeń sieciowych i automatycznego wysyłania maili. Opcjonalnie odczytuje `editor/config.local.json` z polem `deploymentBaseUrl`; brak tego pliku nie blokuje pracy, jeśli adres CV zostanie wpisany w formularzu.
+
+Formularz przyjmuje adres wdrożonego CV, nazwę firmy, stanowisko, imię rekrutera, język PL/EN, adres ogłoszenia, własne uzasadnienie, wybrane linki z aktualnych `content/public/projects.json` i `content/public/links.json` oraz wybór krótkiego maila, listu albo obu. Token jest generowany przez `secrets.token_urlsafe(32)` i przechowywany w `session_state` do kliknięcia „Wygeneruj nowy token”. Eksportowany JSON zawiera dokładnie `id` i `companyName`; pozostałe dane formularza służą tylko lokalnym szablonom maila i listu.

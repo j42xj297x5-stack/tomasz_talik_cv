@@ -53,9 +53,14 @@
 }
 .hero-card__headline,
 .hero-card__description,
-.hero-card__profile {
+.hero-card__profile,
+.hero-card__company {
   margin: var(--space-3) 0 0;
   color: var(--color-text-secondary);
+}
+.hero-card__company {
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 .hero-card__headline {
   color: var(--color-accent);

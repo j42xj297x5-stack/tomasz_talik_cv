@@ -46,6 +46,7 @@ function sectionSort(sections, sectionOrder = []) {
 export function createViewModel(publicContent, profile, language = DEFAULT_LANGUAGE, options = {}) {
   const activeLanguage = SUPPORTED_LANGUAGES.includes(language) ? language : DEFAULT_LANGUAGE;
   const previewMode = options.previewMode === PREVIEW_DRAFT ? PREVIEW_DRAFT : null;
+  const companyName = typeof options.companyName === 'string' ? options.companyName.trim() : '';
   const resolveText = (value) => localizedText(value, activeLanguage);
   const contentFilter = (item) => canRenderItem(item, previewMode);
   const skillItems = (publicContent.skills?.items || []).filter(contentFilter);
@@ -139,6 +140,8 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       descriptionIsDraft: heroSummary?.isDraft || false,
       skills,
       profileInfo,
+      companyName,
+      companyLabel: companyName ? resolveText({ pl: 'Profil przygotowany dla:', en: 'Profile prepared for:' }) : '',
       avatar: publicContent.identity?.portrait?.src ? publicContent.identity.portrait : null,
       pdf: profile.pdf || {},
       contact: contact?.label && contact?.url ? contact : null,

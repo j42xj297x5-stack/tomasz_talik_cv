@@ -57,3 +57,7 @@ PDF powstaje przez `window.print()` z tego samego HTML i view modelu co strona. 
 ## Znane ograniczenia i przyszłe kierunki
 
 Nie ma potwierdzonego deploymentu produkcyjnego. Streamlit, Playwright, backend, bezpieczne pobieranie danych prywatnych i produkcyjny pipeline publikacji pozostają funkcjami przyszłymi.
+
+## Lokalny edytor i profile firmowe
+
+Zaimplementowano lokalny edytor Streamlit w `editor/app.py`. Działa bez backendu, API, połączeń sieciowych i bez automatycznego wysyłania maili. Generuje deterministyczne teksty PL/EN, plik JSON profilu firmowego oraz link z fragmentem `#p=<długi-token>`. JSON zawiera wyłącznie `id` tokenu i `companyName`; dane rekrutera, stanowisko, ogłoszenie, mail i list pozostają lokalne w formularzu. Profil firmowy jest ręcznie dodawany do `public/profiles/` i wymaga ponownego opublikowania strony. Token jest nieodgadywalnym identyfikatorem wygody, ale nie jest autoryzacją ani ochroną danych.
