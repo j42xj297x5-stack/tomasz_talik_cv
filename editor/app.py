@@ -75,8 +75,12 @@ def ensure_private_token():
     return st.session_state.private_access_token
 
 
+def clear_manual_admin_key():
+    st.session_state.editor_admin_key_manual_v2 = ""
+
+
 def normalize_base_url(value):
-    return value.strip()
+    return str(value or "").strip()
 
 
 def validate_worker_api_base_url(value):
@@ -85,13 +89,54 @@ def validate_worker_api_base_url(value):
         return "", "missing", "Brakuje adresu API Workera."
 
     parsed = urllib.parse.urlparse(api_base)
-    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-        return api_base, "invalid", "Adres API Workera musi być pełnym adresem zaczynającym się od http:// albo https://."
+    if parsed.scheme != "https" or not parsed.netloc:
+        return api_base, "invalid", "Adres API Workera musi być pełnym adresem HTTPS zaczynającym się od https://."
 
-    if parsed.path.rstrip("/") in {"/profile", "/admin/create"}:
+    path_segments = {segment for segment in parsed.path.split("/") if segment}
+    if "profile" in path_segments or ("admin" in path_segments and "create" in path_segments):
         return api_base, "invalid", "Podaj bazowy adres API Workera bez endpointu /profile ani /admin/create."
 
     return api_base, "configured", None
+
+
+def build_admin_create_endpoint(api_base):
+    return f"{api_base.rstrip('/')}/admin/create"
+
+
+def parse_endpoint_public_parts(endpoint):
+    parsed = urllib.parse.urlparse(endpoint)
+    return parsed.netloc, parsed.path
+
+
+def parse_worker_error_body(body):
+    try:
+        data = json.loads(body.decode("utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None, False
+    if isinstance(data, dict):
+        return data.get("error"), True
+    return None, True
+
+
+def http_status_message(status, worker_error=None, expected_json=True):
+    suffix = f" Kod Workera: {worker_error}." if worker_error else ""
+    if not expected_json:
+        return f"HTTP {status}: odpowiedź nie pochodziła z oczekiwanego API."
+    messages = {
+        401: "HTTP 401: brak autoryzacji. Sprawdź klucz administracyjny edytora.",
+        403: "HTTP 403: odmowa dostępu. Klucz dotarł do API, ale Worker odrzucił operację.",
+        404: "HTTP 404: nie znaleziono endpointu /admin/create. Sprawdź bazowy adres API Workera.",
+        500: "HTTP 500: błąd po stronie Workera.",
+    }
+    return f"{messages.get(status, f'HTTP {status}: API Workera zwróciło błąd.')}{suffix}"
+
+
+class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise urllib.error.HTTPError(req.full_url, code, "Przekierowanie zablokowane", headers, fp)
+
+
+NO_REDIRECT_OPENER = urllib.request.build_opener(NoRedirectHandler)
 
 
 def build_cv_link(base_url, profile_token, private_token):
@@ -103,12 +148,14 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
     api_base, worker_status, worker_error = validate_worker_api_base_url(worker_api_base_url)
     if worker_status != "configured":
         return False, worker_error or "Niepoprawny adres API Workera."
+    editor_admin_key = str(editor_admin_key or "").strip()
     if not editor_admin_key:
         return False, "Brakuje klucza administracyjnego edytora."
 
+    endpoint = build_admin_create_endpoint(api_base)
     payload = json.dumps({"token": private_token, "expiresAt": None}).encode("utf-8")
     request = urllib.request.Request(
-        f"{api_base}/admin/create",
+        endpoint,
         data=payload,
         method="POST",
         headers={
@@ -118,15 +165,24 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
     )
 
     try:
-        with urllib.request.urlopen(request, timeout=10) as response:
+        with NO_REDIRECT_OPENER.open(request, timeout=10) as response:
+            st.session_state.private_token_activation_http_status = response.status
+            st.session_state.private_token_activation_worker_error = None
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
-        return False, f"Worker odrzucił aktywację tokenu (HTTP {error.code})."
+        body = error.read() if error.fp else b""
+        worker_error, expected_json = parse_worker_error_body(body)
+        st.session_state.private_token_activation_http_status = error.code
+        st.session_state.private_token_activation_worker_error = worker_error
+        return False, http_status_message(error.code, worker_error, expected_json)
     except urllib.error.URLError:
+        st.session_state.private_token_activation_http_status = None
         return False, "Nie udało się połączyć z API Workera."
     except ValueError:
+        st.session_state.private_token_activation_http_status = None
         return False, "Niepoprawny adres API Workera."
     except (TimeoutError, socket.timeout, json.JSONDecodeError, UnicodeDecodeError):
+        st.session_state.private_token_activation_http_status = None
         return False, "Worker nie potwierdził aktywacji poprawną odpowiedzią JSON."
 
     if isinstance(data, dict) and data.get("ok") is True:
@@ -223,12 +279,13 @@ with st.form("profile_form"):
     worker_api_base_url_input = st.text_input(
         "Bazowy adres API Workera",
         value="",
-        help="Pozostaw puste, aby użyć workerApiBaseUrl z config.local.json. Podaj pełny adres http:// albo https:// bez /profile i /admin/create.",
+        help="Pozostaw puste, aby użyć workerApiBaseUrl z config.local.json. Podaj pełny adres https:// bez /profile i /admin/create.",
     )
     editor_admin_key_input = st.text_input(
         "Klucz administracyjny edytora (pozostaw puste, aby użyć config.local.json)",
         value="",
         type="password",
+        key="editor_admin_key_manual_v2",
     )
     company_name = st.text_input("Nazwa firmy", max_chars=120)
     role = st.text_input("Stanowisko")
@@ -244,17 +301,51 @@ selected_projects = [item for item in projects if item["label"] in selected_proj
 selected_links = [item for item in links if item["label"] in selected_link_labels]
 link_lines = selected_link_lines(selected_projects, selected_links)
 deployment_base_url = deployment_base_url_input.strip() or str(config.get("deploymentBaseUrl") or "")
-worker_api_base_url = worker_api_base_url_input.strip() or str(config.get("workerApiBaseUrl") or "")
+manual_worker_api_base_url = worker_api_base_url_input.strip()
+worker_api_base_url_source = "pole ręczne" if manual_worker_api_base_url else "konfiguracja"
+worker_api_base_url = manual_worker_api_base_url or str(config.get("workerApiBaseUrl") or "")
 worker_api_base_url, worker_status, worker_error = validate_worker_api_base_url(worker_api_base_url)
 base_url = normalize_base_url(deployment_base_url)
-editor_admin_key = editor_admin_key_input or str(config.get("editorAdminKey") or "")
+manual_editor_admin_key = str(editor_admin_key_input or "")
+manual_editor_admin_key_stripped = manual_editor_admin_key.strip()
+config_editor_admin_key = str(config.get("editorAdminKey") or "")
+config_editor_admin_key_stripped = config_editor_admin_key.strip()
+if manual_editor_admin_key_stripped:
+    editor_admin_key = manual_editor_admin_key_stripped
+    editor_admin_key_source = "pole ręczne"
+    editor_admin_key_had_outer_whitespace = manual_editor_admin_key != manual_editor_admin_key_stripped
+elif config_editor_admin_key_stripped:
+    editor_admin_key = config_editor_admin_key_stripped
+    editor_admin_key_source = "konfiguracja"
+    editor_admin_key_had_outer_whitespace = config_editor_admin_key != config_editor_admin_key_stripped
+else:
+    editor_admin_key = ""
+    editor_admin_key_source = "brak"
+    editor_admin_key_had_outer_whitespace = False
+admin_create_endpoint = build_admin_create_endpoint(worker_api_base_url) if worker_status == "configured" else ""
+endpoint_host, endpoint_path = parse_endpoint_public_parts(admin_create_endpoint) if admin_create_endpoint else ("", "")
 
 with st.expander("Diagnostyka konfiguracji", expanded=True):
     st.write(f"config.local.json: {'znaleziony' if config_status == 'found' else 'brak' if config_status == 'missing' else 'niepoprawny'}")
+    st.write(f"Źródło adresu Workera: {worker_api_base_url_source}")
     st.write(f"Adres Workera: {'skonfigurowany' if worker_status == 'configured' else 'brak' if worker_status == 'missing' else 'niepoprawny'}")
-    st.write(f"Klucz administracyjny: {'wczytany' if bool(editor_admin_key) else 'brak'}")
+    st.write(f"Źródło klucza: {editor_admin_key_source}")
+    st.write(f"Długość klucza po strip(): {len(editor_admin_key)}")
+    st.write(f"Białe znaki na początku lub końcu klucza: {'tak' if editor_admin_key_had_outer_whitespace else 'nie'}")
+    if endpoint_host and endpoint_path:
+        st.write(f"Endpoint aktywacji: host `{endpoint_host}`, ścieżka `{endpoint_path}`")
+    http_status = st.session_state.get("private_token_activation_http_status")
+    if http_status is not None:
+        st.write(f"Ostatni status HTTP: {http_status}")
+    worker_error_code = st.session_state.get("private_token_activation_worker_error")
+    if worker_error_code:
+        st.write(f"Ostatnie pole error Workera: {worker_error_code}")
 
-if submitted:
+st.button("Wyczyść ręczne nadpisanie klucza", on_click=clear_manual_admin_key)
+
+retry_activation = st.button("Ponów aktywację tego samego tokenu", help="Wysyła ponownie bieżący prywatny token bez generowania nowego p ani k.")
+
+if submitted or retry_activation:
     if worker_error:
         ok, message = False, worker_error
     else:
