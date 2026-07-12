@@ -1,5 +1,5 @@
 {
-  "deploymentBaseUrl": "https://example.com/tomasz-talik-cv/",
-  "workerApiBaseUrl": "https://example-worker.workers.dev",
-  "editorAdminKey": "example-admin-key-change-locally"
+  "deploymentBaseUrl": "http://localhost:5173/",
+  "workerApiBaseUrl": "https://withered-leaf-cf6b.tapchanbuddha.workers.dev",
+  "editorAdminKey": "MMOYZBIePAqvRzelhyXJJkxqtKROiQszvLLVLxk26oUAMYz6D891hlXLWQ58Yfm_"
 }
