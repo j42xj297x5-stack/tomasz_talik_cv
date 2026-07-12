@@ -1,5 +1,5 @@
 {
   "deploymentBaseUrl": "http://localhost:5173/",
-  "workerApiBaseUrl": "https://withered-leaf-cf6b.tapchanbuddha.workers.dev",
-  "editorAdminKey": "MMOYZBIePAqvRzelhyXJJkxqtKROiQszvLLVLxk26oUAMYz6D891hlXLWQ58Yfm_"
+  "workerApiBaseUrl": "https://example-worker.example.workers.dev",
+  "editorAdminKey": "LOCAL_SECRET_NOT_FOR_GIT"
 }

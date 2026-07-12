@@ -1,5 +1,6 @@
 import json
 import secrets
+import socket
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -8,7 +9,7 @@ from pathlib import Path
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG_LOCAL = Path(__file__).with_name("config.local.json")
+CONFIG_LOCAL = Path(__file__).resolve().parent / "config.local.json"
 PROJECTS_PATH = ROOT / "content" / "public" / "projects.json"
 LINKS_PATH = ROOT / "content" / "public" / "links.json"
 TOKEN_MIN = 32
@@ -24,6 +25,20 @@ def load_json(path, default):
     except json.JSONDecodeError:
         st.warning(f"Nie udało się odczytać pliku JSON: {path}")
         return default
+
+
+def load_local_config(path):
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except FileNotFoundError:
+        return {}, "missing", None
+    except json.JSONDecodeError:
+        return {}, "invalid", "Niepoprawny JSON w config.local.json. Popraw plik albo uzupełnij pola ręcznie."
+
+    if not isinstance(data, dict):
+        return {}, "invalid", "config.local.json musi zawierać obiekt JSON z nazwanymi polami."
+    return data, "found", None
 
 
 def localized(value, language):
@@ -64,15 +79,30 @@ def normalize_base_url(value):
     return value.strip()
 
 
+def validate_worker_api_base_url(value):
+    api_base = normalize_base_url(value).rstrip("/")
+    if not api_base:
+        return "", "missing", "Brakuje adresu API Workera."
+
+    parsed = urllib.parse.urlparse(api_base)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return api_base, "invalid", "Adres API Workera musi być pełnym adresem zaczynającym się od http:// albo https://."
+
+    if parsed.path.rstrip("/") in {"/profile", "/admin/create"}:
+        return api_base, "invalid", "Podaj bazowy adres API Workera bez endpointu /profile ani /admin/create."
+
+    return api_base, "configured", None
+
+
 def build_cv_link(base_url, profile_token, private_token):
     fragment = urllib.parse.urlencode({"p": profile_token, "k": private_token})
     return f"{base_url}#{fragment}" if base_url else f"#{fragment}"
 
 
 def activate_private_token(worker_api_base_url, editor_admin_key, private_token):
-    api_base = normalize_base_url(worker_api_base_url).rstrip("/")
-    if not api_base:
-        return False, "Brakuje adresu API Workera."
+    api_base, worker_status, worker_error = validate_worker_api_base_url(worker_api_base_url)
+    if worker_status != "configured":
+        return False, worker_error or "Niepoprawny adres API Workera."
     if not editor_admin_key:
         return False, "Brakuje klucza administracyjnego edytora."
 
@@ -94,7 +124,9 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
         return False, f"Worker odrzucił aktywację tokenu (HTTP {error.code})."
     except urllib.error.URLError:
         return False, "Nie udało się połączyć z API Workera."
-    except (TimeoutError, json.JSONDecodeError, UnicodeDecodeError):
+    except ValueError:
+        return False, "Niepoprawny adres API Workera."
+    except (TimeoutError, socket.timeout, json.JSONDecodeError, UnicodeDecodeError):
         return False, "Worker nie potwierdził aktywacji poprawną odpowiedzią JSON."
 
     if isinstance(data, dict) and data.get("ok") is True:
@@ -164,7 +196,12 @@ st.set_page_config(page_title="Lokalny edytor profili firmowych", layout="wide")
 st.title("Lokalny edytor profili firmowych")
 st.caption("Edytor działa lokalnie. Eksportowany JSON zawiera wyłącznie token i nazwę firmy.")
 
-config = load_json(CONFIG_LOCAL, {})
+config, config_status, config_error = load_local_config(CONFIG_LOCAL)
+if config_error:
+    st.error(config_error)
+elif config_status == "missing":
+    st.info("config.local.json: brak — używana jest konfiguracja ręczna.")
+
 if st.button("Wygeneruj nowy token"):
     st.session_state.company_profile_token = secrets.token_urlsafe(32)
     st.session_state.private_access_token = secrets.token_urlsafe(32)
@@ -178,8 +215,16 @@ projects = public_options(PROJECTS_PATH, language)
 links = public_options(LINKS_PATH, language)
 
 with st.form("profile_form"):
-    deployment_base_url = st.text_input("Adres wdrożonego CV", value=config.get("deploymentBaseUrl", ""))
-    worker_api_base_url = st.text_input("Adres API Workera", value=config.get("workerApiBaseUrl", ""))
+    deployment_base_url_input = st.text_input(
+        "Adres wdrożonego CV",
+        value="",
+        help="Pozostaw puste, aby użyć deploymentBaseUrl z config.local.json.",
+    )
+    worker_api_base_url_input = st.text_input(
+        "Bazowy adres API Workera",
+        value="",
+        help="Pozostaw puste, aby użyć workerApiBaseUrl z config.local.json. Podaj pełny adres http:// albo https:// bez /profile i /admin/create.",
+    )
     editor_admin_key_input = st.text_input(
         "Klucz administracyjny edytora (pozostaw puste, aby użyć config.local.json)",
         value="",
@@ -198,10 +243,22 @@ with st.form("profile_form"):
 selected_projects = [item for item in projects if item["label"] in selected_project_labels]
 selected_links = [item for item in links if item["label"] in selected_link_labels]
 link_lines = selected_link_lines(selected_projects, selected_links)
+deployment_base_url = deployment_base_url_input.strip() or str(config.get("deploymentBaseUrl") or "")
+worker_api_base_url = worker_api_base_url_input.strip() or str(config.get("workerApiBaseUrl") or "")
+worker_api_base_url, worker_status, worker_error = validate_worker_api_base_url(worker_api_base_url)
 base_url = normalize_base_url(deployment_base_url)
-editor_admin_key = editor_admin_key_input or config.get("editorAdminKey", "")
+editor_admin_key = editor_admin_key_input or str(config.get("editorAdminKey") or "")
+
+with st.expander("Diagnostyka konfiguracji", expanded=True):
+    st.write(f"config.local.json: {'znaleziony' if config_status == 'found' else 'brak' if config_status == 'missing' else 'niepoprawny'}")
+    st.write(f"Adres Workera: {'skonfigurowany' if worker_status == 'configured' else 'brak' if worker_status == 'missing' else 'niepoprawny'}")
+    st.write(f"Klucz administracyjny: {'wczytany' if bool(editor_admin_key) else 'brak'}")
+
 if submitted:
-    ok, message = activate_private_token(worker_api_base_url, editor_admin_key, private_token)
+    if worker_error:
+        ok, message = False, worker_error
+    else:
+        ok, message = activate_private_token(worker_api_base_url, editor_admin_key, private_token)
     st.session_state.private_token_activated = ok
     st.session_state.private_token_activation_message = message
 
