@@ -1,10 +1,14 @@
 # Pierwsza publiczna paczka treści CV
 
-Status: ROBOCZY / TREŚĆ CZĘŚCIOWO WDROŻONA
+Status: OPUBLIKOWANY / PIERWSZA PEŁNA TREŚĆ CV WDROŻONA
 Obszar: content
 Cel: źródło treści dla pierwszej pełnej wersji danych JSON projektu „Tomasz Talik CV”
 Języki: polski i angielski
-Stan publikacji: wszystkie nowe elementy początkowo jako draft
+Stan publikacji: pierwsza pełna zaakceptowana treść CV jest opublikowana jako published
+
+## Status publikacji pierwszej pełnej treści
+
+Pierwsza pełna zaakceptowana treść CV została opublikowana. Aktualne sekcje Hero, O mnie, Projekty, Doświadczenie, Wykształcenie, Umiejętności i zaakceptowane publiczne linki są widoczne w zwykłym widoku bez `?preview=draft`. Tryb `?preview=draft` pozostaje dostępny dla przyszłych treści roboczych, ale nie służy jako zabezpieczenie prywatności. Profile firmowe korzystają z tej samej opublikowanej treści i dodają wyłącznie etykietę firmy.
 
 ## 1. Zasady nadrzędne
 
@@ -128,7 +132,7 @@ Avatar jest opcjonalny w danych identity; brak wpisu lub pliku nie może tworzy�
 
 ## Sekcja „Wykształcenie”
 
-Sekcja wykształcenia jest obsługiwana w danych, schemacie, view modelu i frontendzie. Pierwsze dwa wpisy — Akademia Techniczno-Humanistyczna w Bielsku-Białej oraz technikum elektroniczne — pozostają w statusie `draft`, więc są widoczne tylko w `?preview=draft`. Historyczna nazwa ATH w wariancie angielskim brzmi University of Technology and Humanities in Bielsko-Biala i nie jest przypisywana obecnemu Uniwersytetowi Bielsko-Bialskiemu.
+Sekcja wykształcenia jest obsługiwana w danych, schemacie, view modelu i frontendzie. Pierwsze dwa wpisy — Akademia Techniczno-Humanistyczna w Bielsku-Białej oraz technikum elektroniczne — są opublikowane w statusie `published`, więc są widoczne w zwykłym widoku bez `?preview=draft`. Historyczna nazwa ATH w wariancie angielskim brzmi University of Technology and Humanities in Bielsko-Biala i nie jest przypisywana obecnemu Uniwersytetowi Bielsko-Bialskiemu.
 
 ## 6. Projekty
 

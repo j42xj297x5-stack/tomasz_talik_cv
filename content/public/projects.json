@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "project-haiku-cosmos",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "Haiku Cosmos",
         "en": "Haiku Cosmos"
@@ -18,7 +18,7 @@
     },
     {
       "id": "project-dig-engine",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "DIG Engine",
         "en": "DIG Engine"
@@ -30,7 +30,7 @@
     },
     {
       "id": "project-interactive-ai-portfolio",
-      "status": "draft",
+      "status": "published",
       "title": {
         "pl": "Interactive AI Portfolio",
         "en": "Interactive AI Portfolio"
