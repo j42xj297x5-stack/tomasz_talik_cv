@@ -82,3 +82,10 @@ Frontend obsługuje `#p=<publiczny-token>&k=<prywatny-token>`. `p` wybiera publi
 Produkcja jest przygotowana pod `https://j42xj297x5-stack.github.io/tomasz_talik_cv/` z bazą Vite `/tomasz_talik_cv/`. Workflow GitHub Pages publikuje `dist` po pushu do gałęzi `tomasz_talik_cv` oraz przez ręczne `workflow_dispatch`, wykonując `npm ci`, `npm run validate:content` i `npm run build`.
 
 Frontend produkcyjny zna publiczny adres Workera z `.env.production`. `editor/config.defaults.json` zawiera publiczne stałe adresu CV i Workera, a `editor/config.local.json` pozostaje lokalnym, ignorowanym miejscem na `editorAdminKey`. Główny formularz edytora nie pokazuje pól infrastrukturalnych; są w zamkniętym panelu „Konfiguracja techniczna”. Worker nadal musi dopuścić origin `https://j42xj297x5-stack.github.io`, a prywatne dane i sekrety nie trafiają do repozytorium ani GitHub Pages.
+
+## Aktualizacja: demonstracje i publiczne odnośniki
+
+- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
+- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
+- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
+- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.

@@ -26,6 +26,13 @@
       "summary": {
         "pl": "Od 03/2026. Rola: Creator & System Designer. Lokalny system eksploracji muzyki i pracy z rozbudowanymi bibliotekami danych. Łączy integracje Spotify, Last.fm i Discogs, lokalną bazę Discogs opartą o SQLite i FTS5, system DNA zapamiętujący decyzje użytkownika oraz Workflow Composer. Implementacja obejmuje Python i PySide6, interfejs terminalowy, fundament GUI, diagnostykę, manifesty uruchomień i dzienniki zdarzeń. Projekt rozwijany lokalnie. Studium przypadku i demonstracja są dostępne w portfolio; pełny pokaz działania na życzenie.",
         "en": "Since 03/2026. Role: Creator & System Designer. A local system for music discovery and working with large music datasets. It combines Spotify, Last.fm and Discogs integrations, a local Discogs database based on SQLite and FTS5, a DNA system that records user decisions, and a Workflow Composer. The implementation includes Python and PySide6, a terminal interface, GUI foundations, diagnostics, run manifests and event logs. Developed as a local system. A case study and demonstration are available in the portfolio; a full working demo is available on request."
+      },
+      "demoMedia": {
+        "src": "assets/projects/DIG_engine.gif",
+        "alt": {
+          "pl": "Animowana demonstracja działania DIG Engine",
+          "en": "Animated demonstration of DIG Engine"
+        }
       }
     },
     {

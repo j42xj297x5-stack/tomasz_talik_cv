@@ -94,3 +94,10 @@ Prywatne dane i sekrety nie mogą trafiać do publicznych JSON-ów, profili, kod
 ## Minimalne profile firmowe
 
 Profile firmowe są publicznymi minimalnymi nakładkami ładowanymi z `public/profiles/<token>.json` przez fragment URL `#p=<długi-token>`. Schemat `content/schemas/company-profile.schema.json` dopuszcza wyłącznie pola `id` i `companyName`. Taki profil korzysta z tej samej opublikowanej treści CV, nie kopiuje konfiguracji `default`, nie przechowuje maila, listu, danych rekrutera, stanowiska ani adresu ogłoszenia i dodaje jedynie nazwę firmy do wcześniej rozwiązanego profilu `default` albo profilu wybranego przez `?p=`.
+
+## Aktualizacja: demonstracje i publiczne odnośniki
+
+- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
+- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
+- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
+- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.

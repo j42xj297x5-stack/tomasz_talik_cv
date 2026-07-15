@@ -29,6 +29,11 @@
 
   .notice,
   .draft-badge,
+  .media-lightbox,
+  .media-lightbox__trigger,
+  .media-lightbox__dialog,
+  .media-lightbox__dialog::backdrop,
+  .media-lightbox__close,
   .hero-card__language-switch,
   .hero-card__actions,
   .accordion__button,

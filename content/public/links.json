@@ -7,16 +7,18 @@
         "pl": "Profil GitHub",
         "en": "GitHub profile"
       },
-      "url": "https://github.com/j42xj297x5-stack"
+      "url": "https://github.com/j42xj297x5-stack",
+      "kind": "profile"
     },
     {
       "id": "link-portfolio",
       "status": "published",
       "label": {
-        "pl": "Portfolio",
-        "en": "Portfolio"
+        "pl": "Interactive AI Portfolio — demo",
+        "en": "Interactive AI Portfolio — demo"
       },
-      "url": "https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/"
+      "url": "https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/",
+      "kind": "demo"
     },
     {
       "id": "link-portfolio-repository",
@@ -25,16 +27,18 @@
         "pl": "Repozytorium portfolio",
         "en": "Portfolio repository"
       },
-      "url": "https://github.com/j42xj297x5-stack/tomasz-talik-portfolio"
+      "url": "https://github.com/j42xj297x5-stack/tomasz-talik-portfolio",
+      "kind": "repository"
     },
     {
       "id": "link-haiku-cosmos-demo",
       "status": "published",
       "label": {
-        "pl": "Demo Haiku Cosmos",
-        "en": "Haiku Cosmos demo"
+        "pl": "Haiku Cosmos — demo",
+        "en": "Haiku Cosmos — demo"
       },
-      "url": "https://j42xj297x5-stack.github.io/Haiku-Cosmos/"
+      "url": "https://j42xj297x5-stack.github.io/Haiku-Cosmos/",
+      "kind": "demo"
     },
     {
       "id": "link-haiku-cosmos-repository",
@@ -43,16 +47,18 @@
         "pl": "Repozytorium Haiku Cosmos",
         "en": "Haiku Cosmos repository"
       },
-      "url": "https://github.com/j42xj297x5-stack/Haiku-Cosmos"
+      "url": "https://github.com/j42xj297x5-stack/Haiku-Cosmos",
+      "kind": "repository"
     },
     {
       "id": "link-dig-engine-demo",
       "status": "published",
       "label": {
-        "pl": "Demonstracja DIG Engine",
-        "en": "DIG Engine demonstration"
+        "pl": "DIG Engine — demonstracja",
+        "en": "DIG Engine — demonstration"
       },
-      "url": "https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/gif/DIG_engine.gif"
+      "url": "https://j42xj297x5-stack.github.io/tomasz_talik_cv/assets/projects/DIG_engine.gif",
+      "kind": "demo"
     }
   ]
 }

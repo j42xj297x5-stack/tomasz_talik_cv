@@ -38,3 +38,10 @@ Playwright i Streamlit nie są obecnie zaimplementowane. Przyszła automatyzacja
 ## Ochrona tokenu w wydruku
 
 Jeśli adres zawiera `#p=<p>&k=<k>`, kliknięcie przycisku PDF przed `window.print()` tymczasowo usuwa wyłącznie `k` z widocznego fragmentu przez `history.replaceState`, zachowując `p`. Po zdarzeniu `afterprint` pierwotny fragment jest przywracany bez przeładowania strony. Dane kontaktowe pobrane wcześniej pozostają w DOM i są widoczne w PDF, ale komunikat o niedostępności kontaktu jest ukryty w wydruku.
+
+## Aktualizacja: demonstracje i publiczne odnośniki
+
+- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
+- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
+- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
+- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.
