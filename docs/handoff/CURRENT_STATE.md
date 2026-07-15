@@ -18,11 +18,11 @@ Zaimplementowane są:
 * Wykształcenie;
 * Umiejętności.
 
-Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link GitHub może pojawić się jako akcja Hero po przejściu filtrowania statusu.
+Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link GitHub może pojawić się jako akcja Hero po przejściu filtrowania statusu. Główne akapity sekcji O mnie, Projekty, Doświadczenie i Wykształcenie są justowane na desktopie, mobile i w PDF, a nagłówki oraz metadane pozostają wyrównane do lewej.
 
 ## PL/EN
 
-Globalny przełącznik PL/EN zmienia lokalizowane treści i etykiety szkiców. W języku polskim robocze elementy mają znacznik `Szkic`, a w angielskim `Draft`. Kod aktualizuje atrybut `lang` dokumentu.
+Globalny przełącznik PL/EN zmienia lokalizowane treści i etykiety szkiców. W języku polskim robocze elementy mają znacznik `Szkic`, a w angielskim `Draft`. Kod aktualizuje atrybut `lang` dokumentu, który steruje automatycznym dzieleniem wyrazów PL/EN w justowanych akapitach.
 
 ## `?p=` i `?preview=draft`
 

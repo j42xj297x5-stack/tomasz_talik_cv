@@ -100,7 +100,7 @@ Tryb można łączyć z profilem: `?p=default&preview=draft`. Jest to narzędzie
 
 Hero pokazuje imię i nazwisko, krótki opis z wydzielonego wpisu `about-public-summary`, wyróżnione umiejętności, przycisk `window.print()`, publiczny link GitHub z `links.json` oraz opcjonalny avatar z `identity.portrait`.
 
-Globalny przełącznik PL/EN zmienia lokalizowane treści, etykiety `Szkic` / `Draft` i ustawia `document.documentElement.lang`.
+Globalny przełącznik PL/EN zmienia lokalizowane treści, etykiety `Szkic` / `Draft` i ustawia `document.documentElement.lang`. Ten globalny język steruje automatycznym dzieleniem wyrazów w justowanych akapitach.
 
 ## Avatar
 
@@ -109,6 +109,10 @@ Avatar jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazanym
 ## Accordion
 
 `accordion.js` dopuszcza najwyżej jeden otwarty panel i pozwala zamknąć wszystkie. Przyciski mają `aria-expanded` oraz `aria-controls`, panele mają `role="region"` i `aria-labelledby`. Przycisk jest jedynym widocznym tytułem sekcji na stronie; wewnętrzny nagłówek sekcji pozostaje w DOM i wraca w wydruku dokładnie raz.
+
+## Typografia sekcji
+
+Główne akapity treści w sekcjach O mnie, Projekty, Doświadczenie i Wykształcenie są justowane przez precyzyjne selektory w `components.css`. Justowanie obowiązuje na desktopie, mobile i w PDF, a automatyczne dzielenie wyrazów zależy od aktualnego `document.documentElement.lang`. Nagłówki sekcji, tytuły projektów, doświadczenia i wykształcenia oraz metadane pozostają wyrównane do lewej; Hero, kontakt, umiejętności i elementy demonstracji DIG Engine nie są objęte tą regułą.
 
 ## Umiejętności
 
