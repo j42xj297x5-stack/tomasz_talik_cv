@@ -21,7 +21,10 @@ Widok drukowany kontroluje `src/styles/print.css`. Arkusz druku:
 * przywraca wewnętrzne nagłówki sekcji, tak aby tytuł każdej sekcji był widoczny dokładnie raz;
 * zachowuje avatar w kompaktowej formie, używając `portrait.printSrc`, jeśli istnieje, albo `portrait.src` jako fallbacku;
 * zachowuje osobny, pełnoszerokościowy pas „Profil przygotowany dla…” tylko dla poprawnie załadowanego profilu `#p=<token>`, wraz z subtelną linią oddzielającą;
+* dziedziczy z arkusza komponentów justowanie głównych akapitów sekcji O mnie, Projekty, Doświadczenie i Wykształcenie, pozostawiając nagłówki oraz metadane wyrównane do lewej;
 * usuwa zbędne tła, cienie i elementy interaktywne.
+
+Automatyczne dzielenie wyrazów w PDF korzysta z aktywnego atrybutu `lang` dokumentu, dlatego działa zgodnie z aktualnym językiem PL albo EN bez osobnych reguł w `print.css`.
 
 ## Statusy w PDF
 

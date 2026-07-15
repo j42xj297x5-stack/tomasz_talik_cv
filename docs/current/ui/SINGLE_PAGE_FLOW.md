@@ -28,7 +28,7 @@ Profil firmowy renderuje się wyłącznie po poprawnym załadowaniu profilu prze
 
 ## Język
 
-Globalny przełącznik PL/EN zmienia lokalizowane treści w Hero i sekcjach oraz oznaczenia szkiców: `Szkic` w języku polskim i `Draft` w angielskim. Kod aktualizuje także atrybut `lang` dokumentu.
+Globalny przełącznik PL/EN zmienia lokalizowane treści w Hero i sekcjach oraz oznaczenia szkiców: `Szkic` w języku polskim i `Draft` w angielskim. Kod aktualizuje także atrybut `lang` dokumentu, od którego zależy automatyczne dzielenie wyrazów PL/EN w justowanych akapitach.
 
 ## Sekcje
 
@@ -40,7 +40,7 @@ Zaimplementowane sekcje to:
 * Wykształcenie;
 * Umiejętności.
 
-Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link jest renderowany jako akcja Hero, nie jako panel kontaktowy.
+Główne akapity treści w sekcjach O mnie, Projekty, Doświadczenie i Wykształcenie są justowane na desktopie, mobile oraz w PDF. Nagłówki sekcji, tytuły wpisów i metadane pozostają wyrównane do lewej. Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link jest renderowany jako akcja Hero, nie jako panel kontaktowy.
 
 ## Accordion
 
