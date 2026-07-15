@@ -18,7 +18,12 @@
         "en": "Interactive AI Portfolio — demo"
       },
       "url": "https://j42xj297x5-stack.github.io/tomasz-talik-portfolio/",
-      "kind": "demo"
+      "kind": "demo",
+      "projectId": "project-interactive-ai-portfolio",
+      "projectLabel": {
+        "pl": "Otwórz portfolio",
+        "en": "Open portfolio"
+      }
     },
     {
       "id": "link-portfolio-repository",
@@ -38,7 +43,12 @@
         "en": "Haiku Cosmos — demo"
       },
       "url": "https://j42xj297x5-stack.github.io/Haiku-Cosmos/",
-      "kind": "demo"
+      "kind": "demo",
+      "projectId": "project-haiku-cosmos",
+      "projectLabel": {
+        "pl": "Uruchom demo",
+        "en": "Launch demo"
+      }
     },
     {
       "id": "link-haiku-cosmos-repository",
