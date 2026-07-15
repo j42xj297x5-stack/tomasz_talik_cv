@@ -71,3 +71,11 @@ Frontend rozdziela dwa parametry fragmentu URL: `p` jest publicznym identyfikato
 Produkcja działa pod adresem `https://j42xj297x5-stack.github.io/tomasz_talik_cv/`. Deployment GitHub Pages uruchamia się po pushu do gałęzi `tomasz_talik_cv` oraz ręcznie przez `workflow_dispatch`; GitHub Actions wykonuje `npm ci`, `npm run validate:content` i `npm run build`, a następnie publikuje katalog `dist`. Produkcyjny `base` Vite to `/tomasz_talik_cv/`, a lokalny dev server pozostaje pod `/`.
 
 Publiczny adres Workera `https://withered-leaf-cf6b.tapchanbuddha.workers.dev` jest zapisany w `.env.production` jako konfiguracja publiczna, nie sekret. Cloudflare Worker musi dopuścić origin `https://j42xj297x5-stack.github.io`; deployment Pages nie zastępuje konfiguracji CORS. `editor/config.defaults.json` zawiera publiczny adres CV i Workera, a ignorowany `editor/config.local.json` zawiera lokalny `editorAdminKey`. W normalnej pracy edytor nie wymaga wpisywania adresu CV ani Workera, a ustawienia infrastrukturalne są schowane w panelu „Konfiguracja techniczna”. Dane prywatne i sekrety nadal nie trafiają do repozytorium ani GitHub Pages.
+
+## Aktualizacja: widok Umiejętności
+
+Sekcja Umiejętności korzysta z jednego źródła `content/public/skills.json`, które zawiera teraz `categories` oraz `items`. Każdy skill ma `categoryId` i `inCloud`, a opcjonalne `cloudWeight` jest wyłącznie wizualnym wyróżnieniem w chmurze, nie poziomem kompetencji. Statusy `published`, `draft` i `archived` pozostają bez zmian.
+
+Widok domyślny to Chmura, przełączana z widokiem Kategorie przez dostępne zakładki Chmura / Kategorie. Chmura jest własnym komponentem Vanilla JS + SVG, bez jQuery i zewnętrznego dodatku; animacja reaguje na wskaźnik, na mobile obraca się wolniej, a `prefers-reduced-motion` renderuje nieruchomą chmurę. Widok statyczny pokazuje pięć kategorii.
+
+Hero nadal korzysta z `featuredSkillIds`, a `profile.skillOrder` nadal ustala kolejność umiejętności w chmurze i kategoriach. PDF pokazuje tylko widok kategorii i nie drukuje SVG.

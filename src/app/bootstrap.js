@@ -24,7 +24,7 @@ function createSectionContent(section, viewModel) {
   if (section.id === 'projects') return createProjectsSection(viewModel.projects, viewModel.labels);
   if (section.id === 'experience') return createExperienceSection(viewModel.experience, viewModel.labels);
   if (section.id === 'education') return createEducationSection(viewModel.education, viewModel.labels);
-  if (section.id === 'skills') return createSkillsSection(viewModel.skills, viewModel.labels);
+  if (section.id === 'skills') return createSkillsSection({ skills: viewModel.skills, skillCloud: viewModel.skillCloud, skillCategories: viewModel.skillCategories }, viewModel.labels);
   return null;
 }
 

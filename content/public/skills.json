@@ -1,33 +1,353 @@
 {
+  "categories": [
+    {
+      "id": "skill-category-design-architecture",
+      "name": {
+        "pl": "Projektowanie i architektura",
+        "en": "Design and architecture"
+      }
+    },
+    {
+      "id": "skill-category-ai-orchestration",
+      "name": {
+        "pl": "Orkiestracja AI",
+        "en": "AI orchestration"
+      }
+    },
+    {
+      "id": "skill-category-technologies",
+      "name": {
+        "pl": "Technologie",
+        "en": "Technologies"
+      }
+    },
+    {
+      "id": "skill-category-creative-technical-tools",
+      "name": {
+        "pl": "Narzędzia twórcze i techniczne",
+        "en": "Creative and technical tools"
+      }
+    },
+    {
+      "id": "skill-category-complementary",
+      "name": {
+        "pl": "Kompetencje uzupełniające",
+        "en": "Complementary skills"
+      }
+    }
+  ],
   "items": [
-    { "id": "skill-game-systems-design", "status": "published", "name": { "pl": "Projektowanie systemów gry", "en": "Game systems design" } },
-    { "id": "skill-modular-systems-design", "status": "published", "name": { "pl": "Projektowanie modularnych systemów", "en": "Modular systems design" } },
-    { "id": "skill-technical-architecture", "status": "published", "name": { "pl": "Architektura techniczna", "en": "Technical architecture" } },
-    { "id": "skill-interaction-prototyping", "status": "published", "name": { "pl": "Prototypowanie interakcji", "en": "Interaction prototyping" } },
-    { "id": "skill-debugging-validation", "status": "published", "name": { "pl": "Diagnostyka i walidacja", "en": "Debugging and validation" } },
-    { "id": "skill-technical-documentation", "status": "published", "name": { "pl": "Dokumentacja techniczna", "en": "Technical documentation" } },
-    { "id": "skill-ai-orchestration", "status": "published", "name": { "pl": "Orkiestracja AI w pracy technicznej i kreatywnej", "en": "AI orchestration for technical and creative work" } },
-    { "id": "skill-javascript", "status": "published", "name": { "pl": "JavaScript", "en": "JavaScript" } },
-    { "id": "skill-three-js", "status": "published", "name": { "pl": "Three.js", "en": "Three.js" } },
-    { "id": "skill-html", "status": "published", "name": { "pl": "HTML", "en": "HTML" } },
-    { "id": "skill-css", "status": "published", "name": { "pl": "CSS", "en": "CSS" } },
-    { "id": "skill-json", "status": "published", "name": { "pl": "JSON", "en": "JSON" } },
-    { "id": "skill-vite", "status": "published", "name": { "pl": "Vite", "en": "Vite" } },
-    { "id": "skill-node-js", "status": "published", "name": { "pl": "Node.js", "en": "Node.js" } },
-    { "id": "skill-python", "status": "published", "name": { "pl": "Python", "en": "Python" } },
-    { "id": "skill-pyside6", "status": "published", "name": { "pl": "PySide6", "en": "PySide6" } },
-    { "id": "skill-mysql", "status": "published", "name": { "pl": "MySQL", "en": "MySQL" } },
-    { "id": "skill-sql", "status": "published", "name": { "pl": "SQL", "en": "SQL" } },
-    { "id": "skill-rest-api", "status": "published", "name": { "pl": "REST API", "en": "REST API" } },
-    { "id": "skill-git-github", "status": "published", "name": { "pl": "Git i GitHub", "en": "Git and GitHub" } },
-    { "id": "skill-blender", "status": "published", "name": { "pl": "Blender", "en": "Blender" } },
-    { "id": "skill-inkscape", "status": "published", "name": { "pl": "Inkscape", "en": "Inkscape" } },
-    { "id": "skill-figma", "status": "published", "name": { "pl": "Figma", "en": "Figma" } },
-    { "id": "skill-ableton-live", "status": "published", "name": { "pl": "Ableton Live", "en": "Ableton Live" } },
-    { "id": "skill-independent-learning", "status": "published", "name": { "pl": "Samodzielne uczenie się", "en": "Independent learning" } },
-    { "id": "skill-code-reading", "status": "published", "name": { "pl": "Czytanie kodu", "en": "Code reading" } },
-    { "id": "skill-technical-communication", "status": "published", "name": { "pl": "Komunikacja techniczna", "en": "Technical communication" } },
-    { "id": "skill-client-communication", "status": "published", "name": { "pl": "Komunikacja z klientem", "en": "Client communication" } },
-    { "id": "skill-problem-decomposition", "status": "published", "name": { "pl": "Dzielenie problemów", "en": "Problem decomposition" } }
+    {
+      "id": "skill-game-systems-design",
+      "status": "published",
+      "name": {
+        "pl": "Projektowanie systemów gry",
+        "en": "Game systems design"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-modular-systems-design",
+      "status": "published",
+      "name": {
+        "pl": "Projektowanie modularnych systemów",
+        "en": "Modular systems design"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-technical-architecture",
+      "status": "published",
+      "name": {
+        "pl": "Architektura techniczna",
+        "en": "Technical architecture"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-interaction-prototyping",
+      "status": "published",
+      "name": {
+        "pl": "Prototypowanie interakcji",
+        "en": "Interaction prototyping"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-debugging-validation",
+      "status": "published",
+      "name": {
+        "pl": "Diagnostyka i walidacja",
+        "en": "Debugging and validation"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-technical-documentation",
+      "status": "published",
+      "name": {
+        "pl": "Dokumentacja techniczna",
+        "en": "Technical documentation"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-ai-orchestration",
+      "status": "published",
+      "name": {
+        "pl": "Orkiestracja AI w pracy technicznej i kreatywnej",
+        "en": "AI orchestration for technical and creative work"
+      },
+      "categoryId": "skill-category-ai-orchestration",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-javascript",
+      "status": "published",
+      "name": {
+        "pl": "JavaScript",
+        "en": "JavaScript"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-three-js",
+      "status": "published",
+      "name": {
+        "pl": "Three.js",
+        "en": "Three.js"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-html",
+      "status": "published",
+      "name": {
+        "pl": "HTML",
+        "en": "HTML"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-css",
+      "status": "published",
+      "name": {
+        "pl": "CSS",
+        "en": "CSS"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-json",
+      "status": "published",
+      "name": {
+        "pl": "JSON",
+        "en": "JSON"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-vite",
+      "status": "published",
+      "name": {
+        "pl": "Vite",
+        "en": "Vite"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-node-js",
+      "status": "published",
+      "name": {
+        "pl": "Node.js",
+        "en": "Node.js"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-python",
+      "status": "published",
+      "name": {
+        "pl": "Python",
+        "en": "Python"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-pyside6",
+      "status": "published",
+      "name": {
+        "pl": "PySide6",
+        "en": "PySide6"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-mysql",
+      "status": "published",
+      "name": {
+        "pl": "MySQL",
+        "en": "MySQL"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true
+    },
+    {
+      "id": "skill-sql",
+      "status": "published",
+      "name": {
+        "pl": "SQL",
+        "en": "SQL"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-rest-api",
+      "status": "published",
+      "name": {
+        "pl": "REST API",
+        "en": "REST API"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-git-github",
+      "status": "published",
+      "name": {
+        "pl": "Git i GitHub",
+        "en": "Git and GitHub"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-blender",
+      "status": "published",
+      "name": {
+        "pl": "Blender",
+        "en": "Blender"
+      },
+      "categoryId": "skill-category-creative-technical-tools",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-inkscape",
+      "status": "published",
+      "name": {
+        "pl": "Inkscape",
+        "en": "Inkscape"
+      },
+      "categoryId": "skill-category-creative-technical-tools",
+      "inCloud": true
+    },
+    {
+      "id": "skill-figma",
+      "status": "published",
+      "name": {
+        "pl": "Figma",
+        "en": "Figma"
+      },
+      "categoryId": "skill-category-creative-technical-tools",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-ableton-live",
+      "status": "published",
+      "name": {
+        "pl": "Ableton Live",
+        "en": "Ableton Live"
+      },
+      "categoryId": "skill-category-creative-technical-tools",
+      "inCloud": true
+    },
+    {
+      "id": "skill-independent-learning",
+      "status": "published",
+      "name": {
+        "pl": "Samodzielne uczenie się",
+        "en": "Independent learning"
+      },
+      "categoryId": "skill-category-complementary",
+      "inCloud": true
+    },
+    {
+      "id": "skill-code-reading",
+      "status": "published",
+      "name": {
+        "pl": "Czytanie kodu",
+        "en": "Code reading"
+      },
+      "categoryId": "skill-category-complementary",
+      "inCloud": true
+    },
+    {
+      "id": "skill-technical-communication",
+      "status": "published",
+      "name": {
+        "pl": "Komunikacja techniczna",
+        "en": "Technical communication"
+      },
+      "categoryId": "skill-category-complementary",
+      "inCloud": true
+    },
+    {
+      "id": "skill-client-communication",
+      "status": "published",
+      "name": {
+        "pl": "Komunikacja z klientem",
+        "en": "Client communication"
+      },
+      "categoryId": "skill-category-complementary",
+      "inCloud": true
+    },
+    {
+      "id": "skill-problem-decomposition",
+      "status": "published",
+      "name": {
+        "pl": "Dzielenie problemów",
+        "en": "Problem decomposition"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    }
   ]
 }

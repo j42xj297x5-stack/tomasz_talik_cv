@@ -344,3 +344,96 @@
 @media (max-width: 39rem) {
   .media-lightbox__trigger { width: 100%; }
 }
+.skills-view-switch {
+  display: inline-flex;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.2rem;
+  background: color-mix(in srgb, var(--color-card-bg) 92%, var(--color-accent));
+}
+.skills-view-switch__tab {
+  border: 0;
+  border-radius: 999px;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.skills-view-switch__tab[aria-selected="true"] {
+  background: var(--color-accent);
+  color: #fff;
+}
+.skills-view-switch__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0.2rem;
+}
+.skills-view-panel[hidden] { display: none; }
+.skills-cloud {
+  max-width: 34rem;
+  margin: 0 auto;
+  aspect-ratio: 1;
+  touch-action: pan-y;
+}
+.skills-cloud__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  overflow: visible;
+}
+.skills-cloud__tag {
+  fill: var(--color-text-primary);
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+.skills-cloud__accessible-list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skills-category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.skills-category {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-3);
+  background: color-mix(in srgb, var(--color-card-bg) 96%, var(--color-accent));
+}
+.skills-category__title {
+  margin: 0 0 var(--space-2);
+  font-size: 1rem;
+}
+.skills-category__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.skills-category__item {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text-primary);
+  font-size: 0.92rem;
+}
+@media (max-width: 39rem) {
+  .skills-view-switch { width: 100%; justify-content: center; }
+  .skills-cloud { max-width: 100%; }
+  .skills-category-grid { grid-template-columns: minmax(0, 1fr); }
+}

@@ -49,6 +49,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const companyName = typeof options.companyName === 'string' ? options.companyName.trim() : '';
   const resolveText = (value) => localizedText(value, activeLanguage);
   const contentFilter = (item) => canRenderItem(item, previewMode);
+  const skillCategoriesContent = publicContent.skills?.categories || [];
   const skillItems = (publicContent.skills?.items || []).filter(contentFilter);
   const projectItems = (publicContent.projects?.items || []).filter(contentFilter);
   const experienceItems = (publicContent.experience?.items || []).filter(contentFilter);
@@ -58,8 +59,30 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const visibleSections = new Set(profile.visibleSections || []);
 
   const orderedSkills = byProfileOrder(skillItems, profile.skillOrder)
-    .map((skill) => ({ id: skill.id, name: resolveText(skill.name), isDraft: isDraft(skill) }))
+    .map((skill) => ({
+      id: skill.id,
+      name: resolveText(skill.name),
+      categoryId: skill.categoryId,
+      inCloud: skill.inCloud === true,
+      cloudWeight: Number.isInteger(skill.cloudWeight) ? skill.cloudWeight : 1,
+      isDraft: isDraft(skill),
+    }))
     .filter((skill) => skill.name);
+  const orderedSkillsByCategory = new Map();
+  orderedSkills.forEach((skill) => {
+    if (!orderedSkillsByCategory.has(skill.categoryId)) orderedSkillsByCategory.set(skill.categoryId, []);
+    orderedSkillsByCategory.get(skill.categoryId).push(skill);
+  });
+  const skillCategories = skillCategoriesContent
+    .map((category) => ({
+      id: category.id,
+      name: resolveText(category.name),
+      skills: orderedSkillsByCategory.get(category.id) || [],
+    }))
+    .filter((category) => category.name && category.skills.length);
+  const skillCloud = orderedSkills
+    .filter((skill) => skill.inCloud)
+    .map((skill) => ({ id: skill.id, name: skill.name, cloudWeight: skill.cloudWeight, isDraft: skill.isDraft }));
   const skills = orderedSkills.filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id));
 
   const resolveDemoMedia = (demoMedia) => {
@@ -142,6 +165,10 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       draft: draftLabel,
       enlargeDemo: resolveText({ pl: 'Powiększ demonstrację', en: 'Enlarge demonstration' }),
       closeDemo: resolveText({ pl: 'Zamknij demonstrację', en: 'Close demonstration' }),
+      skillsCloud: resolveText({ pl: 'Chmura', en: 'Cloud' }),
+      skillsCategories: resolveText({ pl: 'Kategorie', en: 'Categories' }),
+      skillsView: resolveText({ pl: 'Widok umiejętności', en: 'Skills view' }),
+      skillsCloudAria: resolveText({ pl: 'Interaktywna chmura umiejętności', en: 'Interactive skills cloud' }),
     },
     hero: {
       name,
@@ -162,5 +189,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     experience: visibleSections.has('experience') ? experience : [],
     education: visibleSections.has('education') ? education : [],
     skills: visibleSections.has('skills') ? orderedSkills : [],
+    skillCloud: visibleSections.has('skills') ? skillCloud : [],
+    skillCategories: visibleSections.has('skills') ? skillCategories : [],
   };
 }
