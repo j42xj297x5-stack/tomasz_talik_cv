@@ -75,7 +75,14 @@ export async function fetchPrivateProfile(token, options = {}) {
 
     if (!response.ok) return { status: 'error', data: null };
     const json = await response.json();
-    const data = sanitizePrivateProfile(json);
+    if (!json || typeof json !== 'object' || Array.isArray(json) || json.ok !== true) {
+      return { status: 'error', data: null };
+    }
+    if (!json.profile || typeof json.profile !== 'object' || Array.isArray(json.profile)) {
+      return { status: 'error', data: null };
+    }
+
+    const data = sanitizePrivateProfile(json.profile);
     return data ? { status: 'ok', data } : { status: 'empty', data: null };
   } catch (_error) {
     return { status: 'error', data: null };
