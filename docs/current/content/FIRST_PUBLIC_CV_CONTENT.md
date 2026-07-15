@@ -929,3 +929,10 @@ Wdrożono pierwszą publiczną sekcję doświadczenia z czterema wpisami roboczy
 Wdrożono pierwszą sekcję „Umiejętności” w publicznych danych JSON. Wszystkie dodane elementy pozostają w statusie `draft`, dlatego są widoczne wyłącznie w trybie `?preview=draft` i nie tworzą publicznej sekcji bez opublikowanych wpisów.
 
 Aktualny `skills.schema.json` obsługuje tylko `id`, `status` i lokalizowaną `name`. Z tego powodu kategorie, grupowanie oraz opis kompetencji AI nie zostały zapisane w danych JSON; pozostają ryzykiem informacyjnym do obsłużenia po rozszerzeniu modelu. Tryb `?preview=draft` nie zapewnia prywatności, ponieważ pliki JSON nadal są częścią publicznej paczki aplikacji.
+
+## Aktualizacja: demonstracje i publiczne odnośniki
+
+- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
+- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
+- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
+- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.

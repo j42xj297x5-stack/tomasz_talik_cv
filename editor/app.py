@@ -12,7 +12,6 @@ ROOT = Path(__file__).resolve().parents[1]
 EDITOR_DIR = Path(__file__).resolve().parent
 CONFIG_DEFAULTS = EDITOR_DIR / "config.defaults.json"
 CONFIG_LOCAL = EDITOR_DIR / "config.local.json"
-PROJECTS_PATH = ROOT / "content" / "public" / "projects.json"
 LINKS_PATH = ROOT / "content" / "public" / "links.json"
 TOKEN_MIN = 32
 TOKEN_MAX = 128
@@ -63,11 +62,13 @@ def public_options(path, language):
     data = load_json(path, {"items": []})
     options = []
     for item in data.get("items", []):
-        label = localized(item.get("title") or item.get("label") or item.get("id"), language)
-        url = item.get("url", "")
-        summary = localized(item.get("summary"), language)
-        if label:
-            options.append({"id": item.get("id", label), "label": label, "url": url, "summary": summary})
+        if item.get("status") != "published":
+            continue
+        label = localized(item.get("label") or item.get("id"), language)
+        url = str(item.get("url") or "").strip()
+        kind = item.get("kind", "")
+        if label and url:
+            options.append({"id": item.get("id", label), "label": label, "url": url, "kind": kind})
     return options
 
 
@@ -227,13 +228,11 @@ def activate_private_token(worker_api_base_url, editor_admin_key, private_token)
     return False, "Worker nie potwierdził aktywacji tokenu."
 
 
-def selected_link_lines(selected_projects, selected_links):
+def selected_link_lines(selected_demos, selected_repositories):
     lines = []
-    for item in selected_projects:
-        lines.append(f"- {item['label']}")
-    for item in selected_links:
-        suffix = f" — {item['url']}" if item.get("url") else ""
-        lines.append(f"- {item['label']}{suffix}")
+    for item in [*selected_demos, *selected_repositories]:
+        if item.get("url"):
+            lines.append(f"- {item['label']} — {item['url']}")
     return lines
 
 
@@ -306,8 +305,9 @@ default_deployment_base_url = str(config.get("deploymentBaseUrl") or "")
 default_worker_api_base_url = str(config.get("workerApiBaseUrl") or "")
 
 language = st.radio("Język treści", ["PL", "EN"], horizontal=True).lower()
-projects = public_options(PROJECTS_PATH, language)
 links = public_options(LINKS_PATH, language)
+demo_links = [item for item in links if item.get("kind") == "demo"]
+repository_links = [item for item in links if item.get("kind") in ("profile", "repository")]
 
 with st.form("profile_form"):
     company_name = st.text_input("Nazwa firmy", max_chars=120)
@@ -315,8 +315,8 @@ with st.form("profile_form"):
     recruiter_name = st.text_input("Imię rekrutera")
     job_url = st.text_input("Adres ogłoszenia")
     motivation = st.text_area("Własny tekst uzasadnienia aplikacji")
-    selected_project_labels = st.multiselect("Linki do projektów", [item["label"] for item in projects])
-    selected_link_labels = st.multiselect("Linki do profilu GitHub i publicznych stron", [item["label"] for item in links])
+    selected_demo_labels = st.multiselect("Demo projektów", [item["label"] for item in demo_links])
+    selected_repository_labels = st.multiselect("GitHub i repozytoria", [item["label"] for item in repository_links])
     output_kind = st.radio("Generuj", ["Krótki mail", "Pełny list motywacyjny", "Oba"], index=2, horizontal=True)
     submitted = st.form_submit_button("Generuj materiały")
 
@@ -359,9 +359,9 @@ with st.expander("Konfiguracja techniczna", expanded=False):
     if endpoint_host and endpoint_path:
         st.write(f"Endpoint aktywacji: host `{endpoint_host}`, ścieżka `{endpoint_path}`")
 
-selected_projects = [item for item in projects if item["label"] in selected_project_labels]
-selected_links = [item for item in links if item["label"] in selected_link_labels]
-link_lines = selected_link_lines(selected_projects, selected_links)
+selected_demos = [item for item in demo_links if item["label"] in selected_demo_labels]
+selected_repositories = [item for item in repository_links if item["label"] in selected_repository_labels]
+link_lines = selected_link_lines(selected_demos, selected_repositories)
 
 retry_activation = st.button("Ponów aktywację tego samego tokenu", help="Wysyła ponownie bieżący prywatny token bez generowania nowego p ani k.")
 

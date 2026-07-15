@@ -62,11 +62,18 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
     .filter((skill) => skill.name);
   const skills = orderedSkills.filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id));
 
+  const resolveDemoMedia = (demoMedia) => {
+    if (!demoMedia?.src || !demoMedia?.alt) return null;
+    const alt = resolveText(demoMedia.alt);
+    return alt ? { src: demoMedia.src, alt } : null;
+  };
+
   const projects = byProfileOrder(projectItems, profile.projectOrder)
     .map((project) => ({
       id: project.id,
       title: resolveText(project.title),
       summary: resolveText(project.summary),
+      demoMedia: resolveDemoMedia(project.demoMedia),
       isDraft: isDraft(project),
     }))
     .filter((project) => project.title || project.summary);
@@ -107,8 +114,9 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const profileInfo = profile.profileId !== 'default'
     ? resolveText(profile.companyMessage) || resolveText(profile.company)
     : '';
-  const contact = linkItems[0]
-    ? { label: resolveText(linkItems[0].label), url: linkItems[0].url, isDraft: isDraft(linkItems[0]) }
+  const heroLink = linkItems.find((item) => item.kind === 'profile' && item.url) || linkItems.find((item) => item.url);
+  const contact = heroLink
+    ? { label: resolveText(heroLink.label), url: heroLink.url, isDraft: isDraft(heroLink) }
     : null;
   const draftLabel = resolveText({ pl: 'Szkic', en: 'Draft' });
 
@@ -132,6 +140,8 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       print: resolveText({ pl: 'Zapisz jako PDF', en: 'Save as PDF' }),
       featuredSkills: resolveText({ pl: 'Wyróżnione umiejętności', en: 'Featured skills' }),
       draft: draftLabel,
+      enlargeDemo: resolveText({ pl: 'Powiększ demonstrację', en: 'Enlarge demonstration' }),
+      closeDemo: resolveText({ pl: 'Zamknij demonstrację', en: 'Close demonstration' }),
     },
     hero: {
       name,

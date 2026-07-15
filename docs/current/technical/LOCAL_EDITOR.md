@@ -42,3 +42,10 @@ Edytor generuje publiczny token `p` dla `public/profiles/<p>.json` oraz prywatny
 ## Diagnostyka bez sekretów
 
 Diagnostyka pokazuje wyłącznie statusy: `config.defaults.json` znaleziony/brak/niepoprawny, `config.local.json` znaleziony/brak/niepoprawny, adres produkcyjny skonfigurowany/brak, Worker skonfigurowany/brak/niepoprawny oraz klucz administracyjny wczytany/brak. Nie pokazuje sekretów, tokenów ani zawartości plików konfiguracyjnych.
+
+## Aktualizacja: demonstracje i publiczne odnośniki
+
+- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
+- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
+- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
+- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.
