@@ -169,3 +169,30 @@
     break-inside: avoid;
   }
 }
+@media print {
+  .skills-view-switch,
+  .skills-view-panel--cloud,
+  .skills-cloud,
+  .skills-cloud__svg,
+  .skills-cloud__accessible-list {
+    display: none !important;
+  }
+
+  .skills-view-panel--categories,
+  .skills-view-panel--categories[hidden] {
+    display: block !important;
+  }
+
+  .skills-category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem 0.6rem;
+  }
+
+  .skills-category {
+    break-inside: avoid;
+    padding: 0.35rem;
+    border-color: #d8dee9;
+    background: #fff;
+  }
+}

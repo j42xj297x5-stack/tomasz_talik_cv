@@ -57,7 +57,29 @@ for (const [file, schema] of Object.entries(files)) {
 const allIds = new Set();
 for (const file of Object.keys(files)) collectIds(data[file], file, allIds);
 const projectIds = new Set(data['content/public/projects.json'].items.map((i) => i.id));
-const skillIds = new Set(data['content/public/skills.json'].items.map((i) => i.id));
+const skillsDoc = data['content/public/skills.json'];
+const skillIds = new Set(skillsDoc.items.map((i) => i.id));
+const stableIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const categoryIds = new Set();
+(skillsDoc.categories || []).forEach((category, index) => {
+  const field = pointer(['categories', index, 'id']);
+  if (!category?.id || !stableIdPattern.test(category.id)) {
+    addError('content/public/skills.json', field, 'Kategoria nie ma poprawnego id.');
+    return;
+  }
+  if (categoryIds.has(category.id)) addError('content/public/skills.json', field, `Duplikat id kategorii: ${category.id}`);
+  categoryIds.add(category.id);
+});
+(skillsDoc.items || []).forEach((skill, index) => {
+  if (!skill?.categoryId) {
+    addError('content/public/skills.json', pointer(['items', index, 'categoryId']), `Umiejętność ${skill?.id || index} nie ma categoryId.`);
+  } else if (!categoryIds.has(skill.categoryId)) {
+    addError('content/public/skills.json', pointer(['items', index, 'categoryId']), `Umiejętność ${skill.id} odwołuje się do nieistniejącej kategorii: ${skill.categoryId}`);
+  }
+  if (skill?.cloudWeight !== undefined && (!Number.isInteger(skill.cloudWeight) || skill.cloudWeight < 1 || skill.cloudWeight > 3)) {
+    addError('content/public/skills.json', pointer(['items', index, 'cloudWeight']), `cloudWeight umiejętności ${skill.id} musi być liczbą całkowitą od 1 do 3.`);
+  }
+});
 
 const profileDir = path.join(root, 'content/profiles');
 for (const name of fs.readdirSync(profileDir).filter((f) => f.endsWith('.json'))) {
