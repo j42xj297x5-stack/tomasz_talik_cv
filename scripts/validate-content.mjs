@@ -59,6 +59,32 @@ for (const file of Object.keys(files)) collectIds(data[file], file, allIds);
 const projectIds = new Set(data['content/public/projects.json'].items.map((i) => i.id));
 const skillsDoc = data['content/public/skills.json'];
 const skillIds = new Set(skillsDoc.items.map((i) => i.id));
+
+const projectDemoLinks = new Map();
+(data['content/public/links.json'].items || []).forEach((link, index) => {
+  const basePath = ['items', index];
+  if (link?.projectLabel && !link?.projectId) {
+    addError('content/public/links.json', pointer([...basePath, 'projectLabel']), 'projectLabel wymaga projectId.');
+  }
+  if (!link?.projectId) return;
+  if (link.kind !== 'demo') {
+    addError('content/public/links.json', pointer([...basePath, 'projectId']), 'projectId może występować tylko dla linku kind demo.');
+  }
+  if (!link.projectLabel) {
+    addError('content/public/links.json', pointer([...basePath, 'projectId']), 'projectId wymaga projectLabel.');
+  }
+  if (!projectIds.has(link.projectId)) {
+    addError('content/public/links.json', pointer([...basePath, 'projectId']), `Link projektu odwołuje się do nieistniejącego projektu: ${link.projectId}`);
+  }
+  const previous = projectDemoLinks.get(link.projectId);
+  if (previous !== undefined) {
+    addError('content/public/links.json', pointer([...basePath, 'projectId']), `Projekt ${link.projectId} ma więcej niż jeden przypisany link demonstracyjny.`);
+    addError('content/public/links.json', pointer(['items', previous, 'projectId']), `Projekt ${link.projectId} ma więcej niż jeden przypisany link demonstracyjny.`);
+  } else {
+    projectDemoLinks.set(link.projectId, index);
+  }
+});
+
 const stableIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const categoryIds = new Set();
 (skillsDoc.categories || []).forEach((category, index) => {

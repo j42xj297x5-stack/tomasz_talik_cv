@@ -57,6 +57,14 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const linkItems = (publicContent.links?.items || []).filter(contentFilter);
   const featuredSkillIds = profile.featuredSkillIds || [];
   const visibleSections = new Set(profile.visibleSections || []);
+  const newTabLabel = resolveText({ pl: 'Otwiera się w nowej karcie', en: 'Opens in a new tab' });
+  const projectLinks = new Map();
+  linkItems
+    .filter((link) => link?.kind === 'demo' && link.projectId && link.projectLabel && link.url)
+    .forEach((link) => {
+      const label = resolveText(link.projectLabel);
+      if (label) projectLinks.set(link.projectId, { label, url: link.url });
+    });
 
   const orderedSkills = byProfileOrder(skillItems, profile.skillOrder)
     .map((skill) => ({
@@ -96,6 +104,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       id: project.id,
       title: resolveText(project.title),
       summary: resolveText(project.summary),
+      projectLink: projectLinks.get(project.id) || null,
       demoMedia: resolveDemoMedia(project.demoMedia),
       isDraft: isDraft(project),
     }))
@@ -137,7 +146,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const profileInfo = profile.profileId !== 'default'
     ? resolveText(profile.companyMessage) || resolveText(profile.company)
     : '';
-  const heroLink = linkItems.find((item) => item.kind === 'profile' && item.url) || linkItems.find((item) => item.url);
+  const heroLink = linkItems.find((item) => item.kind === 'profile' && item.url);
   const contact = heroLink
     ? { label: resolveText(heroLink.label), url: heroLink.url, isDraft: isDraft(heroLink) }
     : null;
@@ -169,6 +178,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
       skillsCategories: resolveText({ pl: 'Kategorie', en: 'Categories' }),
       skillsView: resolveText({ pl: 'Widok umiejętności', en: 'Skills view' }),
       skillsCloudAria: resolveText({ pl: 'Interaktywna chmura umiejętności', en: 'Interactive skills cloud' }),
+      opensInNewTab: newTabLabel,
     },
     hero: {
       name,

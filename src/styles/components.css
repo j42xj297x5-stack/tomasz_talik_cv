@@ -421,3 +421,33 @@
   .skills-cloud { max-width: 100%; }
   .skills-category-grid { grid-template-columns: minmax(0, 1fr); }
 }
+.project-card__actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: var(--space-3);
+}
+.project-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-3);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+}
+.project-card__link:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+.project-card__link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0.2rem;
+}

@@ -14,6 +14,19 @@ export function createProjectsSection(projects, labels = {}) {
     const article = createElement('article', { className: 'project-card' });
     const title = project.title ? createElement('h3', { text: project.title }) : null;
     const summary = project.summary ? createElement('p', { text: project.summary }) : null;
+    const projectLink = project.projectLink
+      ? createElement('a', {
+        className: 'project-card__link',
+        text: project.projectLink.label,
+        attributes: {
+          href: project.projectLink.url,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          'aria-label': `${project.projectLink.label} — ${project.title}. ${labels.opensInNewTab || 'Otwiera się w nowej karcie'}.`,
+        },
+      })
+      : null;
+    const actions = projectLink ? appendChildren(createElement('div', { className: 'project-card__actions' }), [projectLink]) : null;
     const demo = project.demoMedia
       ? createMediaLightbox({
         src: project.demoMedia.src,
@@ -24,7 +37,7 @@ export function createProjectsSection(projects, labels = {}) {
       })
       : null;
     if (project.isDraft && title) title.appendChild(createDraftBadge(labels));
-    list.appendChild(appendChildren(article, [title, summary, demo]));
+    list.appendChild(appendChildren(article, [title, summary, actions, demo]));
   });
 
   return appendChildren(container, [heading, list]);

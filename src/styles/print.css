@@ -203,3 +203,20 @@
     padding: 0.02rem 0.12rem;
   }
 }
+@media print {
+  .project-card__actions {
+    display: block;
+    margin-top: 0.35rem;
+  }
+
+  .project-card__link {
+    display: inline;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    color: #111827;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
