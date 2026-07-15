@@ -33,9 +33,6 @@ function walk(value, file, parts = []) {
   if (!value || typeof value !== 'object') return;
   for (const [key, child] of Object.entries(value)) {
     if (suspicious.has(key)) addError(file, pointer([...parts, key]), `Niedozwolony lub podejrzany klucz: ${key}`);
-    if (typeof child === 'string' && /^(?:[A-Za-z][A-Za-z0-9+.-]*:\/\/|\/)/.test(child)) {
-      addError(file, pointer([...parts, key]), 'Ścieżka zasobu nie może zawierać domeny ani zaczynać się od ukośnika.');
-    }
     walk(child, file, [...parts, key]);
   }
 }
