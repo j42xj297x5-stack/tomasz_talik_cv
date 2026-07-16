@@ -25,13 +25,18 @@ const SHAPES = {
   octahedron: { vertices: [[0,-38,0],[38,0,0],[0,38,0],[-38,0,0],[0,0,38],[0,0,-38]], edges: [[0,1],[1,2],[2,3],[3,0],[0,4],[1,4],[2,4],[3,4],[0,5],[1,5],[2,5],[3,5]] },
 };
 
+// These anchors interleave with the classic shapes while keeping the middle
+// column calm. Larger geometry gives the unchanged type size longer edges.
 const DESKTOP = [
-  { shape: 'tetrahedron', x: .955, y: .12, scale: .82, phase: .7, speed: [5e-5,-4e-5,2e-5], tape: 11 },
-  { shape: 'cuboid', x: .045, y: .38, scale: .78, phase: 1.8, speed: [-4e-5,5e-5,2e-5], tape: 13 },
-  { shape: 'cube', x: .955, y: .61, scale: .84, phase: 2.7, speed: [4e-5,4e-5,-2e-5], tape: 15 },
-  { shape: 'octahedron', x: .045, y: .9, scale: .76, phase: 3.6, speed: [-5e-5,3e-5,2e-5], tape: 12 },
+  { slot: 'right-top', shape: 'tetrahedron', x: .89, y: .14, scale: 1.24, phase: .7, speed: [5e-5,-4e-5,2e-5], tape: 11 },
+  { slot: 'left-upper-middle', shape: 'cuboid', x: .11, y: .38, scale: 1.16, phase: 1.8, speed: [-4e-5,5e-5,2e-5], tape: 13 },
+  { slot: 'right-lower-middle', shape: 'cube', x: .89, y: .62, scale: 1.22, phase: 2.7, speed: [4e-5,4e-5,-2e-5], tape: 15 },
+  { slot: 'left-bottom', shape: 'octahedron', x: .11, y: .86, scale: 1.18, phase: 3.6, speed: [-5e-5,3e-5,2e-5], tape: 12 },
 ];
-const MOBILE = [DESKTOP[1], DESKTOP[2]];
+const MOBILE = [
+  { ...DESKTOP[1], x: .16, y: .32, scale: 1.02 },
+  { ...DESKTOP[2], x: .84, y: .68, scale: 1.04 },
+];
 
 function rotate([x,y,z], rx, ry, rz) {
   const cx=Math.cos(rx), sx=Math.sin(rx), cy=Math.cos(ry), sy=Math.sin(ry), cz=Math.cos(rz), sz=Math.sin(rz);
