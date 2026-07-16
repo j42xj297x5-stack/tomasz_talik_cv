@@ -22,10 +22,17 @@
       }
     },
     {
-      "id": "skill-category-creative-technical-tools",
+      "id": "skill-category-graphics-video-cad",
       "name": {
-        "pl": "Narzędzia twórcze i techniczne",
-        "en": "Creative and technical tools"
+        "pl": "Grafika, wideo i CAD",
+        "en": "Graphics, video and CAD"
+      }
+    },
+    {
+      "id": "skill-category-audio-music-production",
+      "name": {
+        "pl": "Dźwięk i produkcja muzyczna",
+        "en": "Audio and music production"
       }
     },
     {
@@ -113,6 +120,37 @@
       "categoryId": "skill-category-ai-orchestration",
       "inCloud": true,
       "cloudWeight": 3
+    },
+    {
+      "id": "skill-chatgpt-codex-assisted-implementation",
+      "status": "published",
+      "name": {
+        "pl": "Implementacja wspomagana przez ChatGPT i Codex",
+        "en": "ChatGPT- and Codex-assisted implementation"
+      },
+      "categoryId": "skill-category-ai-orchestration",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-codex-cloud-local-workflows",
+      "status": "published",
+      "name": {
+        "pl": "Codex w chmurze i środowisku lokalnym",
+        "en": "Codex cloud and local workflows"
+      },
+      "categoryId": "skill-category-ai-orchestration",
+      "inCloud": false
+    },
+    {
+      "id": "skill-ai-task-specification-review",
+      "status": "published",
+      "name": {
+        "pl": "Specyfikowanie zadań i weryfikacja zmian AI",
+        "en": "AI task specification and change review"
+      },
+      "categoryId": "skill-category-ai-orchestration",
+      "inCloud": false
     },
     {
       "id": "skill-javascript",
@@ -257,14 +295,127 @@
       "cloudWeight": 2
     },
     {
+      "id": "skill-raster-graphics-photo-processing",
+      "status": "published",
+      "name": {
+        "pl": "Grafika rastrowa i obróbka fotografii",
+        "en": "Raster graphics and photo processing"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-gimp",
+      "status": "published",
+      "name": {
+        "pl": "GIMP",
+        "en": "GIMP"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-adobe-photoshop",
+      "status": "published",
+      "name": {
+        "pl": "Adobe Photoshop",
+        "en": "Adobe Photoshop"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-adobe-lightroom",
+      "status": "published",
+      "name": {
+        "pl": "Adobe Lightroom",
+        "en": "Adobe Lightroom"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-video-editing-postproduction",
+      "status": "published",
+      "name": {
+        "pl": "Montaż i postprodukcja wideo",
+        "en": "Video editing and post-production"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-davinci-resolve",
+      "status": "published",
+      "name": {
+        "pl": "DaVinci Resolve",
+        "en": "DaVinci Resolve"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-camtasia",
+      "status": "published",
+      "name": {
+        "pl": "Camtasia",
+        "en": "Camtasia"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-training-materials-elearning",
+      "status": "published",
+      "name": {
+        "pl": "Materiały szkoleniowe i e-learning",
+        "en": "Training materials and e-learning"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-parametric-cad-modeling",
+      "status": "published",
+      "name": {
+        "pl": "Parametryczne modelowanie CAD",
+        "en": "Parametric CAD modelling"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-zw3d",
+      "status": "published",
+      "name": {
+        "pl": "ZW3D",
+        "en": "ZW3D"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
+      "id": "skill-cad-sketch-constraints-history-tree",
+      "status": "published",
+      "name": {
+        "pl": "Szkice, więzy i drzewo historii CAD",
+        "en": "CAD sketches, constraints and history tree"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
+    },
+    {
       "id": "skill-blender",
       "status": "published",
       "name": {
         "pl": "Blender",
         "en": "Blender"
       },
-      "categoryId": "skill-category-creative-technical-tools",
-      "inCloud": true,
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false,
       "cloudWeight": 2
     },
     {
@@ -274,19 +425,122 @@
         "pl": "Inkscape",
         "en": "Inkscape"
       },
-      "categoryId": "skill-category-creative-technical-tools",
-      "inCloud": true
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false
     },
     {
       "id": "skill-figma",
       "status": "published",
       "name": {
-        "pl": "Figma",
-        "en": "Figma"
+        "pl": "Figma w przepływach Codex i przygotowaniu zasobów",
+        "en": "Figma in Codex-assisted asset workflows"
       },
-      "categoryId": "skill-category-creative-technical-tools",
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": false,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-music-production",
+      "status": "published",
+      "name": {
+        "pl": "Produkcja muzyczna",
+        "en": "Music production"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-sound-design",
+      "status": "published",
+      "name": {
+        "pl": "Sound design",
+        "en": "Sound design"
+      },
+      "categoryId": "skill-category-audio-music-production",
       "inCloud": true,
       "cloudWeight": 2
+    },
+    {
+      "id": "skill-audio-voice-recording-processing",
+      "status": "published",
+      "name": {
+        "pl": "Nagrywanie, edycja dźwięku i obróbka głosu",
+        "en": "Audio recording, editing and voice processing"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
+    },
+    {
+      "id": "skill-mixing-mastering",
+      "status": "published",
+      "name": {
+        "pl": "Miks i mastering",
+        "en": "Mixing and mastering"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-modular-synthesis-instrument-design",
+      "status": "published",
+      "name": {
+        "pl": "Synteza modularna i projektowanie instrumentów",
+        "en": "Modular synthesis and instrument design"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
+    },
+    {
+      "id": "skill-daw-workflows",
+      "status": "published",
+      "name": {
+        "pl": "Praca w środowiskach DAW",
+        "en": "DAW workflows"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
+    },
+    {
+      "id": "skill-reason",
+      "status": "published",
+      "name": {
+        "pl": "Reason",
+        "en": "Reason"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
+    },
+    {
+      "id": "skill-cubase",
+      "status": "published",
+      "name": {
+        "pl": "Cubase",
+        "en": "Cubase"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
+    },
+    {
+      "id": "skill-pro-tools",
+      "status": "published",
+      "name": {
+        "pl": "Pro Tools",
+        "en": "Pro Tools"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
+    },
+    {
+      "id": "skill-vst-instruments-effects",
+      "status": "published",
+      "name": {
+        "pl": "Instrumenty i efekty VST",
+        "en": "VST instruments and effects"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
     },
     {
       "id": "skill-ableton-live",
@@ -295,8 +549,8 @@
         "pl": "Ableton Live",
         "en": "Ableton Live"
       },
-      "categoryId": "skill-category-creative-technical-tools",
-      "inCloud": true
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": false
     },
     {
       "id": "skill-independent-learning",
