@@ -1,115 +1,91 @@
-# Model treści
+# Model danych
 
-## Cel
+## Zakres
 
-Dokument opisuje aktualny model publicznych danych JSON po publikacji pierwszej pełnej zaakceptowanej treści CV. Źródłem prawdy pozostają aktualne pliki `content/`, schematy oraz walidator.
+Źródłem prawdy dla publicznej treści CV są JSON-y w `content/public/`, profile repozytoryjne w `content/profiles/`, publiczne profile firmowe w `public/profiles/` oraz schematy w `content/schemas/`.
 
-## Publiczne obszary danych
+## Publiczne pliki treści
 
-Aktualnie ładowane publiczne dane to:
+- `identity.json` — tożsamość, imię i portret.
+- `about.json` — tekst Hero oraz sekcja „O mnie”.
+- `projects.json` — projekty i media demonstracyjne.
+- `experience.json` — doświadczenie.
+- `education.json` — wykształcenie.
+- `skills.json` — kategorie i elementy umiejętności.
+- `links.json` — pojedyncze źródło publicznych adresów.
 
-```text
-content/public/identity.json     # tożsamość, imię i nazwisko, opcjonalny portret
-content/public/about.json        # krótki opis Hero i treść sekcji O mnie
-content/public/projects.json     # projekty
-content/public/experience.json   # doświadczenie
-content/public/education.json    # wykształcenie
-content/public/skills.json       # płaska lista umiejętności
-content/public/links.json        # publiczne linki używane w akcjach Hero
-content/profiles/default.json    # profil default
-content/schemas/*.schema.json    # kontrakt danych JSON
-scripts/validate-content.mjs     # walidator schematów i relacji
-```
+Wszystkie te pliki są publiczne po zbudowaniu aplikacji. Nie wolno umieszczać w nich prywatnych danych kontaktowych.
 
-`docs/current/content/FIRST_PUBLIC_CV_CONTENT.md` pozostaje kanonicznym dokumentem treści CV. Pierwsza pełna zaakceptowana treść CV jest opublikowana w publicznych JSON-ach jako `published`; dokumenty architektoniczne nie kopiują pełnej treści CV.
+## Profile
 
-## Stos danych i walidacja
+`content/profiles/default.json` jest profilem domyślnym używanym bez parametru `?p`. Profile repozytoryjne wybierane przez `?p=<profileId>` muszą spełniać `profile.schema.json`.
 
-Frontend importuje publiczne JSON-y przez moduły Vite, a profile przez `import.meta.glob`. Schematy obejmują między innymi `identity.schema.json`, `about.schema.json`, `projects.schema.json`, `experience.schema.json`, `education.schema.json`, `skills.schema.json`, `links.schema.json` i `profile.schema.json`.
+Publiczne profile firmowe znajdują się w `public/profiles/<p>.json` i są wybierane przez `#p=<token>`. Kontrakt firmowy wymaga dokładnie pól `id` i `companyName`; nie zawiera danych prywatnych.
 
-Walidację uruchamia polecenie:
+## Schematy i walidacja
+
+Schematy używają JSON Schema draft-07. Walidacja działa przez Ajv, `ajv-formats` i skrypt `scripts/validate-content.mjs`, uruchamiany komendą:
 
 ```bash
 npm run validate:content
 ```
 
-Walidator używa Ajv i `ajv-formats`, sprawdza zgodność plików ze schematami, identyfikatory, relacje profili do danych, duplikaty, niedozwolone pola profilu, ścieżki zasobów i podejrzane prywatne klucze.
+## `identity`
 
-## Model językowy
+`identity.portrait.src` wskazuje avatar ekranowy. `identity.portrait.printSrc` wskazuje wariant drukowany używany w PDF, jeżeli jest dostępny.
 
-Teksty lokalizowane są przechowywane jako obiekty językowe z polskim wariantem podstawowym i opcjonalnym angielskim:
+## `projects`
 
-```json
-{
-  "pl": "tekst wymagany",
-  "en": "opcjonalny tekst"
-}
-```
+Każdy projekt ma stabilne `id`, status, tytuł i treść lokalizowaną. `demoMedia` pozwala przypisać medium demonstracyjne do projektu. DIG Engine korzysta z GIF-u `assets/projects/DIG_engine.gif` jako publicznego zasobu demonstracyjnego.
 
-Przełącznik PL/EN zmienia widoczne lokalizowane treści oraz oznaczenia szkiców.
+## `skills`
 
-## Status elementów
+Model umiejętności składa się z:
 
-Kontrakt renderowania statusów:
+- `categories` — lista kategorii.
+- `items` — lista umiejętności.
+- `categoryId` — powiązanie umiejętności z kategorią.
+- `inCloud` — decyzja, czy umiejętność trafia do chmury SVG.
+- `cloudWeight` — wyróżnienie wizualne w chmurze w zakresie 1–3; nie jest poziomem wiedzy.
 
-* bez parametru `preview` renderowane są wyłącznie elementy `published`;
-* `?preview=draft` renderuje `published` oraz `draft`;
-* `archived` pozostaje niewidoczne w obu trybach;
-* sekcje puste po filtrowaniu nie są renderowane.
+Aktualnie używane jest sześć kategorii:
 
-Statusy oznaczają:
+1. Projektowanie i architektura.
+2. Orkiestracja AI.
+3. Technologie.
+4. Grafika, wideo i CAD.
+5. Dźwięk i produkcja muzyczna.
+6. Kompetencje uzupełniające.
 
-* `draft` — treść robocza, widoczna tylko w redakcyjnym `?preview=draft`;
-* `published` — treść widoczna w zwykłym publicznym renderze;
-* `archived` — treść historyczna niewidoczna w aktualnym renderze.
+## `links`
 
-`?preview=draft` nie jest zabezpieczeniem dostępu i nie zapewnia prywatności. Dane zapisane w publicznych JSON-ach należy traktować jako publiczne niezależnie od statusu. Aktualnie zaakceptowane sekcje są widoczne bez `?preview=draft`, a tryb redakcyjny pozostaje dostępny dla przyszłych treści roboczych.
+`links.json` jest pojedynczym źródłem adresów publicznych, w tym linków używanych przez frontend i edytor. Pole `kind` przyjmuje wartości `profile`, `repository` albo `demo`.
 
-## Profil default i personalizacja
+Dla linków demonstracyjnych można podać `projectId` i `projectLabel`. Taka para wiąże demonstrację z projektem i pozwala renderować przy projekcie etykiety typu „Uruchom demo” albo „Otwórz portfolio”. Linki repozytoriów nie używają `projectId` w bieżącym kontrakcie.
 
-`content/profiles/default.json` jest profilem używanym przy braku `?p=`. Profil kontroluje kolejność i widoczność sekcji, kolejność projektów, kolejność umiejętności i wyróżnione umiejętności. Tryb redakcyjny można łączyć z profilem, np.:
+## `profile`
 
-```text
-?p=default&preview=draft
-```
+Profil repozytoryjny steruje selekcją i kolejnością publicznej treści:
 
-Aktualnie zaimplementowane sekcje profilu to O mnie, Projekty, Doświadczenie, Wykształcenie i Umiejętności. `contact` może występować w konfiguracji profilu, ale aktualny kod nie renderuje osobnej sekcji kontaktowej.
+- `sectionOrder` — kolejność sekcji.
+- `visibleSections` — sekcje widoczne.
+- `projectOrder` — kolejność projektów.
+- `skillOrder` — kolejność umiejętności.
+- `featuredSkillIds` — umiejętności wyróżnione w Hero.
+- `pdf` — opcjonalne ustawienia druku.
 
-## Hero, linki i avatar
+## Statusy
 
-`identity.json` przechowuje imię i nazwisko oraz opcjonalny `portrait`. Obecny avatar ekranowy jest wskazywany w `portrait.src` jako `assets/identity/tomasz-talik-avatar.webp`, co odpowiada plikowi `public/assets/identity/tomasz-talik-avatar.webp`. Opcjonalne `portrait.printSrc` wskazuje osobny avatar do wydruku/PDF: `assets/identity/tomasz-talik-avatar_bw.webp`, odpowiadający `public/assets/identity/tomasz-talik-avatar_bw.webp`. Jeśli `printSrc` nie istnieje, druk bezpiecznie używa `portrait.src`. `links.json` dostarcza publiczny link renderowany jako akcja Hero po przejściu filtrowania statusów. Brak portretu nie tworzy pustej kolumny ani placeholdera.
+`published` jest widoczny normalnie. `draft` jest widoczny tylko w `?preview=draft`. `archived` nie jest renderowany. Status `draft` nie chroni danych, bo zawartość repozytorium i zbudowany pakiet są publiczne.
 
-## Umiejętności
+## Cross-walidacja
 
-Aktualna lista umiejętności pozostaje płaska. Wynika to z obecnego `skills.schema.json` oraz danych `skills.json`, które opisują elementy jako pojedyncze pozycje bez kategorii, grup i opisów. Kolejność prezentacji pochodzi z profilu.
+`scripts/validate-content.mjs` sprawdza między innymi:
 
-## PDF
-
-Konfiguracja `pdf` w profilu jest opcjonalna i nie wskazuje osobnego pliku. PDF powstaje przez `window.print()` z tego samego HTML, danych i view modelu co strona. Przy `?preview=draft` wydruk zawiera również szkice, ale znaczniki `Szkic` / `Draft` są ukrywane. Jeśli w danych istnieje `portrait.printSrc`, wydruk używa osobnego avatara drukowanego zamiast kolorowego avatara ekranowego; w przeciwnym razie używa `portrait.src` jako fallbacku.
-
-## Prywatność
-
-Prywatne dane i sekrety nie mogą trafiać do publicznych JSON-ów, profili, kodu frontendu ani zasobów statycznych. Status `draft` nie chroni danych.
-
-## Minimalne profile firmowe
-
-Profile firmowe są publicznymi minimalnymi nakładkami ładowanymi z `public/profiles/<token>.json` przez fragment URL `#p=<długi-token>`. Schemat `content/schemas/company-profile.schema.json` dopuszcza wyłącznie pola `id` i `companyName`. Taki profil korzysta z tej samej opublikowanej treści CV, nie kopiuje konfiguracji `default`, nie przechowuje maila, listu, danych rekrutera, stanowiska ani adresu ogłoszenia i dodaje jedynie nazwę firmy do wcześniej rozwiązanego profilu `default` albo profilu wybranego przez `?p=`.
-
-## Aktualizacja: demonstracje i publiczne odnośniki
-
-- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
-- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
-- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
-- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.
-
-## Aktualizacja: widok Umiejętności
-
-Sekcja Umiejętności korzysta z jednego źródła `content/public/skills.json`, które zawiera teraz `categories` oraz `items`. Każdy skill ma `categoryId` i `inCloud`, a opcjonalne `cloudWeight` jest wyłącznie wizualnym wyróżnieniem w chmurze, nie poziomem kompetencji. Statusy `published`, `draft` i `archived` pozostają bez zmian.
-
-Widok domyślny to Chmura, przełączana z widokiem Kategorie przez dostępne zakładki Chmura / Kategorie. Chmura jest własnym komponentem Vanilla JS + SVG, bez jQuery i zewnętrznego dodatku; animacja reaguje na wskaźnik, na mobile obraca się wolniej, a `prefers-reduced-motion` renderuje nieruchomą chmurę. Widok statyczny pokazuje pięć kategorii.
-
-Hero nadal korzysta z `featuredSkillIds`, a `profile.skillOrder` nadal ustala kolejność umiejętności w chmurze i kategoriach. PDF pokazuje tylko widok kategorii i nie drukuje SVG.
-
-## Aktualizacja: odnośniki demonstracji w kartach projektów
-
-`content/public/links.json` pozostaje jednym źródłem prawdy dla publicznych adresów. Opcjonalne pola `projectId` i `projectLabel` wiążą link demonstracyjny `kind: demo` z konkretną kartą projektu bez kopiowania URL-i do `projects.json`. Haiku Cosmos pokazuje pod opisem odnośnik „Uruchom demo”, a Interactive AI Portfolio pokazuje pod opisem „Otwórz portfolio”; oba otwierają się w nowej karcie. DIG Engine pozostaje przy osadzonym GIF-ie i pełnoekranowym podglądzie bez osobnego linku pod opisem. Profil GitHub pozostaje w Hero. Repozytoria pozostają w `links.json`, mogą być używane przez lokalny edytor i nie są wyświetlane w kartach projektów. W PDF oba odnośniki projektowe pozostają widoczne i klikalne jako etykiety tekstowe, bez drukowania pełnych adresów URL.
+- zgodność plików ze schematami;
+- stabilne identyfikatory i duplikaty;
+- relacje kategorii i umiejętności;
+- relacje linków demonstracyjnych i projektów;
+- odwołania profilu do sekcji, projektów i umiejętności;
+- zakres `cloudWeight`;
+- podejrzane klucze prywatne, takie jak `phone`, `address`, `secret`, `token` i `privateData`.
