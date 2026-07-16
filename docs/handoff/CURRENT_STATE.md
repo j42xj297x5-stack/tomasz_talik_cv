@@ -38,7 +38,7 @@ Bez parametru `preview` renderowane są wyłącznie elementy `published`; obecni
 
 ## PDF
 
-PDF działa przez `window.print()` uruchamiane z Hero. Używa tego samego HTML i view modelu co strona oraz `src/styles/print.css`. Nie ma osobnego szablonu PDF. Wydruk nie zależy od stanu otwarcia accordionu, zawiera szkice przy `?preview=draft`, ukrywa znaczniki `Szkic` / `Draft`, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie.
+PDF działa przez `window.print()` uruchamiane z Hero. Używa tego samego HTML i view modelu co strona oraz `src/styles/print.css`. Nie ma osobnego szablonu PDF. Wydruk nie zależy od stanu otwarcia accordionu, zawiera szkice przy `?preview=draft`, ukrywa znaczniki `Szkic` / `Draft`, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie. Kontakt w widoku webowym nadal używa koloru akcentowego dla linków, natomiast w PDF etykiety pól pozostają pogrubione, wartości e-mail, telefonu, lokalizacji i trybu pracy mają jednolity czarny kolor oraz zwykłą grubość, a e-mail i telefon pozostają aktywnymi odnośnikami.
 
 ## Avatar
 
