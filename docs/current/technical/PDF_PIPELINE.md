@@ -21,6 +21,8 @@ Widok drukowany kontroluje `src/styles/print.css`. Arkusz druku:
 * przywraca wewnętrzne nagłówki sekcji, tak aby tytuł każdej sekcji był widoczny dokładnie raz;
 * zachowuje avatar w kompaktowej formie, używając `portrait.printSrc`, jeśli istnieje, albo `portrait.src` jako fallbacku;
 * zachowuje osobny, pełnoszerokościowy pas „Profil przygotowany dla…” tylko dla poprawnie załadowanego profilu `#p=<token>`, wraz z subtelną linią oddzielającą;
+* zachowuje ekranowy wygląd kontaktu w widoku webowym, gdzie linki e-mail i telefonu używają koloru akcentowego, natomiast w PDF etykiety pól pozostają wyróżnione pogrubieniem, a wartości kontaktowe mają jednolity czarny kolor i zwykłą grubość;
+* pozostawia e-mail i telefon aktywnymi odnośnikami `mailto:` oraz `tel:` w wygenerowanym PDF;
 * dziedziczy z arkusza komponentów justowanie głównych akapitów sekcji O mnie, Projekty, Doświadczenie i Wykształcenie, pozostawiając nagłówki oraz metadane wyrównane do lewej;
 * usuwa zbędne tła, cienie i elementy interaktywne.
 

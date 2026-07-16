@@ -129,6 +129,18 @@
     gap: 0.25rem 0.75rem;
   }
 
+  .private-contact__list dd {
+    color: #111827;
+    font-weight: 400;
+  }
+
+  .private-contact__list a,
+  .private-contact__list a:visited {
+    color: #111827;
+    font-weight: 400;
+    text-decoration: none;
+  }
+
   .private-contact-status {
     display: none !important;
   }
