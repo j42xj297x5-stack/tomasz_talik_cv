@@ -49,14 +49,19 @@ const SHAPES = {
   },
 };
 
+// The slots deliberately leave the central CV column empty. Code geometry uses
+// the alternating slots between these anchors, so every side has an even rhythm.
 const DESKTOP_COMPOSITION = [
-  { shape: 'cube', x: 0.09, y: 0.18, scale: 1.05, phase: 0.1, drift: 16, speed: [0.00006, 0.000045, 0.000025] },
-  { shape: 'octahedron', x: 0.9, y: 0.25, scale: 0.95, phase: 1.4, drift: 18, speed: [0.00005, -0.000055, 0.00002] },
-  { shape: 'tetrahedron', x: 0.14, y: 0.72, scale: 0.9, phase: 2.1, drift: 14, speed: [-0.000045, 0.00005, 0.000018] },
-  { shape: 'icosahedron', x: 0.86, y: 0.78, scale: 0.9, phase: 3.2, drift: 15, speed: [0.00004, 0.000035, -0.00002] },
+  { slot: 'left-top', shape: 'cube', x: 0.11, y: 0.14, scale: 1.32, phase: 0.1, drift: 11, speed: [0.00006, 0.000045, 0.000025] },
+  { slot: 'right-upper-middle', shape: 'octahedron', x: 0.89, y: 0.38, scale: 1.24, phase: 1.4, drift: 12, speed: [0.00005, -0.000055, 0.00002] },
+  { slot: 'left-lower-middle', shape: 'tetrahedron', x: 0.11, y: 0.62, scale: 1.28, phase: 2.1, drift: 10, speed: [-0.000045, 0.00005, 0.000018] },
+  { slot: 'right-bottom', shape: 'icosahedron', x: 0.89, y: 0.86, scale: 1.2, phase: 3.2, drift: 10, speed: [0.00004, 0.000035, -0.00002] },
 ];
 
-const STATIC_COMPOSITION = [DESKTOP_COMPOSITION[0], DESKTOP_COMPOSITION[1]];
+const STATIC_COMPOSITION = [
+  { ...DESKTOP_COMPOSITION[0], x: 0.16, y: 0.2, scale: 1.08 },
+  { ...DESKTOP_COMPOSITION[3], x: 0.84, y: 0.8, scale: 1.02 },
+];
 
 function readColor(name, fallback) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
