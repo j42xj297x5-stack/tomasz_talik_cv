@@ -11,6 +11,7 @@ import { createEducationSection } from '../sections/education-section.js';
 import { createProjectsSection } from '../sections/projects-section.js';
 import { createSkillsSection } from '../sections/skills-section.js';
 import { appendChildren, createElement } from '../utils/dom.js';
+import { initGeometricBackground } from '../background/geometric-background.js';
 
 const FALLBACK_MESSAGE = 'Nie znaleziono wskazanej wersji. Pokazuję CV podstawowe.';
 
@@ -29,6 +30,12 @@ function createSectionContent(section, viewModel) {
 }
 
 export async function bootstrap(root) {
+  try {
+    initGeometricBackground();
+  } catch (error) {
+    console.warn('Decorative background could not be initialized.', error);
+  }
+
   try {
     const { publicContent, profiles } = loadContent();
     const { profile, usedFallback, companyProfile } = await resolveProfile(profiles);
