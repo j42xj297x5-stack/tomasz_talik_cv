@@ -1,25 +1,47 @@
 # Deployment
 
-## Produkcja
+## Środowisko produkcyjne
 
-Produkcyjny adres CV to `https://j42xj297x5-stack.github.io/tomasz_talik_cv/`. GitHub Pages publikuje statyczny katalog `dist` z gałęzi `tomasz_talik_cv`; nie jest używana gałąź `main` ani osobna gałąź `gh-pages`. Produkcyjny `base` Vite wynosi `/tomasz_talik_cv/`, a lokalny `npm run dev` działa pod `/`.
+- Repozytorium: `j42xj297x5-stack/tomasz_talik_cv`.
+- Gałąź produkcyjna: `tomasz_talik_cv`.
+- Hosting: GitHub Pages.
+- Adres produkcyjny: `https://j42xj297x5-stack.github.io/tomasz_talik_cv/`.
+- Produkcyjny base Vite: `/tomasz_talik_cv/`.
 
-## GitHub Actions
+## Workflow
 
-Workflow `.github/workflows/deploy-pages.yml` uruchamia się automatycznie po pushu do gałęzi `tomasz_talik_cv` oraz ręcznie przez `workflow_dispatch`. Używa środowiska `github-pages`, minimalnych uprawnień `contents: read`, `pages: write`, `id-token: write`, współbieżności Pages z anulowaniem starszych niezakończonych wdrożeń, Node.js 24 oraz oficjalnych akcji `actions/checkout@v4`, `actions/setup-node@v4`, `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3` i `actions/deploy-pages@v4`.
+Deployment obsługuje `.github/workflows/deploy-pages.yml`. Workflow uruchamia się na push do gałęzi `tomasz_talik_cv` oraz ręcznie przez `workflow_dispatch`.
 
-Pipeline wykonuje `npm ci`, `npm run validate:content` i `npm run build`, a następnie publikuje `dist`.
+Kroki produkcyjne:
 
-## Publiczna konfiguracja API
+1. Checkout.
+2. Setup Node.js 24 z cache npm.
+3. Configure Pages.
+4. `npm ci`.
+5. `npm run validate:content`.
+6. `npm run build`.
+7. Upload artefaktu `dist`.
+8. Deploy to GitHub Pages.
 
-Frontend produkcyjny zna publiczny adres Workera z `.env.production`: `https://withered-leaf-cf6b.tapchanbuddha.workers.dev`. To publiczna konfiguracja, nie sekret. Sekrety takie jak `EDITOR_ADMIN_KEY`, `TOKEN_PEPPER` i `PRIVATE_PROFILE_JSON` nie trafiają do `.env.production`, repozytorium ani GitHub Pages.
+Workflow używa minimalnych uprawnień `contents: read`, `pages: write`, `id-token: write` oraz `concurrency` dla grupy `pages`.
 
-Cloudflare Worker musi dopuścić origin `https://j42xj297x5-stack.github.io`. Sam deployment na GitHub Pages nie zastępuje poprawnej konfiguracji CORS po stronie Workera.
+## Konfiguracja frontendu
 
-## Prywatność
+Publiczna zmienna `VITE_PRIVATE_PROFILE_API_URL` wskazuje Worker `https://withered-leaf-cf6b.tapchanbuddha.workers.dev`. Nie jest sekretem. Sekrety Workera i `editorAdminKey` nie trafiają do GitHub Pages.
 
-GitHub Pages nie jest miejscem na prywatne dane ani sekrety. Status `draft`, `?preview=draft`, publiczne profile i statyczne zasoby nie chronią danych. Publiczny JSON profilu pozostaje w formacie `public/profiles/<p>.json` i zawiera tylko `id` oraz `companyName`; prywatny token `k` oraz dane prywatne nie trafiają do repozytorium ani Pages.
+## Relacja Pages–Worker
 
-## Profile firmowe
+Pages dostarcza statyczny frontend. Worker dostarcza prywatny kontakt przez API. Ponieważ są to osobne originy, Worker musi mieć poprawny CORS dla `https://j42xj297x5-stack.github.io` i ewentualnych potwierdzonych originów lokalnych.
 
-Lokalny edytor generuje link w formacie `https://j42xj297x5-stack.github.io/tomasz_talik_cv/#p=<p>&k=<k>`. Użytkownik w normalnej pracy nie wpisuje adresu CV ani Workera, bo publiczne stałe pochodzą z `editor/config.defaults.json`; lokalny sekret `editorAdminKey` pozostaje w ignorowanym `editor/config.local.json`.
+## Diagnostyka
+
+Przebieg diagnostyczny:
+
+1. Uruchomić walidację treści.
+2. Uruchomić build.
+3. Sprawdzić wynik workflow GitHub Actions.
+4. Otworzyć stronę produkcyjną.
+5. Sprawdzić `/health` Workera.
+6. Sprawdzić CORS dla `POST /profile`.
+7. Sprawdzić publiczny profil `#p=<p>` po publikacji JSON-u.
+8. Sprawdzić prywatny kontakt `#k=<k>` dla aktywnego tokenu.

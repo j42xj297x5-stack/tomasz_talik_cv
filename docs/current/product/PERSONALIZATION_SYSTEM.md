@@ -1,70 +1,39 @@
 # System personalizacji
 
-## Cel
+## Zakres
 
-Dokument opisuje aktualnie zaimplementowany wybór profilu i redakcyjny podgląd szkiców w jednej statycznej aplikacji.
+System personalizacji rozdziela profil publiczny, publiczną nakładkę firmową i prywatny kontakt. Mechanizmy mogą współdziałać, ale mają osobne źródła danych i osobne znaczenie bezpieczeństwa.
 
-## Model jednej aplikacji
+## A. `?p=<profileId>` — profil repozytoryjny
 
-Personalizacja działa w jednej aplikacji Vite i na jednym katalogu publicznych treści JSON. Nie powstają osobne kopie CV dla firm. Profil jest publiczną konfiguracją prezentacji danych.
+Parametr query `?p=<profileId>` wybiera profil z `content/profiles/*.json`. Brak parametru oznacza `default`. Jeżeli wskazany profil nie istnieje albo nie spełnia minimalnego kontraktu renderowania, aplikacja używa profilu domyślnego i pokazuje komunikat fallback.
 
-## Publiczny profil przez URL
+Profil repozytoryjny steruje kolejnością sekcji, widocznością sekcji, kolejnością projektów, kolejnością umiejętności i wyróżnionymi umiejętnościami. Nie zawiera prywatnych danych kontaktowych.
 
-Profil wybiera parametr:
+## B. `#p=<publiczny-token>` — publiczny profil firmy
 
-```text
-?p=<profileId>
-```
+Fragment `#p=<token>` wybiera plik `public/profiles/<token>.json`. Plik jest publiczny i zawiera dokładnie `id` oraz `companyName`. Nakładka dodaje nazwę firmy w Hero jako informację kontekstową.
 
-Brak parametru oznacza profil `default`. Nieistniejący lub nieużywalny profil wraca do `default` i pokazuje komunikat fallbacku nad kartą CV.
+`#p` nie jest autoryzacją, nie chroni treści i nie zawiera danych prywatnych. Błędny albo brakujący plik powoduje fallback bez nakładki firmowej.
 
-## Tryb roboczy
+## C. `#k=<prywatny-token>` — prywatny kontakt
 
-Redakcyjny podgląd szkiców uruchamia parametr:
+Fragment `#k=<token>` służy do pobrania danych kontaktowych z Cloudflare Workera. Token `k` jest niezależny od publicznego `p`. Nie trafia do repozytorium, `localStorage`, cookies ani publicznego JSON-u. Frontend wysyła do Workera tylko wartość `k`.
 
-```text
-?preview=draft
-```
+## `?preview=draft`
 
-Można go łączyć z profilem:
+`?preview=draft` rozszerza renderowanie o elementy ze statusem `draft`. Bez tego parametru renderowane są tylko elementy `published`; `archived` nie jest renderowany. Podgląd szkicu nie jest mechanizmem ochrony danych.
 
-```text
-?p=default&preview=draft
-```
+## Filtrowanie statusów
 
-Bez `preview` renderowane są wyłącznie elementy `published`. W `?preview=draft` renderowane są `published` oraz `draft`. Elementy `archived` pozostają niewidoczne w obu trybach, a puste sekcje nie są renderowane.
+- `published` — widoczny w normalnym CV.
+- `draft` — widoczny wyłącznie w podglądzie szkicu.
+- `archived` — pomijany.
 
-`?preview=draft` jest narzędziem redakcyjnym. Nie jest zabezpieczeniem dostępu i nie zapewnia prywatności, ponieważ publiczne JSON-y są częścią frontendu.
+## Współdziałanie parametrów
 
-## Co może zmieniać profil
+Parametry mogą wystąpić razem, na przykład `?p=default#p=<p>&k=<k>`. Query `p` wybiera profil repozytoryjny. Fragment `p` dodaje nazwę firmy. Fragment `k` pobiera prywatny kontakt. Błąd jednego mechanizmu nie powinien blokować renderowania publicznej treści.
 
-Aktualny profil może wpływać na:
+## Zachowanie PDF
 
-* kolejność sekcji;
-* widoczność sekcji;
-* kolejność projektów;
-* kolejność umiejętności;
-* wyróżnione umiejętności w Hero;
-* opcjonalną konfigurację przycisku PDF.
-
-Profil nie kopiuje treści CV, nie przechowuje prywatnych danych i nie renderuje obecnie osobnej sekcji kontaktowej.
-
-## Język
-
-Globalny przełącznik PL/EN działa w obrębie wyrenderowanego profilu. Zmienia lokalizowane treści, oznaczenia `Szkic` / `Draft` i aktualizuje `document.documentElement.lang`.
-
-## PDF
-
-PDF korzysta z tego samego profilu, HTML i view modelu co strona. Przy `?preview=draft` wydruk zawiera również szkice, lecz znaczniki szkiców są ukryte w stylach druku.
-
-## Bezpieczeństwo
-
-Tokeny, kody i parametry URL nie chronią danych zapisanych w publicznym frontendzie. Dane prywatne mogą być obsłużone dopiero przez przyszły backend i właściwą autoryzację; backend nie jest obecnie zaimplementowany.
-
-## Minimalna nakładka firmowa przez fragment URL
-
-Niezależnie od `?p=<profileId>` aplikacja może odczytać fragment `#p=<długi-token>`. Poprawny token wskazuje publiczny plik `public/profiles/<token>.json`, który zawiera wyłącznie `id` i `companyName`. Nazwa firmy jest łączona z wcześniej rozwiązanym profilem, więc token firmowy nie zastępuje profilu `default` ani profilu wybranego przez `?p=`. Brak pliku, błędny token lub niepoprawny JSON uruchamia zwykły fallback i nie blokuje CV. Token nie jest autoryzacją ani ochroną danych.
-
-## Prywatny token kontaktowy
-
-Fragment może mieć postać `#p=<publiczny-token-profilu>&k=<prywatny-token-dostępu>`. `p` pozostaje publicznym identyfikatorem pliku `public/profiles/<p>.json` i służy wyłącznie do pokazania nazwy firmy. `k` jest niezależnym tokenem sprawdzanym przez Worker i nie jest zapisywany w publicznym JSON-ie ani repozytorium. Bez poprawnego `k` CV działa publicznie bez danych kontaktowych. Worker zwraca jeden stały zestaw danych kontaktowych dla wszystkich aktywnych tokenów, bez zapisywania nazw firm w D1.
+PDF używa tego samego view modelu co ekran. Jeżeli prywatny kontakt został pobrany, może być wydrukowany jako część bieżącego widoku. Przed wywołaniem `window.print()` frontend tymczasowo usuwa `k` z fragmentu URL, aby token nie pojawił się w nagłówkach lub stopkach drukowania. Po zdarzeniu `afterprint` oryginalny fragment jest przywracany.

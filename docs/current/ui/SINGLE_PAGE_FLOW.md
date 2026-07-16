@@ -1,84 +1,45 @@
-# Przepływ jednej strony
+# Przepływ pojedynczej strony
 
-## Cel
+## Wejście na CV
 
-Dokument opisuje aktualny układ jednej responsywnej karty CV potwierdzony kodem i lokalnym podglądem Projektanta.
+Użytkownik wchodzi na produkcyjne CV pod adresem `https://j42xj297x5-stack.github.io/tomasz_talik_cv/`. Aplikacja ładuje statyczny bundle, publiczne JSON-y i profil domyślny albo profil wskazany przez `?p=<profileId>`.
 
-## Układ
+## Rozwiązanie profilu
 
-Aplikacja jest pojedynczą stroną Vite bez frameworka frontendowego. Użytkownik widzi jedną kartę CV zawierającą Hero i accordion z sekcjami. Nie ma podstron, routingu aplikacyjnego ani osobnych kart dla sekcji.
+Najpierw rozwiązywany jest profil repozytoryjny. Następnie, jeżeli fragment zawiera `#p=<token>`, aplikacja próbuje pobrać publiczny profil firmy z `public/profiles/<token>.json`. Jeżeli fragment zawiera `#k=<token>`, token jest zachowywany do asynchronicznego pobrania prywatnego kontaktu.
+
+## Renderowanie publicznej treści
+
+Publiczna treść renderuje się natychmiast. Błąd profilu firmowego albo prywatnego kontaktu nie blokuje podstawowego CV.
+
+## Prywatny kontakt
+
+Prywatny kontakt jest pobierany asynchronicznie z Workera. Po sukcesie pojawia się blok „Dane kontaktowe” z aktywnymi linkami `mailto:` i `tel:`. Przy błędzie pojawia się krótki komunikat statusowy.
 
 ## Hero
 
-Hero prezentuje:
-
-* imię i nazwisko;
-* krótki opis odrębny od sekcji O mnie;
-* wyróżnione umiejętności w uproszczonym, tekstowym zapisie;
-* przycisk zapisu jako PDF;
-* publiczny link GitHub, jeśli przejdzie filtrowanie statusu;
-* opcjonalny avatar;
-* opcjonalny pas profilu firmowego widoczny tylko po poprawnym załadowaniu `#p=<token>`.
-
-Avatar ekranowy jest plikiem `public/assets/identity/tomasz-talik-avatar.webp`, wskazywanym w danych jako `assets/identity/tomasz-talik-avatar.webp`. Obraz zachowuje naturalny format bez okrągłej maski, ma subtelną ramkę akcentową, rozmiar `clamp` około 110–170 px i lekkie obniżenie w układzie desktopowym. Na desktopie znajduje się po prawej stronie Hero, a akcje „Zapisz jako PDF” i „Profil GitHub” są ustawione pionowo pod avatarem z jednakową szerokością. Na mobile avatar pozostaje nad tekstem, a akcje wracają pod opis i wyróżnione umiejętności. Opcjonalny avatar drukowany jest wskazywany przez `portrait.printSrc` i używa pliku `public/assets/identity/tomasz-talik-avatar_bw.webp`; nie zmienia układu ekranowego. Brak avatara nie zostawia pustej kolumny, a akcje pozostają w części tekstowej Hero.
-
-Wyróżnione umiejętności w Hero nie używają kapsułek, ramek ani teł. Są renderowane jako jeden zawijający się ciąg tekstowy z wizualnym uppercase / kapitalikami, kursywą, umiarkowanym trackingiem i separatorem `·`; główna sekcja Umiejętności zachowuje dotychczasowy wygląd.
-
-Profil firmowy renderuje się wyłącznie po poprawnym załadowaniu profilu przez `#p=<token>`. Jest osobnym pasem na pełną szerokość Hero, oddzielonym cienką poziomą linią, z wycentrowanym tekstem o wadze zbliżonej do małego nagłówka. Bez aktywnego profilu pas, linia i tekst zastępczy nie istnieją.
-
-## Język
-
-Globalny przełącznik PL/EN zmienia lokalizowane treści w Hero i sekcjach oraz oznaczenia szkiców: `Szkic` w języku polskim i `Draft` w angielskim. Kod aktualizuje także atrybut `lang` dokumentu, od którego zależy automatyczne dzielenie wyrazów PL/EN w justowanych akapitach.
-
-## Sekcje
-
-Zaimplementowane sekcje to:
-
-* O mnie;
-* Projekty;
-* Doświadczenie;
-* Wykształcenie;
-* Umiejętności.
-
-Główne akapity treści w sekcjach O mnie, Projekty, Doświadczenie i Wykształcenie są justowane na desktopie, mobile oraz w PDF. Nagłówki sekcji, tytuły wpisów i metadane pozostają wyrównane do lewej. Sekcja kontaktowa nie jest obecnie osobną gotową sekcją. Publiczny link jest renderowany jako akcja Hero, nie jako panel kontaktowy.
+Hero zawiera imię, opis, wyróżnione umiejętności, przycisk PDF, przełącznik PL/EN, avatar ekranowy i link do publicznego profilu GitHub, jeżeli jest dostępny w view modelu. Informacja o firmie z `#p` jest renderowana jako pełnoszerokościowa linia w obrębie Hero.
 
 ## Accordion
 
-Accordion jest jedynym widocznym tytułowaniem sekcji na stronie: przycisk accordionu pokazuje tytuł panelu, a wewnętrzny semantyczny nagłówek pozostaje w DOM. Jednocześnie otwarty może być najwyżej jeden panel. Ponowne kliknięcie otwartego panelu zamyka wszystkie. Obsługiwane są `aria-expanded`, `aria-controls`, `role="region"` i `aria-labelledby`.
+Sekcje publiczne są prezentowane w accordionie. Przyciski obsługują atrybuty dostępności i pozwalają otwierać jedną sekcję naraz. Po zmianie języka aplikacja renderuje widok ponownie i odtwarza wcześniej otwartą sekcję.
 
-W wydruku przyciski accordionu są ukryte, panele są rozwinięte niezależnie od stanu interakcji, a wewnętrzny nagłówek sekcji wraca jako widoczny tytuł występujący dokładnie raz.
+## Tekst
 
-## Statusy i szkice
+Akapity sekcji są justowane i korzystają z hyphenation zależnego od języka dokumentu. Język strony jest aktualizowany na `pl` albo `en`.
 
-Bez `preview` widoczne są tylko elementy `published`. `?preview=draft` pokazuje `published` oraz `draft`. `archived` jest ukryte zawsze, a puste sekcje nie są renderowane. Widoczne robocze elementy mają znaczniki `Szkic` albo `Draft`; znaczniki są ukrywane w wydruku.
+## Projekty
 
-## PDF
+Sekcja projektów pokazuje karty Haiku Cosmos, DIG Engine i Interactive AI Portfolio. Linki z `links.json` renderują akcje „Uruchom demo” albo „Otwórz portfolio”, zależnie od `projectLabel`. DIG Engine ma miniaturę GIF-u i dialog powiększenia obsługiwany przez `media-lightbox`.
 
-Przycisk PDF uruchamia `window.print()`. Wydruk korzysta z tego samego HTML i view modelu co strona, nie zależy od stanu otwarcia accordionu, zawiera szkice w `?preview=draft`, ukrywa znaczniki szkiców, pokazuje tytuły sekcji dokładnie raz i zachowuje avatar w kompaktowej formie. Jeśli istnieje `portrait.printSrc`, druk/PDF pokazuje ten osobny wariant na białym tle, bez ramki i ozdobników; bez tego pola używa avatara ekranowego jako fallbacku.
+## Umiejętności
 
-## Przyszłe elementy
+Sekcja umiejętności ma przełącznik `Chmura` / `Kategorie`. Chmura SVG reaguje na wskaźnik, a widok kategorii pokazuje uporządkowane grupy umiejętności. Przełącznik obsługuje klawiaturę: strzałki, `Home` i `End`.
 
-Ręczny przełącznik motywu, osobna sekcja kontaktowa, Playwright i Streamlit pozostają przyszłe, jeśli zostaną świadomie dodane.
+## Ruch i dostępność
 
-## Aktualizacja: demonstracje i publiczne odnośniki
+`prefers-reduced-motion` zatrzymuje animację chmury. Animacja jest zatrzymywana także po zmianie widoku albo usunięciu komponentu z dokumentu. Dialog demonstracji używa natywnego elementu `dialog` i przycisku zamknięcia.
 
-- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
-- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
-- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
-- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.
+## Mobile
 
-## Aktualizacja: widok Umiejętności
-
-Zatrudnienie w Usługach Informatycznych Szansa zakończyło się w 07/2026; faktyczna data rozwiązania umowy to 14.07.2026, ale publiczne CV pokazuje miesięczny format 07/2024–07/2026.
-
-Sekcja Umiejętności korzysta z jednego źródła `content/public/skills.json`, które zawiera teraz `categories` oraz `items`. Każdy skill ma `categoryId` i `inCloud`, a opcjonalne `cloudWeight` jest wyłącznie wizualnym wyróżnieniem w chmurze, nie poziomem kompetencji. Statusy `published`, `draft` i `archived` pozostają bez zmian.
-
-Widok domyślny to Chmura, przełączana z widokiem Kategorie przez dostępne zakładki Chmura / Kategorie. Chmura jest własnym komponentem Vanilla JS + SVG, bez jQuery i zewnętrznego dodatku; animacja reaguje na wskaźnik, na mobile obraca się wolniej, a `prefers-reduced-motion` renderuje nieruchomą chmurę. Widok statyczny pokazuje pięć kategorii, a pojedyncze umiejętności w kategoriach są prezentowane jako lekkie etykiety tekstowe bez ramek zarówno na stronie, jak i w PDF.
-
-Hero nadal korzysta z `featuredSkillIds`, a `profile.skillOrder` nadal ustala kolejność umiejętności w chmurze i kategoriach. PDF pokazuje tylko widok kategorii i nie drukuje SVG.
-
-## Aktualizacja: odnośniki demonstracji w kartach projektów
-
-`content/public/links.json` pozostaje jednym źródłem prawdy dla publicznych adresów. Opcjonalne pola `projectId` i `projectLabel` wiążą link demonstracyjny `kind: demo` z konkretną kartą projektu bez kopiowania URL-i do `projects.json`. Haiku Cosmos pokazuje pod opisem odnośnik „Uruchom demo”, a Interactive AI Portfolio pokazuje pod opisem „Otwórz portfolio”; oba otwierają się w nowej karcie. DIG Engine pozostaje przy osadzonym GIF-ie i pełnoekranowym podglądzie bez osobnego linku pod opisem. Profil GitHub pozostaje w Hero. Repozytoria pozostają w `links.json`, mogą być używane przez lokalny edytor i nie są wyświetlane w kartach projektów. W PDF oba odnośniki projektowe pozostają widoczne i klikalne jako etykiety tekstowe, bez drukowania pełnych adresów URL.
-
-Aktualizacja umiejętności: sekcja ma sześć kategorii. Dawna kategoria Narzędzia twórcze i techniczne została rozdzielona na Grafika, wideo i CAD oraz Dźwięk i produkcja muzyczna. ChatGPT i Codex są wykorzystywane w kontrolowanym procesie implementacji; Codex działa w chmurze i lokalnie. Figma dotyczy przepływów Codex i przygotowania zasobów, nie pełnego UI/UX. GIMP jest głównym narzędziem grafiki rastrowej, DaVinci Resolve głównym narzędziem montażowym, a ZW3D obejmuje parametryczne części, bryły, szkice, więzy i drzewo historii. Kompetencje dźwiękowe obejmują produkcję, sound design, nagrania, obróbkę głosu, miks, mastering, DAW, VST i syntezę modularną. Ableton Live, Reason, Cubase i Pro Tools są widoczne w kategoriach, ale nie w chmurze. Chmura pokazuje wyłącznie wybrane reprezentatywne nowe kompetencje; `cloudWeight` nadal oznacza tylko wyróżnienie wizualne. Doświadczenie niezależne obejmuje regularne publikowanie muzyki od 2000 roku, a praktyka instrumentalna pozostaje w opisie doświadczenia, nie w chmurze.
+Układ jest responsywny: Hero, projekty, kontakt i chmura dopasowują się do szerokości ekranu. Chmura używa wolniejszej prędkości bazowej na wąskich ekranach.

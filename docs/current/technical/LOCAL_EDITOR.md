@@ -1,51 +1,56 @@
-# Lokalny edytor profili
+# Lokalny edytor
 
-## Cel
+## Zakres
 
-Lokalny edytor Streamlit w `editor/app.py` pomaga przygotować publiczny profil firmy, aktywować prywatny token `k` w Workerze oraz wygenerować lokalne treści maila i listu. Edytor działa lokalnie; nie zmienia kodu Workera ani treści CV.
+Lokalny edytor działa w Streamlit i znajduje się w `editor/app.py`. Służy do przygotowania publicznego profilu firmy, prywatnego tokenu kontaktowego oraz materiałów mailowych/listowych. Nie wysyła wiadomości automatycznie.
+
+## Uruchomienie
+
+Zależności są w `editor/requirements.txt`.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r editor/requirements.txt
+streamlit run editor/app.py
+```
 
 ## Konfiguracja
 
-Edytor ładuje konfigurację względem `editor/app.py`: najpierw publiczny `editor/config.defaults.json`, a następnie opcjonalny, ignorowany przez Git `editor/config.local.json`. Wartości z `config.local.json` mają pierwszeństwo. Brak `config.local.json` nie blokuje edytora, ale bez `editorAdminKey` aktywacja tokenu jest niemożliwa i kończy się czytelnym komunikatem.
+Edytor czyta `editor/config.defaults.json` i opcjonalny `editor/config.local.json`. Konfiguracja lokalna ma pierwszeństwo przed domyślną. `editor/config.example.json` dokumentuje kształt lokalnych ustawień.
 
-`editor/config.defaults.json` jest śledzonym publicznym plikiem ze stałymi infrastrukturalnymi:
+`editorAdminKey` pozostaje lokalny. Edytor nie pokazuje wartości wczytanej z `config.local.json`; można podać ręczne nadpisanie typu password tylko dla bieżącej sesji.
 
-```json
-{
-  "deploymentBaseUrl": "https://j42xj297x5-stack.github.io/tomasz_talik_cv/",
-  "workerApiBaseUrl": "https://withered-leaf-cf6b.tapchanbuddha.workers.dev"
-}
-```
+## Generowanie publicznego `p`
 
-`editor/config.local.json` powinien zawierać lokalny sekret i nie trafiać do Git. Przykład w `editor/config.example.json`:
+Edytor generuje token publicznego profilu firmy `p` i JSON:
 
 ```json
 {
-  "editorAdminKey": "LOCAL_SECRET_NOT_FOR_GIT"
+  "id": "<p>",
+  "companyName": "<nazwa firmy>"
 }
 ```
 
-Opcjonalnie można lokalnie nadpisać `deploymentBaseUrl` albo `workerApiBaseUrl`, ale nie jest to wymagane w normalnej pracy.
+Plik trzeba ręcznie zapisać i opublikować jako `public/profiles/<p>.json`, a następnie wykonać deployment.
 
-## Widok
+## Generowanie prywatnego `k`
 
-Główny formularz pokazuje tylko pola aplikacyjne: język, nazwę firmy, stanowisko, imię rekrutera, adres ogłoszenia, tekst uzasadnienia, wybór linków i rodzaj generowanej wiadomości. Adres CV, adres Workera i ręczne nadpisanie klucza są ukryte w domyślnie zamkniętym panelu `Konfiguracja techniczna`.
+Edytor generuje prywatny token `k`. Link do CV powstaje dopiero po poprawnej aktywacji `k` w Workerze przez `POST /admin/create`. Przycisk ponowienia aktywacji wysyła ten sam token bez generowania nowego `p` ani `k`.
 
-Panel techniczny pokazuje docelowy adres CV, bazowy adres Workera, pole hasła do ręcznego nadpisania klucza oraz bezpieczną diagnostykę. Publiczne adresy są domyślnie wypełnione z `config.defaults.json`, a niepuste ręczne wartości nadpisują je tylko w bieżącej sesji. Edytor nigdy nie pokazuje wartości klucza z `config.local.json`; przycisk „Wyczyść ręczne nadpisanie klucza” czyści wyłącznie ręczne nadpisanie sesji.
+## Komunikacja sieciowa
 
-## Generowanie i aktywacja
+Adres Workera musi być pełnym adresem HTTPS bez `/profile` ani `/admin/create`. Edytor blokuje przekierowania HTTP, wymaga HTTPS, wysyła jawny `User-Agent` i prezentuje bezpieczną diagnostykę bez ujawniania sekretów. Dla aktywacji używa nagłówka `Authorization: Bearer <editorAdminKey>`.
 
-Edytor generuje publiczny token `p` dla `public/profiles/<p>.json` oraz prywatny token `k` dla Workera. Domyślny link ma postać `https://j42xj297x5-stack.github.io/tomasz_talik_cv/#p=<p>&k=<k>`. Publiczny JSON profilu zawiera wyłącznie `id` i `companyName`; `k`, klucz administracyjny i dane prywatne nie trafiają do publicznego JSON-u.
+## Linki projektów
 
-`workerApiBaseUrl` musi być bazowym adresem HTTPS bez `/profile` i bez `/admin/create`; edytor sam buduje endpoint `<workerApiBaseUrl>/admin/create`. Body aktywacji zawiera tylko prywatny token oraz `expiresAt: null`.
+Źródłem linków jest `content/public/links.json`, nie `projects.json`. Edytor pokazuje dwie grupy:
 
-## Diagnostyka bez sekretów
+- Demo projektów.
+- GitHub i repozytoria.
 
-Diagnostyka pokazuje wyłącznie statusy: `config.defaults.json` znaleziony/brak/niepoprawny, `config.local.json` znaleziony/brak/niepoprawny, adres produkcyjny skonfigurowany/brak, Worker skonfigurowany/brak/niepoprawny oraz klucz administracyjny wczytany/brak. Nie pokazuje sekretów, tokenów ani zawartości plików konfiguracyjnych.
+Wybrane linki mogą zostać wstawione do maila lub listu.
 
-## Aktualizacja: demonstracje i publiczne odnośniki
+## Materiały komunikacyjne
 
-- Edytor grupuje publiczne odnośniki z `content/public/links.json` według pola `kind`: „Demo projektów” (`demo`) oraz „GitHub i repozytoria” (`profile`, `repository`). `content/public/projects.json` nie jest już źródłem list odnośników w edytorze.
-- Grupa „Demo projektów” zawiera wdrożenia Haiku Cosmos i Interactive AI Portfolio oraz publiczny GIF DIG Engine w CV; grupa „GitHub i repozytoria” zawiera profil GitHub i publiczne repozytoria bez demonstracji. Repozytorium DIG Engine pozostaje prywatne.
-- Karta DIG Engine zawiera osadzoną animowaną miniaturę GIF pod opisem. Miniatura otwiera pełnoekranowy dialog obsługujący Escape, kliknięcie tła i przycisk zamknięcia.
-- Demonstracja DIG Engine jest całkowicie ukrywana w PDF; pozostała treść projektu drukuje się jak dotychczas.
+Edytor generuje temat maila, krótki mail i pełny list motywacyjny na podstawie danych formularza, wybranych linków i aktywnego linku do CV. Nie wysyła maili i nie publikuje plików automatycznie.
