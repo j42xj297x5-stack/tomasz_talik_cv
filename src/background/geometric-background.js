@@ -1,3 +1,5 @@
+import { createCodeGeometricBackground } from './code-geometric-background.js';
+
 const MAX_DPR = 2;
 const MOBILE_MAX_WIDTH = 767;
 const FRAME_INTERVAL = 1000 / 30;
@@ -99,6 +101,8 @@ export function initGeometricBackground() {
   let dpr = 1;
   let frameId = 0;
   let lastFrame = 0;
+  let codeGeometry = null;
+  try { codeGeometry = createCodeGeometricBackground(context); } catch { codeGeometry = null; }
 
   const resize = () => {
     dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
@@ -109,6 +113,13 @@ export function initGeometricBackground() {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    try {
+      codeGeometry?.resize(width, height, {
+        front: readColor('--code-geometry-front', 'rgb(71 85 105 / 0.72)'),
+        back: readColor('--code-geometry-back', 'rgb(100 116 139 / 0.3)'),
+        node: readColor('--code-geometry-node', 'rgb(71 85 105 / 0.25)'),
+      });
+    } catch { codeGeometry = null; }
     draw(performance.now(), true);
   };
 
@@ -157,6 +168,7 @@ export function initGeometricBackground() {
     const palette = colors();
     const composition = isStatic() || forceStatic ? STATIC_COMPOSITION : DESKTOP_COMPOSITION;
     composition.forEach((item) => drawShape(item, time, palette));
+    try { codeGeometry?.update(time, isStatic() || forceStatic); codeGeometry?.render(time, isStatic() || forceStatic); } catch { codeGeometry = null; }
   }
 
   const loop = (time) => {
