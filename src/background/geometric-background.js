@@ -28,11 +28,22 @@ const SHAPES = {
     ],
     edges: [[0, 1], [1, 2], [2, 3], [3, 0], [0, 4], [1, 4], [2, 4], [3, 4], [0, 5], [1, 5], [2, 5], [3, 5]],
   },
-  irregular: {
-    vertices: [
-      [-42, -22, -16], [18, -38, 12], [48, 8, -20], [12, 42, 26], [-36, 26, 8], [-8, -2, 42],
+  icosahedron: {
+    vertices: (() => {
+      const phi = (1 + Math.sqrt(5)) / 2;
+      const size = 25;
+      return [
+        [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
+        [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
+        [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1],
+      ].map((vertex) => vertex.map((value) => value * size));
+    })(),
+    edges: [
+      [0, 1], [0, 5], [0, 7], [0, 10], [0, 11], [1, 5], [1, 7], [1, 8], [1, 9],
+      [2, 3], [2, 4], [2, 6], [2, 10], [2, 11], [3, 4], [3, 6], [3, 8], [3, 9],
+      [4, 5], [4, 9], [4, 11], [5, 9], [5, 11], [6, 7], [6, 8], [6, 10],
+      [7, 8], [7, 10], [8, 9], [10, 11],
     ],
-    edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [0, 5], [1, 5], [3, 5], [4, 5]],
   },
 };
 
@@ -40,15 +51,10 @@ const DESKTOP_COMPOSITION = [
   { shape: 'cube', x: 0.09, y: 0.18, scale: 1.05, phase: 0.1, drift: 16, speed: [0.00006, 0.000045, 0.000025] },
   { shape: 'octahedron', x: 0.9, y: 0.25, scale: 0.95, phase: 1.4, drift: 18, speed: [0.00005, -0.000055, 0.00002] },
   { shape: 'tetrahedron', x: 0.14, y: 0.72, scale: 0.9, phase: 2.1, drift: 14, speed: [-0.000045, 0.00005, 0.000018] },
-  { shape: 'irregular', x: 0.86, y: 0.78, scale: 1.0, phase: 3.2, drift: 15, speed: [0.00004, 0.000035, -0.00002] },
+  { shape: 'icosahedron', x: 0.86, y: 0.78, scale: 0.9, phase: 3.2, drift: 15, speed: [0.00004, 0.000035, -0.00002] },
 ];
 
 const STATIC_COMPOSITION = [DESKTOP_COMPOSITION[0], DESKTOP_COMPOSITION[1]];
-const LOOSE_POINTS = [
-  { x: 0.06, y: 0.39, z: -40 }, { x: 0.18, y: 0.48, z: 28 }, { x: 0.08, y: 0.86, z: 10 },
-  { x: 0.82, y: 0.12, z: 24 }, { x: 0.94, y: 0.46, z: -24 }, { x: 0.78, y: 0.62, z: 36 },
-];
-const POINT_LINKS = [[0, 1], [1, 2], [3, 4], [4, 5]];
 
 function readColor(name, fallback) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
@@ -131,24 +137,19 @@ export function initGeometricBackground() {
       const rotated = rotate(scaled, angles[0], angles[1], angles[2]);
       return clampPoint(project([rotated[0] + centerX - width / 2, rotated[1] + centerY - height / 2, rotated[2]]), width, height);
     });
-    context.strokeStyle = palette.line;
     context.lineWidth = 0.7;
     shape.edges.forEach(([a, b]) => {
+      const depthAlpha = 0.72 + ((points[a].perspective + points[b].perspective) / 2) * 0.12;
+      context.globalAlpha = Math.min(0.9, depthAlpha);
+      context.strokeStyle = palette.line;
       context.beginPath(); context.moveTo(points[a].x, points[a].y); context.lineTo(points[b].x, points[b].y); context.stroke();
     });
     points.forEach((point, index) => {
+      context.globalAlpha = Math.min(0.95, 0.72 + point.perspective * 0.14);
       context.fillStyle = index === 0 ? palette.accent : palette.point;
-      context.beginPath(); context.arc(point.x, point.y, Math.max(1.2, 1.7 * point.perspective), 0, Math.PI * 2); context.fill();
+      context.beginPath(); context.arc(point.x, point.y, Math.max(1.15, 1.55 * point.perspective), 0, Math.PI * 2); context.fill();
     });
-  };
-
-  const drawLoosePoints = (palette) => {
-    const points = LOOSE_POINTS.slice(0, isStatic() ? 4 : LOOSE_POINTS.length).map((point) => clampPoint(project([point.x * width - width / 2, point.y * height - height / 2, point.z]), width, height));
-    context.strokeStyle = palette.line;
-    context.lineWidth = 0.55;
-    POINT_LINKS.filter(([a, b]) => points[a] && points[b]).forEach(([a, b]) => { context.beginPath(); context.moveTo(points[a].x, points[a].y); context.lineTo(points[b].x, points[b].y); context.stroke(); });
-    context.fillStyle = palette.point;
-    points.forEach((point) => { context.beginPath(); context.arc(point.x, point.y, Math.max(1, 1.35 * point.perspective), 0, Math.PI * 2); context.fill(); });
+    context.globalAlpha = 1;
   };
 
   function draw(time, forceStatic = false) {
@@ -156,7 +157,6 @@ export function initGeometricBackground() {
     const palette = colors();
     const composition = isStatic() || forceStatic ? STATIC_COMPOSITION : DESKTOP_COMPOSITION;
     composition.forEach((item) => drawShape(item, time, palette));
-    drawLoosePoints(palette);
   }
 
   const loop = (time) => {
