@@ -2,6 +2,8 @@
 
 ## Dokumenty główne
 
+- `README.md` / `README.en.md` — opis CV, projektów, profilowania i prywatnego kontaktu dla odwiedzających repozytorium (PL/EN).
+
 - `docs/current/README.md` — punkt wejścia do aktualnej dokumentacji.
 - `docs/handoff/CURRENT_STATE.md` — zwięzły końcowy handoff działającego systemu.
 

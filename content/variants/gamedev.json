@@ -1,21 +1,21 @@
 {
   "headline": {
-    "pl": "Projektowanie gier i systemów VR",
-    "en": "Game and VR Systems Design"
+    "pl": "Projektowanie gier i światów VR",
+    "en": "Game and VR World Design"
   },
   "about": [
     {
       "id": "about-public-summary",
       "text": {
-        "pl": "Projektuję gry i interaktywne światy, łącząc mechaniki, narrację, obraz i dźwięk. Tworzę modularne systemy w JavaScripcie, Three.js i WebXR oraz prowadzę ich rozwój z wykorzystaniem AI. Od koncepcji i architektury przechodzę do prototypowania, integracji i weryfikacji na docelowym sprzęcie.",
-        "en": "I design games and interactive worlds, combining mechanics, narrative, visuals and sound. I create modular systems with JavaScript, Three.js and WebXR and guide their development using AI-assisted workflows. My work spans concept and architecture, prototyping, integration and validation on target hardware."
+        "pl": "Tworzę gry, w których mechanika, obraz i dźwięk wspólnie opowiadają historię. Projektuję zasady rozgrywki i systemy, które pozwalają graczowi poznawać świat przez własne działania. Pracuję z JavaScriptem, Three.js i WebXR, rozwijam kod z pomocą AI i sprawdzam efekty w działającej grze.",
+        "en": "I create games where mechanics, visuals and sound tell a story together. I design gameplay rules and systems that let players discover a world through their own actions. I work with JavaScript, Three.js and WebXR, develop code with AI assistance and test the results in the game itself."
       }
     },
     {
       "id": "about-public-details",
       "text": {
-        "pl": "Łączę wykształcenie inżynierskie z doświadczeniem w technologii, dźwięku, świetle i produkcji multimedialnej. Projektuję reguły rozgrywki, zależności między mechanikami oraz sposób, w jaki świat komunikuje się z graczem.\n\nW Orange Monkey VR opracowałem autorski runtime rozgrywki oparty na Three.js i WebXR. Projekt obejmuje progresję, reżyserię zdarzeń, interakcje przestrzenne, lokomocję, proceduralne efekty i audio przestrzenne. Odpowiadam za wizję, wymagania, produkcję i integrację assetów oraz ocenę działania w goglach.\n\nPracę z ChatGPT i Codexem organizuję przez dokumentację, kontrakty techniczne i ograniczone zadania implementacyjne. Łączę projektowanie doświadczenia gracza z kontrolą architektury i praktycznym sprawdzaniem rezultatów.",
-        "en": "I combine an engineering education with experience in technology, sound, lighting and multimedia production. I design gameplay rules, relationships between mechanics and the ways a world communicates with its player.\n\nFor Orange Monkey VR, I designed a custom gameplay runtime built on Three.js and WebXR. It encompasses progression, event direction, spatial interactions, locomotion, procedural effects and spatial audio. I am responsible for the vision, requirements, asset production and integration, and evaluation in a VR headset.\n\nI structure collaboration with ChatGPT and Codex through documentation, technical contracts and clearly scoped implementation tasks. My approach combines player experience design with architectural oversight and practical validation."
+        "pl": "Do projektowania gier wnoszę doświadczenie z elektroniki, produkcji muzycznej, pracy ze światłem i dźwiękiem w teatrze oraz tworzenia multimediów. Interesuje mnie, jak przestrzeń, rytm i reakcje otoczenia prowadzą uwagę gracza — i jak nadać temu techniczną formę.\n\nW autorskich projektach odpowiadam za pomysł, reguły gry, architekturę oraz przygotowanie i połączenie grafiki, animacji i dźwięku. W Orange Monkey VR pracuję nad światem, który zmienia się wraz z postępami gracza. Projektuję jego mechaniki, zależności między nimi i sposób prowadzenia historii, a ich działanie sprawdzam na Meta Quest 3S.\n\nChatGPT i Codex pomagają mi w analizie i implementacji. Przygotowuję dla nich dokumentację i konkretne zadania, przeglądam zmiany, szukam przyczyn błędów i sprawdzam rezultat. Decyzje o tym, jak gra ma działać i jakie doświadczenie dawać graczowi, pozostają po mojej stronie.",
+        "en": "I bring experience in electronics, music production, theatre lighting and sound, and multimedia to game design. I am interested in how space, rhythm and an environment’s responses guide a player’s attention — and how to make that work in software.\n\nIn my own projects, I am responsible for the idea, game rules, architecture, and preparing and bringing together visuals, animation and sound. In Orange Monkey VR, I am building a world that changes as the player progresses. I design its mechanics, the relationships between them and the way the story unfolds, then test how they work on Meta Quest 3S.\n\nChatGPT and Codex help me with analysis and implementation. I prepare documentation and specific tasks for them, review changes, investigate bugs and check the results. Decisions about how the game should work and what the player should experience remain mine."
       }
     }
   ],
@@ -34,7 +34,11 @@
     {
       "id": "skill-vr-runtime-architecture",
       "inCloud": true,
-      "cloudWeight": 3
+      "cloudWeight": 3,
+      "name": {
+        "pl": "Architektura gier VR",
+        "en": "VR Game Architecture"
+      }
     },
     {
       "id": "skill-spatial-interaction-design",

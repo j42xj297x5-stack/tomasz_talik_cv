@@ -18,16 +18,12 @@
       "period": "10/2000–06/2005",
       "description": [
         {
-          "pl": "Program studiów obejmował szerokie podstawy naukowe i inżynierskie — od matematyki, fizyki, chemii, biologii środowiska, geologii i mechaniki płynów po technologię wody i ścieków, gospodarkę odpadami, ochronę powietrza, systemy HVAC, monitoring środowiska, instalacje przemysłowe oraz zagrożenia wibroakustyczne. Obejmował również ocenę oddziaływania inwestycji na środowisko, zarządzanie środowiskowe, prawo i ekonomię środowiska. Tak szeroki program rozwinął moją zdolność samodzielnego poznawania nowych dziedzin, analizowania złożonych zależności i łączenia wiedzy technicznej z wymaganiami użytkowymi oraz środowiskowymi.",
-          "en": "The programme provided broad scientific and engineering foundations, ranging from mathematics, physics, chemistry, environmental biology, geology and fluid mechanics to water and wastewater technology, waste management, air protection, HVAC systems, environmental monitoring, industrial installations and vibroacoustic hazards. It also covered environmental impact assessment, environmental management, law and environmental economics. This broad curriculum developed my ability to independently enter new fields, analyse complex relationships and connect technical knowledge with practical, functional and environmental requirements."
+          "pl": "Studia łączyły przedmioty przyrodnicze i inżynierskie z projektowaniem instalacji, analizą procesów oraz oceną ich wpływu na otoczenie. Szczególnie bliska była mi akustyka: praca inżynierska dotyczyła tłumienia drgań, a magisterska — doboru rozwiązań poprawiających parametry akustyczne pomieszczeń.",
+          "en": "My studies combined science and engineering with installation design, process analysis and assessing environmental impacts. Acoustics was of particular interest to me: my engineering thesis explored vibration damping, while my master’s thesis focused on choosing solutions to improve room acoustics."
         },
         {
-          "pl": "Praca inżynierska dotyczyła aktywnego i pasywnego tłumienia drgań. Temat pracy magisterskiej: „Dobór efektywnych rozwiązań w kształtowaniu parametrów akustycznych pomieszczeń przy różnych zastosowaniach funkcjonalnych”.",
-          "en": "The engineering thesis focused on active and passive vibration damping. Master’s thesis: “Selection of effective solutions for shaping room-acoustic parameters across different functional uses”."
-        },
-        {
-          "pl": "W pracy magisterskiej porównałem dwie kontrastowe przestrzenie: uczelnianą salę wykładową oraz niską, betonową halę wykorzystywaną jako sala prób, przestrzeń koncertowa i miejsce wydarzeń. Drugą z nich znałem wcześniej z praktyki — wspólnie z kolegami wydzieliliśmy w niej niskobudżetową strefę prób, wykorzystując zawieszane dywany i demontowalną podłogę z palet. Elementy musiały być usuwane przed wydarzeniami, dlatego rozwiązanie powstało z uwzględnieniem rzeczywistych ograniczeń przestrzeni, sposobu użytkowania i budżetu. Sala stała się dzięki temu naturalnym miejscem badań. Na podstawie analizy czasu pogłosu w pasmach częstotliwości i symulacji komputerowych opracowałem propozycje poprawy akustyki dopasowane do funkcji badanych pomieszczeń. Praca koncentrowała się na kształtowaniu akustyki wnętrza, a nie na izolacji dźwięku od otoczenia.",
-          "en": "The master’s thesis compared two contrasting spaces: a university lecture room and a low concrete hall used for rehearsals, concerts and events. I already knew the second space from practice — together with friends, I had helped create a low-budget rehearsal zone using hanging carpets and a removable pallet floor. The elements had to be cleared before events, so the solution was shaped by the actual constraints of the space, its changing use and the available budget. This made the hall a natural test environment. Using frequency-band reverberation-time analysis and computer simulations, I developed recommendations for improving the acoustics of both spaces according to their intended functions. The work focused on shaping internal room acoustics rather than sound isolation."
+          "pl": "W pracy magisterskiej porównałem salę wykładową z betonową halą wykorzystywaną do prób i koncertów. Tę drugą znałem z praktyki — wcześniej współtworzyłem w niej demontowalną adaptację akustyczną. Analizę czasu pogłosu i symulacje komputerowe wykorzystałem do przygotowania propozycji odpowiadających rzeczywistym funkcjom obu przestrzeni.",
+          "en": "In my master’s thesis, I compared a lecture room with a concrete hall used for rehearsals and concerts. I knew the latter from practical experience — I had previously helped create a removable acoustic treatment there. I used reverberation-time analysis and computer simulations to propose improvements suited to how each space was actually used."
         }
       ]
     },
@@ -45,8 +41,8 @@
       "period": "09/1995–06/2000",
       "description": [
         {
-          "pl": "Wykształcenie techniczne połączone z praktyką zawodową w serwisie elektronicznym. Projekt końcowy dotyczył przełączania tranzystorów. Doświadczenie to zbudowało fundament rozumienia zależności pomiędzy fizycznym urządzeniem, interfejsem, elektroniką i logiką działania.",
-          "en": "Technical education combined with professional practice in an electronics repair service. The final technical project focused on transistor switching. This experience created a foundation for understanding the relationship between physical devices, interfaces, electronics and system logic."
+          "pl": "Wykształcenie techniczne połączone z praktyką w serwisie elektronicznym. Projekt końcowy dotyczył przełączania tranzystorów.",
+          "en": "Technical education combined with practical experience at an electronics repair service. My final project focused on transistor switching."
         }
       ]
     }

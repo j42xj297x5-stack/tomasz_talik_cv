@@ -4,6 +4,8 @@
 
 To jest pierwszy dokument do przeczytania przed każdym zadaniem w tym repozytorium. Opisuje wyłącznie stan potwierdzony przez aktualne pliki; po nim czytaj tylko pliki wskazane dla danego typu zadania.
 
+Opis projektu dla odwiedzających repozytorium znajduje się w `README.md` (PL) i `README.en.md` (EN). Dokumenty techniczne pozostają w `docs/current/`.
+
 ## 2. Aktualny stan projektu
 
 - **Wdrożone w repozytorium:** jednostronicowy frontend Vite 7 + Vanilla JavaScript + CSS, publiczne dane JSON, profile repozytoryjne, publiczna nakładka firmy, warianty treści Game Dev / IT / AI, PL/EN, podgląd szkiców, accordion, wydruk przez przeglądarkę, walidator Ajv oraz lokalny edytor Streamlit.
