@@ -1,3 +1,5 @@
+import { normalizeCvVariant } from './cv-variant.js';
+
 const DEFAULT_PROFILE_ID = 'default';
 const COMPANY_TOKEN_PATTERN = /^[A-Za-z0-9_-]{32,128}$/;
 const PRIVATE_TOKEN_PATTERN = /^[A-Za-z0-9_-]{32,128}$/;
@@ -29,7 +31,8 @@ function canUseCompanyProfile(value, token) {
     value
       && typeof value === 'object'
       && !Array.isArray(value)
-      && Object.keys(value).length === 2
+      && Object.keys(value).every((key) => ['id', 'companyName', 'cvVariant'].includes(key))
+      && (!Object.hasOwn(value, 'cvVariant') || typeof value.cvVariant === 'string')
       && value.id === token
       && COMPANY_TOKEN_PATTERN.test(value.id)
       && typeof value.companyName === 'string'
@@ -83,6 +86,8 @@ export async function resolveProfile(profiles, search = window.location.search, 
   return {
     ...baseResult,
     companyProfile: companyResult.companyProfile,
+    cvVariant: normalizeCvVariant(companyResult.companyProfile?.cvVariant),
+    hasCompanyVariant: Boolean(companyResult.companyProfile && Object.hasOwn(companyResult.companyProfile, 'cvVariant')),
     usedFallback: baseResult.usedFallback || companyResult.usedFallback,
   };
 }

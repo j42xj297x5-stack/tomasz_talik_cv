@@ -1,3 +1,5 @@
+import { resolveVariantContent } from './cv-variant.js';
+
 export const DEFAULT_LANGUAGE = 'pl';
 export const SUPPORTED_LANGUAGES = ['pl', 'en'];
 export const PREVIEW_DRAFT = 'draft';
@@ -44,6 +46,9 @@ function sectionSort(sections, sectionOrder = []) {
 }
 
 export function createViewModel(publicContent, profile, language = DEFAULT_LANGUAGE, options = {}) {
+  const resolved = resolveVariantContent(publicContent, profile, options);
+  publicContent = resolved.content;
+  profile = resolved.profile;
   const activeLanguage = SUPPORTED_LANGUAGES.includes(language) ? language : DEFAULT_LANGUAGE;
   const previewMode = options.previewMode === PREVIEW_DRAFT ? PREVIEW_DRAFT : null;
   const companyName = typeof options.companyName === 'string' ? options.companyName.trim() : '';
@@ -91,7 +96,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   const skillCloud = orderedSkills
     .filter((skill) => skill.inCloud)
     .map((skill) => ({ id: skill.id, name: skill.name, cloudWeight: skill.cloudWeight, isDraft: skill.isDraft }));
-  const skills = orderedSkills.filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id));
+  const skills = byProfileOrder(orderedSkills.filter((skill) => featuredSkillIds.length === 0 || featuredSkillIds.includes(skill.id)), featuredSkillIds);
 
   const resolveDemoMedia = (demoMedia) => {
     if (!demoMedia?.src || !demoMedia?.alt) return null;
@@ -161,6 +166,7 @@ export function createViewModel(publicContent, profile, language = DEFAULT_LANGU
   ].filter(Boolean), profile.sectionOrder);
 
   return {
+    cvVariant: resolved.cvVariant,
     language: activeLanguage,
     previewMode,
     labels: {

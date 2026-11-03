@@ -43,13 +43,42 @@
         "en": "Interactive AI Portfolio"
       },
       "summary": {
-        "pl": "Od 2026. Rola: Creative Technologist. Interaktywna przestrzeń Three.js pełniąca funkcję środowiska prezentacyjnego dla projektów, w tym Haiku Cosmos i DIG Engine. Publiczne demo i repozytorium są dostępne.",
-        "en": "Since 2026. Role: Creative Technologist. An interactive Three.js space that serves as a presentation environment for projects, including Haiku Cosmos and DIG Engine. Public demo and repository are available."
+        "pl": "Od 2026. Rola: Creative Technologist. Portfolio łączące lekki, responsywny interfejs Classic 2D, przestrzenne Experience 3D oraz Orange Monkey VR — osobną grę wymagającą gogli. Zaprojektowałem rozdzielone środowiska uruchomieniowe: Classic 2D działa bez ładowania Three.js, a tryby 3D i VR mają własne granice działania. Projekt łączy interfejsy HTML/CSS, scenę Three.js, treści PL/EN, multimedia oraz prezentację studiów przypadku.",
+        "en": "Since 2026. Role: Creative Technologist. A portfolio combining the lightweight, responsive Classic 2D interface, the spatial Experience 3D environment and Orange Monkey VR, a separate game requiring a headset. I designed distinct runtime environments: Classic 2D runs without loading Three.js, while the 3D and VR modes have their own runtime boundaries. The project combines HTML/CSS interfaces, a Three.js scene, Polish and English content, multimedia and case studies."
       },
       "skillIds": [
         "skill-javascript",
         "skill-three-js"
       ]
+    },
+    {
+      "id": "project-orange-monkey-vr",
+      "status": "published",
+      "title": {
+        "pl": "Orange Monkey VR",
+        "en": "Orange Monkey VR"
+      },
+      "summary": {
+        "pl": "Rola: Autor koncepcji, projektant rozgrywki i systemów, prowadzenie realizacji technicznej z AI.\n\nNarracyjna gra VR łącząca eksplorację, zagadki przestrzenne, konstruowanie narzędzi i stopniową przebudowę świata. Zaprojektowałem autorski, modułowy runtime oparty na JavaScripcie, Three.js i WebXR, obejmujący system progresji, reżyserię zdarzeń, interakcje kontrolerów, lokomocję i audio przestrzenne.\n\nArchitektura oddziela scenariusz od rzeczywistego stanu mechanik, umożliwiając swobodną rozgrywkę oraz uzgadnianie jej skutków z przebiegiem narracji. Projekt obejmuje również proceduralne VFX, integrację modeli i animacji GLB, narzędzia diagnostyczne oraz rekonstrukcję stanu wybranych etapów gry.\n\nOdpowiadam za wizję, mechaniki, wymagania, produkcję i integrację assetów oraz ocenę działania na Meta Quest 3S. Implementację rozwijałem we współpracy z ChatGPT i Codexem. Gra ma zaprojektowane zakończenie; jej przejście przy znajomości mechanik zajmuje około 40 minut. Materiał z rozgrywki pozwala poznać projekt również bez gogli.",
+        "en": "Role: Project creator, gameplay and systems designer, leading AI-assisted technical development.\n\nA narrative VR game combining exploration, spatial puzzles, tool construction and the gradual transformation of its world. I designed a custom modular runtime built on JavaScript, Three.js and WebXR, encompassing progression, event direction, controller interactions, locomotion and spatial audio.\n\nThe architecture separates the scenario from the actual state of gameplay systems, supporting free-form play and reconciling its consequences with narrative progression. The project also includes procedural VFX, GLB model and animation integration, diagnostic tools and state reconstruction for selected stages.\n\nI am responsible for the vision, mechanics, requirements, asset production and integration, and evaluation on Meta Quest 3S. Implementation was developed in collaboration with ChatGPT and Codex. The game has a designed ending and takes approximately 40 minutes to complete when its mechanics are familiar. A gameplay video makes the project accessible to viewers without a headset."
+      },
+      "skillIds": [
+        "skill-javascript",
+        "skill-three-js",
+        "skill-webxr"
+      ]
+    },
+    {
+      "id": "project-creative-ai",
+      "status": "published",
+      "title": {
+        "pl": "Creative AI — Bajka o R.",
+        "en": "Creative AI — The Tale of R."
+      },
+      "summary": {
+        "pl": "Bajka o R. — Prolog I: Kamień. Autorska krótka forma filmowa łącząca narrację, generowany obraz, animację, głos, dźwięk i montaż. W realizacji wykorzystałem Kling, EffectCraft, ElevenLabs i Adobe Firefly, dobierając narzędzia do potrzeb kolejnych etapów produkcji. Prowadziłem proces od koncepcji i języka wizualnego przez selekcję oraz opracowanie materiałów po końcową formę audiowizualną. Film jest dostępny w dziale Creative AI portfolio.",
+        "en": "The Tale of R. — Prologue I: The Stone. An original short film combining narrative, generated imagery, animation, voice, sound and editing. I used Kling, EffectCraft, ElevenLabs and Adobe Firefly, selecting tools for the needs of each production stage. I guided the process from concept and visual direction through material selection and refinement to the finished audiovisual work. The film is available in the portfolio’s Creative AI section."
+      }
     }
   ]
 }

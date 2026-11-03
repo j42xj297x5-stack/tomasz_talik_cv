@@ -60,6 +60,10 @@ const projectIds = new Set(data['content/public/projects.json'].items.map((i) =>
 const skillsDoc = data['content/public/skills.json'];
 const skillIds = new Set(skillsDoc.items.map((i) => i.id));
 
+for (const project of data['content/public/projects.json'].items) {
+  for (const id of project.skillIds || []) if (!skillIds.has(id)) addError('content/public/projects.json', '/skillIds', `Projekt ${project.id}: nieistniejąca umiejętność ${id}`);
+}
+
 const projectDemoLinks = new Map();
 (data['content/public/links.json'].items || []).forEach((link, index) => {
   const basePath = ['items', index];
@@ -125,6 +129,38 @@ for (const name of fs.readdirSync(profileDir).filter((f) => f.endsWith('.json'))
     const length = [...profile.companyMessage.pl].length;
     if (length < 300 || length > 500) addError(file, '/companyMessage/pl', `Wiadomość firmowa ma ${length} znaków, wymagane 300–500.`);
   }
+}
+
+// Variant patches cannot alter IDs, publication statuses, shared assets or links.
+for (const name of fs.readdirSync(path.join(root, 'content/variants')).filter((f) => f.endsWith('.json'))) {
+  const file = `content/variants/${name}`;
+  const variant = readJson(file);
+  const validate = ajv.getSchema('cv-variant.schema.json');
+  if (!['gamedev.json', 'it-ai.json'].includes(name)) addError(file, '/', 'Nieznany wariant CV.');
+  if (!validate(variant)) for (const err of validate.errors) addError(file, err.instancePath, err.message);
+  walk(variant, file);
+  for (const section of ['about', 'projects', 'experience', 'skills']) {
+    const base = data[`content/public/${section}.json`];
+    const ids = new Set(base.items.map((item) => item.id));
+    for (const patch of variant[section] || []) {
+      if (!ids.has(patch.id)) addError(file, `/${section}`, `Nieistniejące ID: ${patch.id}`);
+    }
+    for (const duplicate of dupes((variant[section] || []).map((item) => item.id))) addError(file, `/${section}`, `Duplikat: ${duplicate}`);
+    const patches = new Map((variant[section] || []).map((item) => [item.id, item]));
+    const merged = { ...base, items: base.items.map((item) => ({ ...item, ...patches.get(item.id) })) };
+    const validateMerged = ajv.getSchema(`${section}.schema.json`);
+    if (!validateMerged(merged)) for (const err of validateMerged.errors) addError(file, `/${section}${err.instancePath}`, err.message);
+  }
+  for (const id of variant.projectOrder || []) if (!projectIds.has(id)) addError(file, '/projectOrder', `Nieistniejący projekt: ${id}`);
+  for (const field of ['skillOrder', 'featuredSkillIds']) for (const id of variant[field] || []) if (!skillIds.has(id)) addError(file, `/${field}`, `Nieistniejąca umiejętność: ${id}`);
+}
+for (const name of fs.readdirSync(path.join(root, 'public/profiles')).filter((f) => f.endsWith('.json'))) {
+  const file = `public/profiles/${name}`;
+  const company = readJson(file);
+  const validate = ajv.getSchema('company-profile.schema.json');
+  if (!validate(company)) for (const err of validate.errors) addError(file, err.instancePath, err.message);
+  if (company.id !== name.slice(0, -5)) addError(file, '/id', 'ID musi odpowiadać nazwie pliku.');
+  walk(company, file);
 }
 
 if (errors.length) {

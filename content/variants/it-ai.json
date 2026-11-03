@@ -1,0 +1,136 @@
+{
+  "headline": {
+    "pl": "Specjalista IT — projektowanie rozwiązań i wykorzystanie AI",
+    "en": "IT Specialist — Solution Design and Applied AI"
+  },
+  "about": [
+    {
+      "id": "about-public-summary",
+      "text": {
+        "pl": "Przekładam cele i potrzeby na działające rozwiązania cyfrowe. Analizuję problem, wyznaczam sposób realizacji i łączę odpowiednie technologie oraz narzędzia AI. Tworzę aplikacje, narzędzia i systemy interaktywne, prowadząc pracę od koncepcji przez prototypowanie po weryfikację działania.",
+        "en": "I turn goals and needs into working digital solutions. I analyse problems, plan an approach and combine suitable technologies and AI tools. I develop applications, tools and interactive systems, guiding the work from concept through prototyping to functional validation."
+      }
+    },
+    {
+      "id": "about-public-details",
+      "text": {
+        "pl": "Pracę zaczynam od zrozumienia celu: co trzeba osiągnąć, dla kogo i w jakich warunkach. Na tej podstawie wyznaczam drogę, dzielę problem na zadania i dobieram narzędzia. Gdy rozwiązanie wymaga technologii, której jeszcze nie znam, uczę się jej w praktyce i wykorzystuję w projekcie. Łączę wykształcenie inżynierskie z doświadczeniem w IT, elektronice, technologiach CAD, pracy z klientem oraz produkcji multimedialnej.\n\nAI wykorzystuję w analizie, pracy z dokumentacją, programowaniu i tworzeniu materiałów. Przygotowuję kontekst, wymagania i kryteria odbioru, prowadzę implementację wspomaganą przez ChatGPT i Codex oraz weryfikuję rezultaty. Dbam o podział odpowiedzialności między modułami, spójność dokumentacji i możliwość dalszego rozwoju rozwiązania.\n\nSwobodnie poruszam się pomiędzy zagadnieniami technicznymi, użytkowymi i twórczymi. Potrafię połączyć aplikację, dane, zewnętrzne usługi, obraz i dźwięk w jeden system. Interesują mnie projekty, w których mogę rozpoznać potrzebę, zaprojektować sposób działania i doprowadzić pomysł do użytecznego rezultatu.",
+        "en": "I begin by understanding the goal: what needs to be achieved, for whom and under which constraints. I then plan an approach, break the problem into tasks and select the tools. When a solution requires an unfamiliar technology, I learn it through practical use and apply it to the project. I combine an engineering education with experience in IT, electronics, CAD technologies, customer-facing work and multimedia production.\n\nI use AI for analysis, documentation, programming and content production. I prepare context, requirements and acceptance criteria, guide implementation assisted by ChatGPT and Codex, and verify the results. I focus on clear module responsibilities, consistent documentation and the ability to extend the solution.\n\nI work across technical, practical and creative disciplines. I can bring applications, data, external services, visuals and sound together in one system. I am interested in projects where I can identify a need, design an approach and turn an idea into a useful result."
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-orange-monkey-vr",
+      "summary": {
+        "pl": "Rola: Autor projektu, projektant systemów i procesu współpracy z AI.\n\nSamodzielnie prowadzony projekt kreatywno-techniczny, w którym połączyłem projektowanie oprogramowania, narzędzia generatywne oraz produkcję grafiki i dźwięku w działającą grę przeglądarkową VR.\n\nOpracowałem proces współpracy z ChatGPT i Codexem: od analizy celu i zależności, przez dokumentację architektury i specyfikację ograniczonych zadań, po integrację oraz weryfikację rezultatów. Utrzymywałem modele techniczne, mapy zależności i rejestr decyzji, aby zachowywać spójność projektu podczas kolejnych zmian.\n\nRozwiązanie obejmuje modułową architekturę zdarzeniową, zarządzanie stanem, rekonstrukcję etapów działania, diagnostykę i integrację wielu podsystemów. Projekt pokazuje umiejętność doboru narzędzi, zdobywania potrzebnej wiedzy oraz prowadzenia realizacji od koncepcji do działającego produktu. Publiczne repozytorium, studium przypadku i film z rozgrywki dokumentują rezultat.",
+        "en": "Role: Project creator, systems designer and designer of the human–AI collaboration workflow.\n\nAn independently led creative and technical project combining software design, generative tools, and visual and audio production in a working browser-based VR game.\n\nI developed a collaboration process with ChatGPT and Codex, spanning goal and dependency analysis, architectural documentation, clearly scoped task specifications, integration and result validation. I maintained technical models, dependency maps and a decision log to preserve consistency as the project evolved.\n\nThe solution encompasses modular event-driven architecture, state management, stage reconstruction, diagnostics and integration of multiple subsystems. It demonstrates my ability to select tools, acquire the knowledge required and guide development from concept to a working product. A public repository, case study and gameplay video document the result."
+      }
+    },
+    {
+      "id": "project-dig-engine",
+      "summary": {
+        "pl": "Od 03/2026. Rola: Autor projektu i projektant systemu. Lokalna aplikacja do eksploracji muzyki i pracy z rozbudowanymi bibliotekami danych. Łączy Spotify, Last.fm i Discogs, bazę SQLite z wyszukiwaniem FTS5 oraz Workflow Composer. Odpowiadam za koncepcję, podział systemu, specyfikację zadań i weryfikację działania w procesie rozwoju wspomaganym przez AI. Python i PySide6 obsługują warstwę aplikacyjną oraz GUI; diagnostyka i artefakty uruchomień pozwalają śledzić przebieg i wyniki procesów. Demonstracja i studium przypadku są dostępne w portfolio.",
+        "en": "Since 03/2026. Role: Project creator and systems designer. A local application for music exploration and working with extensive data libraries. It combines Spotify, Last.fm and Discogs, a SQLite database with FTS5 search, and a Workflow Composer. I am responsible for the concept, system decomposition, task specifications and functional validation in an AI-assisted development process. Python and PySide6 support the application layer and GUI, while diagnostics and run artifacts make processes and results traceable. A demonstration and case study are available in the portfolio."
+      }
+    },
+    {
+      "id": "project-haiku-cosmos",
+      "summary": {
+        "pl": "Od 01/2026. Rola: Autor koncepcji, projektant systemów i koordynator realizacji technicznej. Autorski system interaktywny w formie kontemplacyjnej gry, w której działania użytkownika wpływają na stan i ewolucję świata. Łączy generatywny kosmos, mechaniki gry, system kart, warstwę poetycką i narzędzia diagnostyczne. Odpowiadam za koncepcję, architekturę, podział pracy na moduły oraz prowadzenie implementacji wspomaganej przez AI. Projekt wykorzystuje JavaScript, Three.js, Canvas2D, Vite, Node.js, HTML, CSS i JSON. Publiczne demo i repozytorium są dostępne.",
+        "en": "Since 01/2026. Role: Concept creator, systems designer and technical development coordinator. An original interactive system presented as a contemplative game in which user actions influence the state and evolution of its world. It combines a generative cosmos, gameplay mechanics, a card system, poetry and diagnostic tools. I am responsible for the concept, architecture, modular task decomposition and coordination of AI-assisted implementation. Technologies include JavaScript, Three.js, Canvas2D, Vite, Node.js, HTML, CSS and JSON. A public demo and repository are available."
+      }
+    }
+  ],
+  "experience": [
+    {
+      "id": "experience-ui-szansa",
+      "summary": {
+        "pl": "Rola: Inżynier sprzedaży systemów CAD / Opiekun klienta. Okres: 07/2024–07/2026. Obszar: Technologie, dokumentacja i praca z klientem. Samodzielnie poznawałem rozbudowany parametryczny system CAD ZW3D i opracowywałem bazę wiedzy obejmującą setki funkcji, ich zastosowania, przepływy pracy i odpowiedniki w innych środowiskach CAD. Wykorzystywałem AI do wspomagania analizy funkcji, tłumaczenia dokumentacji oraz przygotowywania uporządkowanych materiałów technicznych i marketingowych. Łączyłem wiedzę o produkcie z rozpoznawaniem potrzeb klientów przemysłowych. Tworzyłem również narzędzia usprawniające wyszukiwanie potencjalnych odbiorców i wspierałem działania sprzedażowe.",
+        "en": "Role: CAD Systems Sales Engineer / Account Manager. Period: 07/2024–07/2026. Area: Technology, documentation and client work. I independently learned the extensive ZW3D parametric CAD system and developed a knowledge base covering hundreds of functions, their applications, workflows and equivalents in other CAD environments. I used AI to support feature analysis, documentation translation and the preparation of structured technical and marketing materials. I combined product knowledge with an understanding of industrial customers’ needs. I also created tools to improve prospect research and supported sales activities."
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-requirements-solution-design",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-ai-orchestration",
+      "inCloud": true,
+      "cloudWeight": 3,
+      "name": {
+        "pl": "Orkiestracja narzędzi AI",
+        "en": "AI Tool Orchestration"
+      }
+    },
+    {
+      "id": "skill-api-data-workflows",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-python",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-javascript",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-workflow-design",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-ai-task-specification-review",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-technical-documentation",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-debugging-validation",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-problem-decomposition",
+      "inCloud": true,
+      "cloudWeight": 3
+    }
+  ],
+  "projectOrder": [
+    "project-orange-monkey-vr",
+    "project-dig-engine",
+    "project-interactive-ai-portfolio",
+    "project-creative-ai",
+    "project-haiku-cosmos"
+  ],
+  "featuredSkillIds": [
+    "skill-requirements-solution-design",
+    "skill-ai-orchestration",
+    "skill-api-data-workflows",
+    "skill-python",
+    "skill-javascript"
+  ],
+  "skillOrder": [
+    "skill-requirements-solution-design",
+    "skill-ai-orchestration",
+    "skill-api-data-workflows",
+    "skill-python",
+    "skill-javascript",
+    "skill-workflow-design",
+    "skill-ai-task-specification-review",
+    "skill-technical-documentation",
+    "skill-debugging-validation",
+    "skill-problem-decomposition"
+  ]
+}

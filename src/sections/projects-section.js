@@ -13,7 +13,8 @@ export function createProjectsSection(projects, labels = {}) {
   projects.forEach((project) => {
     const article = createElement('article', { className: 'project-card' });
     const title = project.title ? createElement('h3', { text: project.title }) : null;
-    const summary = project.summary ? createElement('p', { text: project.summary }) : null;
+    const paragraphs = (project.summary || '').split(/\n{2,}/).map((text) => text.trim()).filter(Boolean)
+      .map((text) => createElement('p', { text }));
     const projectLink = project.projectLink
       ? createElement('a', {
         className: 'project-card__link',
@@ -37,7 +38,7 @@ export function createProjectsSection(projects, labels = {}) {
       })
       : null;
     if (project.isDraft && title) title.appendChild(createDraftBadge(labels));
-    list.appendChild(appendChildren(article, [title, summary, actions, demo]));
+    list.appendChild(appendChildren(article, [title, ...paragraphs, actions, demo]));
   });
 
   return appendChildren(container, [heading, list]);
