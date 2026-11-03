@@ -1,3 +1,5 @@
+import gamedev from '../../content/variants/gamedev.json';
+import itAi from '../../content/variants/it-ai.json';
 import identity from '../../content/public/identity.json';
 import about from '../../content/public/about.json';
 import projects from '../../content/public/projects.json';
@@ -23,6 +25,7 @@ function normalizeProfiles(modules) {
 export function loadContent() {
   return {
     publicContent: {
+      variants: { gamedev, 'it-ai': itAi },
       identity,
       about,
       projects,

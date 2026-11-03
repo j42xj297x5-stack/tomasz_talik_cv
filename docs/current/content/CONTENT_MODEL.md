@@ -20,7 +20,7 @@ Wszystkie te pliki są publiczne po zbudowaniu aplikacji. Nie wolno umieszczać 
 
 `content/profiles/default.json` jest profilem domyślnym używanym bez parametru `?p`. Profile repozytoryjne wybierane przez `?p=<profileId>` muszą spełniać `profile.schema.json`.
 
-Publiczne profile firmowe znajdują się w `public/profiles/<p>.json` i są wybierane przez `#p=<token>`. Kontrakt firmowy wymaga dokładnie pól `id` i `companyName`; nie zawiera danych prywatnych.
+Publiczne profile firmowe znajdują się w `public/profiles/<p>.json` i są wybierane przez `#p=<token>`. Kontrakt firmowy wymaga `id` i `companyName`, dopuszcza opcjonalne `cvVariant` typu string i odrzuca inne pola (`company-profile.schema.json`). Brak lub nieznana wartość wariantu oznacza `gamedev`; `it-ai` wybiera IT / AI. Nie zawiera danych prywatnych.
 
 ## Schematy i walidacja
 
@@ -89,3 +89,11 @@ Profil repozytoryjny steruje selekcją i kolejnością publicznej treści:
 - odwołania profilu do sekcji, projektów i umiejętności;
 - zakres `cloudWeight`;
 - podejrzane klucze prywatne, takie jak `phone`, `address`, `secret`, `token` i `privateData`.
+
+## Nakładki wariantów
+
+`content/variants/gamedev.json` i `it-ai.json` spełniają `cv-variant.schema.json`: zawierają nagłówek PL/EN, nakładki `about`, `projects`, `experience`, `skills` po stabilnym `id` oraz `projectOrder`, `skillOrder`, `featuredSkillIds`. Nakładki nie mogą nadpisywać statusów, kontaktu, edukacji, mediów ani linków. Walidator sprawdza odwołania, duplikaty ID i wynik scalenia z bazą. Szczegóły pierwszeństwa opisuje system personalizacji.
+
+Nowe projekty Orange Monkey VR i Creative AI nie mają wymyślonych dat; schemat projektów nie wymaga dat. Daty starszych projektów pozostają w opisach także po nałożeniu wariantu. Jeden projekt może mieć najwyżej jeden przypisany link `demo`; etykiety filmów jednoznacznie odróżniają je od grywalnego demo. Adresy portfolio i jego repozytorium pozostają wspólne.
+
+Opisy projektów przechowują podział akapitów jako `\n\n`; renderer projektów tworzy osobne elementy `p` z tekstem (bez interpretacji HTML), wspólne dla ekranu i wydruku.

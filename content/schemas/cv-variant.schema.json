@@ -1,0 +1,203 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tomasz-talik-cv.local/schemas/cv-variant.schema.json",
+  "type": "object",
+  "required": [
+    "headline",
+    "about",
+    "projects",
+    "experience",
+    "skills",
+    "projectOrder",
+    "skillOrder",
+    "featuredSkillIds"
+  ],
+  "properties": {
+    "headline": {
+      "type": "object",
+      "required": [
+        "pl",
+        "en"
+      ],
+      "properties": {
+        "pl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "about": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/definitions/stableId"
+          },
+          "text": {
+            "type": "object",
+            "required": [
+              "pl",
+              "en"
+            ],
+            "properties": {
+              "pl": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/definitions/stableId"
+          },
+          "summary": {
+            "type": "object",
+            "required": [
+              "pl",
+              "en"
+            ],
+            "properties": {
+              "pl": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/definitions/stableId"
+          },
+          "summary": {
+            "type": "object",
+            "required": [
+              "pl",
+              "en"
+            ],
+            "properties": {
+              "pl": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/definitions/stableId"
+          },
+          "name": {
+            "type": "object",
+            "required": [
+              "pl",
+              "en"
+            ],
+            "properties": {
+              "pl": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "inCloud": {
+            "type": "boolean"
+          },
+          "cloudWeight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "projectOrder": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/definitions/stableId"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "skillOrder": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/definitions/stableId"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "featuredSkillIds": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/definitions/stableId"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

@@ -6,7 +6,7 @@ To jest pierwszy dokument do przeczytania przed każdym zadaniem w tym repozytor
 
 ## 2. Aktualny stan projektu
 
-- **Wdrożone w repozytorium:** jednostronicowy frontend Vite 7 + Vanilla JavaScript + CSS, publiczne dane JSON, profile repozytoryjne, publiczna nakładka firmy, PL/EN, podgląd szkiców, accordion, wydruk przez przeglądarkę, walidator Ajv oraz lokalny edytor Streamlit.
+- **Wdrożone w repozytorium:** jednostronicowy frontend Vite 7 + Vanilla JavaScript + CSS, publiczne dane JSON, profile repozytoryjne, publiczna nakładka firmy, warianty treści Game Dev / IT / AI, PL/EN, podgląd szkiców, accordion, wydruk przez przeglądarkę, walidator Ajv oraz lokalny edytor Streamlit.
 - **Uruchomienie frontendu:** `npm run dev`; dostępne są też `npm run validate:content`, `npm run build` i `npm run preview` (`package.json`). Vite używa `/` w trybie serwera i `/tomasz_talik_cv/` w buildzie (`vite.config.js`).
 - **Publikacja skonfigurowana w repozytorium:** GitHub Actions buduje `dist` i wdraża GitHub Pages po pushu do `tomasz_talik_cv` lub ręcznie (`.github/workflows/deploy-pages.yml`). Dokumentacja aktualna podaje adres produkcyjny, ale jego bieżącej dostępności nie można potwierdzić samym repozytorium.
 - **Prywatny kontakt:** frontend ma klienta zewnętrznego API Workera i lokalny edytor aktywujący token. Kod Workera, konfiguracja Cloudflare i baza D1 **nie znajdują się w repozytorium**, więc ich implementacja i stan operacyjny są niepotwierdzone tutaj.
@@ -32,6 +32,7 @@ Nie traktuj katalogów legacy ani audits jako domyślnych źródeł.
 | `src/components/`, `src/sections/`, `src/background/` | Renderery UI, sekcje CV i dekoracyjne tło. |
 | `src/styles/` | Tokeny, layout, komponenty, accordion oraz reguły wydruku. |
 | `content/public/*.json` | Kanoniczna publiczna treść CV i publiczne adresy. |
+| `content/variants/*.json` | Nakładki Game Dev i IT / AI: treści PL/EN, kolejność projektów i wyróżnienia umiejętności. |
 | `content/profiles/*.json` | Profile repozytoryjne wybierane przez query `?p=`. |
 | `content/schemas/*.schema.json`, `scripts/validate-content.mjs` | Kontrakt JSON Schema i walidacja schematów oraz relacji. |
 | `public/profiles/*.json`, `public/assets/` | Publiczne nakładki firmowe i zasoby statyczne kopiowane do buildu. |
@@ -44,7 +45,7 @@ Nie traktuj katalogów legacy ani audits jako domyślnych źródeł.
 ```text
 index.html → src/main.js → bootstrap → renderery komponentów i sekcji → DOM
 content/public/*.json + content/profiles/*.json → content-loader → resolveProfile(?p) → createViewModel → Hero / accordion / sekcje
-#p=<token> → profile-resolver → public/profiles/<token>.json → companyName → Hero
+#p=<token> → profile-resolver → public/profiles/<token>.json → companyName + cvVariant → nakładki po ID → view model → Hero / sekcje
 PL/EN → hero-card → bootstrap (ponowny render) → createViewModel.localizedText → wszystkie renderery
 ?preview=draft → bootstrap → createViewModel (filtr statusów) → renderery
 Hero: „Zapisz jako PDF” → hero-card → usunięcie #k z URL → window.print() → src/styles/print.css
@@ -86,6 +87,8 @@ Zewnętrzny Worker, D1 i endpoint `/admin/create` są zależnościami opisanymi 
 | Deployment | `.github/workflows/deploy-pages.yml` | `vite.config.js`, `package.json`, `DEPLOYMENT.md` | edytora |
 | Dodanie nowej sekcji | `view-model.js` | profil, dane, schemat, walidator, renderer sekcji i style | Worker i deployment |
 | Błąd ładowania danych | `content-loader.js`, `bootstrap.js` | wskazane JSON-y, resolver, walidator | edytora i dokumentów planistycznych |
+
+Warianty `gamedev` i `it-ai` wybiera pole „Profil CV” w edytorze; eksport zawiera `id`, `companyName`, `cvVariant`. Stare pliki i nieznany wariant wracają do Game Dev bez utraty nazwy firmy. Nakładki są scalane przez `src/app/cv-variant.js` przed lokalizacją i filtrowaniem statusów, bez mutowania bazy. Jawny wariant firmy ma pierwszeństwo dla treści i ustawień wariantu, ale nie zmienia widoczności/kolejności sekcji profilu repozytoryjnego. Bez jawnego wyboru własny profil repozytoryjny zachowuje ustawienia prezentacji. PL/EN i istniejący druk korzystają z aktualnego wariantu. Test regresji: `node scripts/test-cv-variants.mjs`.
 
 ## 8. Aktualne ograniczenia i konflikty
 

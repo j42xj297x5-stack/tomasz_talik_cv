@@ -16,6 +16,7 @@
 - `content/public/education.json` — wykształcenie.
 - `content/public/skills.json` — sześć kategorii i umiejętności.
 - `content/public/links.json` — profil GitHub, demo i repozytoria.
+- `content/variants/*.json` — warianty Game Dev i IT / AI jako nakładki PL/EN.
 - `content/profiles/default.json` — profil domyślny.
 - `public/profiles/` — publiczne profile firmowe publikowane ręcznie.
 - `content/schemas/*.schema.json` — JSON Schema draft-07.
@@ -42,6 +43,8 @@
 - `src/app/content-loader.js` — import publicznych JSON-ów i profili.
 - `src/app/profile-resolver.js` — `?p`, `#p`, `#k` i fallback.
 - `src/app/private-profile-client.js` — klient `POST /profile` Workera.
+- `src/app/cv-variant.js` — niemutujące nakładki wariantu po stabilnych ID.
+- `scripts/test-cv-variants.mjs` — testy resolvera i modelu wariantów (`node scripts/test-cv-variants.mjs`).
 - `src/app/view-model.js` — lokalizacja, filtrowanie statusów i model renderowania.
 - `src/components/hero-card.js` — Hero, PDF i przełącznik języka.
 - `src/components/accordion.js` — sekcje accordion.

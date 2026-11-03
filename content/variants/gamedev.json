@@ -1,0 +1,110 @@
+{
+  "headline": {
+    "pl": "Projektowanie gier i systemów VR",
+    "en": "Game and VR Systems Design"
+  },
+  "about": [
+    {
+      "id": "about-public-summary",
+      "text": {
+        "pl": "Projektuję gry i interaktywne światy, łącząc mechaniki, narrację, obraz i dźwięk. Tworzę modularne systemy w JavaScripcie, Three.js i WebXR oraz prowadzę ich rozwój z wykorzystaniem AI. Od koncepcji i architektury przechodzę do prototypowania, integracji i weryfikacji na docelowym sprzęcie.",
+        "en": "I design games and interactive worlds, combining mechanics, narrative, visuals and sound. I create modular systems with JavaScript, Three.js and WebXR and guide their development using AI-assisted workflows. My work spans concept and architecture, prototyping, integration and validation on target hardware."
+      }
+    },
+    {
+      "id": "about-public-details",
+      "text": {
+        "pl": "Łączę wykształcenie inżynierskie z doświadczeniem w technologii, dźwięku, świetle i produkcji multimedialnej. Projektuję reguły rozgrywki, zależności między mechanikami oraz sposób, w jaki świat komunikuje się z graczem.\n\nW Orange Monkey VR opracowałem autorski runtime rozgrywki oparty na Three.js i WebXR. Projekt obejmuje progresję, reżyserię zdarzeń, interakcje przestrzenne, lokomocję, proceduralne efekty i audio przestrzenne. Odpowiadam za wizję, wymagania, produkcję i integrację assetów oraz ocenę działania w goglach.\n\nPracę z ChatGPT i Codexem organizuję przez dokumentację, kontrakty techniczne i ograniczone zadania implementacyjne. Łączę projektowanie doświadczenia gracza z kontrolą architektury i praktycznym sprawdzaniem rezultatów.",
+        "en": "I combine an engineering education with experience in technology, sound, lighting and multimedia production. I design gameplay rules, relationships between mechanics and the ways a world communicates with its player.\n\nFor Orange Monkey VR, I designed a custom gameplay runtime built on Three.js and WebXR. It encompasses progression, event direction, spatial interactions, locomotion, procedural effects and spatial audio. I am responsible for the vision, requirements, asset production and integration, and evaluation in a VR headset.\n\nI structure collaboration with ChatGPT and Codex through documentation, technical contracts and clearly scoped implementation tasks. My approach combines player experience design with architectural oversight and practical validation."
+      }
+    }
+  ],
+  "projects": [],
+  "experience": [],
+  "skills": [
+    {
+      "id": "skill-game-systems-design",
+      "inCloud": true,
+      "cloudWeight": 3,
+      "name": {
+        "pl": "Projektowanie systemów gry",
+        "en": "Game Systems Design"
+      }
+    },
+    {
+      "id": "skill-vr-runtime-architecture",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-spatial-interaction-design",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-javascript",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-three-js",
+      "inCloud": true,
+      "cloudWeight": 3,
+      "name": {
+        "pl": "Three.js / WebXR",
+        "en": "Three.js / WebXR"
+      }
+    },
+    {
+      "id": "skill-webxr",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-game-progression",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-technical-art",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-spatial-audio",
+      "inCloud": true,
+      "cloudWeight": 3
+    },
+    {
+      "id": "skill-sound-design",
+      "inCloud": true,
+      "cloudWeight": 3
+    }
+  ],
+  "projectOrder": [
+    "project-orange-monkey-vr",
+    "project-haiku-cosmos",
+    "project-interactive-ai-portfolio",
+    "project-dig-engine",
+    "project-creative-ai"
+  ],
+  "featuredSkillIds": [
+    "skill-game-systems-design",
+    "skill-vr-runtime-architecture",
+    "skill-spatial-interaction-design",
+    "skill-javascript",
+    "skill-three-js"
+  ],
+  "skillOrder": [
+    "skill-game-systems-design",
+    "skill-vr-runtime-architecture",
+    "skill-spatial-interaction-design",
+    "skill-javascript",
+    "skill-three-js",
+    "skill-webxr",
+    "skill-game-progression",
+    "skill-technical-art",
+    "skill-spatial-audio",
+    "skill-sound-design"
+  ]
+}

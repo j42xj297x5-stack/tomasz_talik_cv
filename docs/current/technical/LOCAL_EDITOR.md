@@ -28,9 +28,12 @@ Edytor generuje token publicznego profilu firmy `p` i JSON:
 ```json
 {
   "id": "<p>",
-  "companyName": "<nazwa firmy>"
+  "companyName": "<nazwa firmy>",
+  "cvVariant": "gamedev"
 }
 ```
+
+Pole „Profil CV” pozwala wybrać „Game Dev” (domyślnie, `gamedev`) albo „IT / AI” (`it-ai`). Wybór trafia do eksportowanego JSON-u; nie zmienia tokenów ani prywatnego API.
 
 Plik trzeba ręcznie zapisać i opublikować jako `public/profiles/<p>.json`, a następnie wykonać deployment.
 
@@ -46,7 +49,7 @@ Adres Workera musi być pełnym adresem HTTPS bez `/profile` ani `/admin/create`
 
 Źródłem linków jest `content/public/links.json`, nie `projects.json`. Edytor pokazuje dwie grupy:
 
-- Demo projektów.
+- Demo projektów i filmy (Orange Monkey VR — film z rozgrywki; Creative AI — film, nie grywalne demo).
 - GitHub i repozytoria.
 
 Wybrane linki mogą zostać wstawione do maila lub listu.

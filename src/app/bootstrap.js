@@ -38,7 +38,7 @@ export async function bootstrap(root) {
 
   try {
     const { publicContent, profiles } = loadContent();
-    const { profile, usedFallback, companyProfile } = await resolveProfile(profiles);
+    const { profile, usedFallback, companyProfile, cvVariant, hasCompanyVariant } = await resolveProfile(profiles);
     const previewMode = resolvePreviewMode();
     const privateToken = getPrivateAccessToken();
     let privateContact = null;
@@ -52,7 +52,7 @@ export async function bootstrap(root) {
 
     const render = () => {
       document.documentElement.lang = language;
-      const viewModel = createViewModel(publicContent, profile, language, { previewMode, companyName: companyProfile?.companyName || '' });
+      const viewModel = createViewModel(publicContent, profile, language, { previewMode, cvVariant, hasCompanyVariant, companyName: companyProfile?.companyName || '' });
       const main = createElement('main', { className: 'app-shell' });
       const notice = usedFallback
         ? createElement('p', { className: 'notice', text: FALLBACK_MESSAGE, attributes: { role: 'status' } })

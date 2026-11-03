@@ -602,6 +602,105 @@
       "categoryId": "skill-category-design-architecture",
       "inCloud": true,
       "cloudWeight": 2
+    },
+    {
+      "id": "skill-vr-runtime-architecture",
+      "status": "published",
+      "name": {
+        "pl": "Architektura runtime VR",
+        "en": "VR Runtime Architecture"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-spatial-interaction-design",
+      "status": "published",
+      "name": {
+        "pl": "Interakcje przestrzenne",
+        "en": "Spatial Interaction Design"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-webxr",
+      "status": "published",
+      "name": {
+        "pl": "WebXR",
+        "en": "WebXR"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-requirements-solution-design",
+      "status": "published",
+      "name": {
+        "pl": "Analiza potrzeb i projektowanie rozwiązań",
+        "en": "Requirements Analysis and Solution Design"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-workflow-design",
+      "status": "published",
+      "name": {
+        "pl": "Projektowanie workflow",
+        "en": "Workflow Design"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-api-data-workflows",
+      "status": "published",
+      "name": {
+        "pl": "Integracje API i praca z danymi",
+        "en": "API Integration and Data Workflows"
+      },
+      "categoryId": "skill-category-technologies",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-game-progression",
+      "status": "published",
+      "name": {
+        "pl": "Projektowanie progresji gry",
+        "en": "Game Progression Design"
+      },
+      "categoryId": "skill-category-design-architecture",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-technical-art",
+      "status": "published",
+      "name": {
+        "pl": "Technical art i proceduralne VFX",
+        "en": "Technical Art and Procedural VFX"
+      },
+      "categoryId": "skill-category-graphics-video-cad",
+      "inCloud": true,
+      "cloudWeight": 2
+    },
+    {
+      "id": "skill-spatial-audio",
+      "status": "published",
+      "name": {
+        "pl": "Audio przestrzenne",
+        "en": "Spatial Audio"
+      },
+      "categoryId": "skill-category-audio-music-production",
+      "inCloud": true,
+      "cloudWeight": 2
     }
   ]
 }

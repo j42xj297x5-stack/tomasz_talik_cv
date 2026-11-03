@@ -12,9 +12,19 @@ Profil repozytoryjny steruje kolejnością sekcji, widocznością sekcji, kolejn
 
 ## B. `#p=<publiczny-token>` — publiczny profil firmy
 
-Fragment `#p=<token>` wybiera plik `public/profiles/<token>.json`. Plik jest publiczny i zawiera dokładnie `id` oraz `companyName`. Nakładka dodaje nazwę firmy w Hero jako informację kontekstową.
+Fragment `#p=<token>` wybiera plik `public/profiles/<token>.json`. Plik jest publiczny i wymaga `id` oraz `companyName`; jedynym dodatkowym dozwolonym polem jest opcjonalny string `cvVariant`. Nakładka dodaje nazwę firmy w Hero i może wybierać wariant treści. Nieznany wariant wraca do `gamedev`, zachowując poprawną nazwę firmy.
 
 `#p` nie jest autoryzacją, nie chroni treści i nie zawiera danych prywatnych. Błędny albo brakujący plik powoduje fallback bez nakładki firmowej.
+
+## Wariant treści CV
+
+`cvVariant` przyjmuje `gamedev` lub `it-ai`. Brak pola, brak firmy i nieznana wartość oznaczają Game Dev. Token firmy jest niezależny od identyfikatora wariantu. Stare JSON-y z dwoma polami pozostają poprawne.
+
+Dane nakładek są w `content/variants/`. Moduł `src/app/cv-variant.js` stosuje je po stabilnych ID, bez mutacji bazy, przed lokalizacją i filtrowaniem statusów. Wariant wybiera nagłówek, wstęp, „O mnie”, opisy projektów/doświadczenia oraz nazwy i wagi umiejętności. Wspólne kontakty, wykształcenie, linki i media nie są kopiowane.
+
+Domyślny profil używa kolejności i wyróżnień wariantu. Własny profil repozytoryjny zachowuje ustawienia prezentacji; jawne `cvVariant` firmy ma pierwszeństwo dla nagłówka, kolejności projektów i umiejętności oraz wyróżnień. Widoczność i kolejność sekcji nadal określa profil repozytoryjny.
+
+Zmiana PL/EN ponownie tworzy view model z tym samym wariantem. Druk używa tego samego wyrenderowanego CV przez istniejące `window.print()`; odbiorca nie otrzymuje przełącznika wariantu.
 
 ## C. `#k=<prywatny-token>` — prywatny kontakt
 
@@ -32,7 +42,7 @@ Fragment `#k=<token>` służy do pobrania danych kontaktowych z Cloudflare Worke
 
 ## Współdziałanie parametrów
 
-Parametry mogą wystąpić razem, na przykład `?p=default#p=<p>&k=<k>`. Query `p` wybiera profil repozytoryjny. Fragment `p` dodaje nazwę firmy. Fragment `k` pobiera prywatny kontakt. Błąd jednego mechanizmu nie powinien blokować renderowania publicznej treści.
+Parametry mogą wystąpić razem, na przykład `?p=default#p=<p>&k=<k>`. Query `p` wybiera profil repozytoryjny. Fragment `p` ładuje nazwę firmy i opcjonalny wariant CV. Fragment `k` pobiera prywatny kontakt. Błąd jednego mechanizmu nie powinien blokować renderowania publicznej treści.
 
 ## Zachowanie PDF
 

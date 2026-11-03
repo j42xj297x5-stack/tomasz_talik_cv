@@ -27,9 +27,11 @@
     "contact"
   ],
   "projectOrder": [
+    "project-orange-monkey-vr",
     "project-haiku-cosmos",
+    "project-interactive-ai-portfolio",
     "project-dig-engine",
-    "project-interactive-ai-portfolio"
+    "project-creative-ai"
   ],
   "featuredProjectIds": [
     "project-haiku-cosmos",
@@ -37,6 +39,15 @@
   ],
   "skillOrder": [
     "skill-game-systems-design",
+    "skill-vr-runtime-architecture",
+    "skill-spatial-interaction-design",
+    "skill-javascript",
+    "skill-three-js",
+    "skill-webxr",
+    "skill-game-progression",
+    "skill-technical-art",
+    "skill-spatial-audio",
+    "skill-sound-design",
     "skill-modular-systems-design",
     "skill-technical-architecture",
     "skill-interaction-prototyping",
@@ -46,8 +57,6 @@
     "skill-chatgpt-codex-assisted-implementation",
     "skill-codex-cloud-local-workflows",
     "skill-ai-task-specification-review",
-    "skill-javascript",
-    "skill-three-js",
     "skill-html",
     "skill-css",
     "skill-json",
@@ -74,7 +83,6 @@
     "skill-inkscape",
     "skill-figma",
     "skill-music-production",
-    "skill-sound-design",
     "skill-audio-voice-recording-processing",
     "skill-mixing-mastering",
     "skill-modular-synthesis-instrument-design",
@@ -92,10 +100,10 @@
   ],
   "featuredSkillIds": [
     "skill-game-systems-design",
-    "skill-ai-orchestration",
+    "skill-vr-runtime-architecture",
+    "skill-spatial-interaction-design",
     "skill-javascript",
-    "skill-three-js",
-    "skill-python"
+    "skill-three-js"
   ],
   "protectedScopes": []
 }

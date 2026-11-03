@@ -69,6 +69,36 @@
       },
       "url": "https://j42xj297x5-stack.github.io/tomasz_talik_cv/assets/projects/DIG_engine.gif",
       "kind": "demo"
+    },
+    {
+      "id": "link-orange-monkey-vr-gameplay",
+      "status": "published",
+      "label": {
+        "pl": "Zobacz film z rozgrywki (VR wymaga gogli)",
+        "en": "Watch gameplay video (VR requires a headset)"
+      },
+      "url": "https://www.youtube.com/watch?v=zdlkHXKwGw0",
+      "kind": "demo",
+      "projectId": "project-orange-monkey-vr",
+      "projectLabel": {
+        "pl": "Zobacz film z rozgrywki (VR wymaga gogli)",
+        "en": "Watch gameplay video (VR requires a headset)"
+      }
+    },
+    {
+      "id": "link-creative-ai-film",
+      "status": "published",
+      "label": {
+        "pl": "Obejrzyj film",
+        "en": "Watch the film"
+      },
+      "url": "https://www.youtube.com/watch?v=iLS4ia5Dz9g",
+      "kind": "demo",
+      "projectId": "project-creative-ai",
+      "projectLabel": {
+        "pl": "Obejrzyj film",
+        "en": "Watch the film"
+      }
     }
   ]
 }

@@ -286,7 +286,7 @@ def full_letter(language, recruiter_name, company_name, role, job_url, cv_link, 
 
 st.set_page_config(page_title="Lokalny edytor profili firmowych", layout="wide")
 st.title("Lokalny edytor profili firmowych")
-st.caption("Edytor działa lokalnie. Eksportowany JSON zawiera wyłącznie token i nazwę firmy.")
+st.caption("Edytor działa lokalnie. Eksportowany JSON zawiera publiczny token, nazwę firmy i wariant CV.")
 
 config, defaults_status, local_status, defaults_error, local_error = load_editor_config()
 for error in (defaults_error, local_error):
@@ -310,6 +310,7 @@ demo_links = [item for item in links if item.get("kind") == "demo"]
 repository_links = [item for item in links if item.get("kind") in ("profile", "repository")]
 
 with st.form("profile_form"):
+    cv_variant_label = st.selectbox("Profil CV", ["Game Dev", "IT / AI"])
     company_name = st.text_input("Nazwa firmy", max_chars=120)
     role = st.text_input("Stanowisko")
     recruiter_name = st.text_input("Imię rekrutera")
@@ -375,7 +376,7 @@ if submitted or retry_activation:
 
 private_token_activated = st.session_state.get("private_token_activated") is True
 cv_link = build_cv_link(base_url, token, private_token) if private_token_activated else ""
-profile_json = {"id": token, "companyName": company_name.strip()}
+profile_json = {"id": token, "companyName": company_name.strip(), "cvVariant": "it-ai" if cv_variant_label == "IT / AI" else "gamedev"}
 json_text = json.dumps(profile_json, ensure_ascii=False, indent=2)
 subject = mail_subject(language, company_name.strip() or "<firma>", role.strip())
 mail_text = short_mail(language, recruiter_name.strip(), company_name.strip() or "<firma>", role.strip(), cv_link or "<link aktywny po aktywacji tokenu>", motivation.strip(), link_lines)
